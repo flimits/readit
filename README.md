@@ -115,6 +115,7 @@ Click on it again, it will take it a way.
 If a user clicks on one or the other, it will increment one and decrement the other.
 
 Handler/Event listenter for reaction to a post
+```js
 if (!upvote && ! downvote){
     if (integer has value){
         decrement
@@ -122,6 +123,7 @@ if (!upvote && ! downvote){
         Increment
     }
 }
+```
 
 If (user clicks again on the same upvote)
 counter button that shows up, be able to click on it. It will either increment or decrement a count number in the database.
