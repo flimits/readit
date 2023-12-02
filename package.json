@@ -5,7 +5,6 @@
   "type": "module",
   "scripts": {
     "start": "node server/server.js --ignore client",
-    "client": "cd client && npm run dev",
     "develop": "concurrently \"cd server && npm run start\" \"cd client && npm run dev\"",
     "install": "cd server && npm i && cd ../client && npm i",
     "seed": "cd server && npm run seed",
