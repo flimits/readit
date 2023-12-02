@@ -24,12 +24,12 @@ const userSchema = new Schema({
     maxlength: 20,
     required: "Password is required!",
   },
-  // posts: [
-  //     {
-  //         type: mongoose.Schema.Types.ObjectId,
-  //         ref: 'Post',
-  //       },
-  // ]
+  posts: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Post",
+    },
+  ],
 });
 
 userSchema.pre("save", async function (next) {
