@@ -12,6 +12,7 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "concurrently": "^8.2.2"
   }
 }
