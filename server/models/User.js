@@ -32,6 +32,12 @@ const userSchema = new Schema({
       ref: "Post",
     },
   ],
+}, {
+  toObject: {
+    virtuals: true
+  },
+  _id: true,
+  versionKey: false,
 });
 
 userSchema.pre("save", async function (next) {

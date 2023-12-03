@@ -1,7 +1,22 @@
 const usersData = [
     {
-        "userName": "tester1",
-        "email": "test@debug.com",
+        "userName": "nathan",
+        "email": "nathan@debug.com",
+        "password": "password",
+    },
+    {
+        "userName": "jorge",
+        "email": "jorge@debug.com",
+        "password": "password",
+    },
+    {
+        "userName": "steven",
+        "email": "steven@debug.com",
+        "password": "password",
+    },
+    {
+        "userName": "deepak",
+        "email": "deepak@debug.com",
         "password": "password",
     },
 ]
