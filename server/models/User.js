@@ -5,18 +5,22 @@ const bcrypt = require("bcrypt");
 const userSchema = new Schema({
   userName: {
     type: String,
-    required: "Username is required !",
+    required: "Username is required!",
     trim: true,
+    minlength: 6,
     maxlength: 100,
-    minlenght: 6,
     unique: true,
   },
   email: {
     type: String,
-    required: "Please enter a valid email !",
+    required: "Please enter a valid email!",
     trim: true,
+    minlength: 6,
     maxlength: 100,
-    minlenght: 6,
+    validate: {
+      validator: (email) => RegExp(/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/).test(email),
+      message: "Email validation failed"
+    }
   },
   password: {
     type: String, //TODO check type!!
