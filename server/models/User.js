@@ -15,15 +15,13 @@ const userSchema = new Schema({
     type: String,
     required: "Please enter a valid email!",
     trim: true,
-    minlength: 6,
-    maxlength: 100,
     validate: {
       validator: (email) => RegExp(/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/).test(email),
       message: "Email validation failed"
     }
   },
   password: {
-    type: String, //TODO check type!!
+    type: String,
     minlength: 6,
     maxlength: 20,
     required: "Password is required!",
@@ -41,9 +39,7 @@ userSchema.pre("save", async function (next) {
   if (!user.isModified("password")) return next();
 
   try {
-    const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(user.password, salt);
-    user.password = hash;
+    user.password = await bcrypt.hash(user.password, 10);
   } catch (err) {
     return next(err);
   }

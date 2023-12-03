@@ -32,14 +32,14 @@ async function seedUsers() {
   }
 
   // Specifically test validations
-  // for (const user of usersDataBad) {
-  //   try {
-  //     await User.create(user);
-  //     console.log("created user:", user)
-  //   } catch (error) {
-  //     console.log("couldn't create user:", user)
-  //     console.error(error)
-  //   }
-  //   console.log()
-  // }
+  for (const user of usersDataBad) {
+    try {
+      await User.create(user);
+      console.log("created user:", user)
+    } catch (error) {
+      console.log("couldn't create user:", user)
+      console.error(error)
+    }
+    console.log()
+  }
 }
