@@ -36,8 +36,7 @@ const userSchema = new Schema({
   toObject: {
     virtuals: true
   },
-  _id: true,
-  versionKey: false,
+  id: true,
 });
 
 userSchema.pre("save", async function (next) {

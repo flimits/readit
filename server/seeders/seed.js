@@ -8,6 +8,7 @@ connection.on('error', (err) => err);
 connection.once('open', async () => {
   console.log("----- START SEEDING -----\n")
 
+  // Save all the users so we can use their user.id when seeding posts
   const users = await seedUsers();
 
   await seedPosts(users);
@@ -22,15 +23,15 @@ async function seedUsers() {
     await connection.dropCollection('users');
   }
 
+  // Save all the users so we can use their user.id when seeding posts
   const newUsers = [];
 
   console.log("----- USERS SEEDING -----\n")
   for (const user of usersData) {
     try {
       const newUser = await User.create(user);
-      console.log("user:", newUser);
-      newUsers.push(newUser);
-      // console.log("created user:", user)
+      // console.log("user:", newUser);
+      newUsers.push(newUser); // Save the user object in the array
     } catch (error) {
       // console.log("COULDN'T create user:", user)
       console.error(error)
@@ -70,10 +71,14 @@ async function seedPosts(users) {
       // Randomly assign a userId to a comment
       post.comments?.map((comment) => comment.userId = users[Math.floor(Math.random() * users.length)].id)
 
+      // TODO: Test this seeding when reaction schema is implemented
+      // randomly assign a userId to a reaction
+      // post.comments?.map((comment) => comment.reactions?.userId = users[Math.floor(Math.random() * users.length)].id)
+
       const newPost = await Post.create(post);
-      console.log("created post:", newPost);
+      // console.log("created post:", newPost);
     } catch (error) {
-      console.log("COULDN'T create post:", post)
+      // console.log("COULDN'T create post:", post)
       console.error(error)
     }
   }
