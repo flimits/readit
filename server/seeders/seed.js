@@ -29,7 +29,7 @@ async function seedUsers() {
       console.log("user:", newUser);
       // console.log("created user:", user)
     } catch (error) {
-      // console.log("couldn't create user:", user)
+      // console.log("COULDN'T create user:", user)
       console.error(error)
     }
   }
@@ -40,7 +40,7 @@ async function seedUsers() {
   //     await User.create(user);
   //     console.log("created user:", user)
   //   } catch (error) {
-  //     console.log("couldn't create user:", user)
+  //     console.log("COULDN'T create user:", user)
   //     console.error(error)
   //   }
   //   console.log()
@@ -60,10 +60,9 @@ async function seedPosts() {
   for (const post of postsData) {
     try {
       const newPost = await Post.create(post);
-      console.log("user:", newPost);
-      console.log("created user:", post)
+      console.log("created post:", newPost);
     } catch (error) {
-      console.log("couldn't create post:", post)
+      console.log("COULDN'T create post:", post)
       console.error(error)
     }
   }
@@ -74,7 +73,7 @@ async function seedPosts() {
       await Post.create(post);
       console.log("created post:", post)
     } catch (error) {
-      console.log("couldn't create post:", post)
+      console.log("COULDN'T create post:", post)
       console.error(error)
     }
     console.log()
