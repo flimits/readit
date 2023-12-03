@@ -2,6 +2,7 @@ const connection = require('../config/connection');
 const { User, Post } = require('../models');
 const { usersData, usersDataBad } = require('./user-data');
 const { postsData, postsDataBad } = require('./post-data');
+const { ObjectId } = require('bson');
 
 connection.on('error', (err) => err);
 
@@ -51,7 +52,7 @@ async function seedUsers() {
   // }
 
   console.log("----- USERS SEEDED -----\n")
-  console.log("users:", newUsers);
+  // console.log("users:", newUsers);
   return newUsers
 }
 
@@ -66,7 +67,8 @@ async function seedPosts(users) {
   for (const post of postsData) {
     try {
       // Randomly assign a userId to a post
-      post["userId"] = users[Math.floor(Math.random() * users.length)].id
+      const randomUser = users[Math.floor(Math.random() * users.length)].id;
+      post["userId"] = randomUser;
 
       // Randomly assign a userId to a comment
       post.comments?.map((comment) => comment.userId = users[Math.floor(Math.random() * users.length)].id)
@@ -77,6 +79,11 @@ async function seedPosts(users) {
 
       const newPost = await Post.create(post);
       // console.log("created post:", newPost);
+
+      // After the new post is created, add that postId back under the randomUser's document in the db.
+      await User.findByIdAndUpdate(randomUser,
+        { $push: { posts: new ObjectId(newPost.id) } }
+      )
     } catch (error) {
       // console.log("COULDN'T create post:", post)
       console.error(error)
