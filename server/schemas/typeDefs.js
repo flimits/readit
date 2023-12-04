@@ -12,6 +12,11 @@ type Comment {
     text: String
 }
 
+type Reaction {
+    userId: ID
+    applause: Boolean
+}
+
 type Post {
     _id: ID
     title: String
@@ -19,6 +24,7 @@ type Post {
     postText: String
     comments: [Comment]
     tags: [String]
+    reactions: [Reaction]
 }
 
 type Query {
