@@ -2,10 +2,10 @@ const { Schema, model } = require("mongoose");
 const { ObjectId } = require("bson");
 
 const commentSchema = new Schema({
-  commentId: {
-    type: Schema.Types.ObjectId,
-    default: new ObjectId(),
-  },
+  // commentId: {
+  //   type: Schema.Types.ObjectId,
+  //   default: new ObjectId(),
+  // },
   userId: {
     type: Schema.Types.ObjectId,
     required: true,
