@@ -88,21 +88,32 @@ Requirements
     * title
     * userid
     * post_text
-    * reactions [upvote = 0, downvote=0] (one click possible:toggle only one or other)
     * comments [{
         userid:
         text:
         reactions: 
         }]
+    * reaction [{
+      userid:
+      applause: (true|false)
+    }]
     * Tags
+    *  We can do this similary to 17-NoSql/activities/23-ins.....
+     ```js
+    {
+    toJSON: {
+      virtuals: true,
+    },
+    id: false,
+  }
 
-  * Reactions
-    * id
-    * post [ user, postid, reaction]
-
-  * Notifications
-    * id
-    * username []
+  postSchema
+  .virtual('upvoteCount')
+  // Getter
+  .get(function () {
+    return this.meta.upvotes;
+  });
+  ```
 
 
 Things todo:
@@ -156,4 +167,8 @@ Sharing...
   * I'd like to be able to share posts with others?
   * Add them
   * see them
-* Notifications
+* Notifications ... create this schema if we have the time
+// If we have time ...
+  <!-- * Notifications
+    * id
+    * username [] -->

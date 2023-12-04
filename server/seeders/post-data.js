@@ -5,6 +5,16 @@ const postsData = [
         "title": "I love React",
         "userId": "",
         "postText": "I think react is really neat",
+        "reactions": [
+            {
+                "userId": "",
+                "applause": "true",
+            },
+            {
+                "userId": "",
+                "applause": "true",
+            }
+        ]
     },
     {
         "title": "I love GraphQL",

@@ -1,6 +1,18 @@
 const { Schema, model } = require("mongoose");
 const { ObjectId } = require("bson");
 
+const reactionSchema = new Schema({
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  applause: {
+    type: Boolean,
+    default: false,
+  }
+});
+
 const commentSchema = new Schema({
   // commentId: {
   //   type: Schema.Types.ObjectId,
@@ -14,13 +26,14 @@ const commentSchema = new Schema({
     type: String,
     required: "please fill out text",
   },
-  reactions: [{ type: Schema.Types.ObjectId, ref: "Reactions" }],
-}, {
-  toObject: {
-    virtuals: true
-  },
-  id: true,
-});
+  reactions: [reactionSchema],
+},
+  {
+    toJSON: {
+      virtuals: true
+    },
+    id: true,
+  });
 
 const postSchema = new Schema({
   title: {
@@ -36,15 +49,23 @@ const postSchema = new Schema({
     type: String,
     required: "Please fill out text",
   },
-  reactions: [{ type: Schema.Types.ObjectId, ref: "Reactions" }],
+  reactions: [reactionSchema],
   comments: [commentSchema],
   tags: [{ type: String }],
-}, {
-  toObject: {
-    virtuals: true
-  },
-  id: true,
-});
+},
+  {
+    toJSON: {
+      virtuals: true
+    },
+    id: true,
+  });
+
+
+postSchema
+  .virtual('applauseCount')
+  .get(function () {
+    return this.reactions.length;
+  });
 
 const Post = model("Post", postSchema);
 module.exports = Post;
