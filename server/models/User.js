@@ -5,21 +5,23 @@ const bcrypt = require("bcrypt");
 const userSchema = new Schema({
   userName: {
     type: String,
-    required: "Username is required !",
+    required: "Username is required!",
     trim: true,
+    minlength: 6,
     maxlength: 100,
-    minlenght: 6,
     unique: true,
   },
   email: {
     type: String,
-    required: "Please enter a valid email !",
+    required: "Please enter a valid email!",
     trim: true,
-    maxlength: 100,
-    minlenght: 6,
+    validate: {
+      validator: (email) => RegExp(/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/).test(email),
+      message: "Email validation failed"
+    }
   },
   password: {
-    type: String, //TODO check type!!
+    type: String,
     minlength: 6,
     maxlength: 20,
     required: "Password is required!",
@@ -30,6 +32,11 @@ const userSchema = new Schema({
       ref: "Post",
     },
   ],
+}, {
+  toObject: {
+    virtuals: true
+  },
+  id: true,
 });
 
 userSchema.pre("save", async function (next) {
@@ -37,9 +44,7 @@ userSchema.pre("save", async function (next) {
   if (!user.isModified("password")) return next();
 
   try {
-    const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(user.password, salt);
-    user.password = hash;
+    user.password = await bcrypt.hash(user.password, 10);
   } catch (err) {
     return next(err);
   }

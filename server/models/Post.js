@@ -2,10 +2,10 @@ const { Schema, model } = require("mongoose");
 const { ObjectId } = require("bson");
 
 const commentSchema = new Schema({
-  commentId: {
-    type: Schema.Types.ObjectId,
-    default: new ObjectId(),
-  },
+  // commentId: {
+  //   type: Schema.Types.ObjectId,
+  //   default: new ObjectId(),
+  // },
   userId: {
     type: Schema.Types.ObjectId,
     required: true,
@@ -15,6 +15,11 @@ const commentSchema = new Schema({
     required: "please fill out text",
   },
   reactions: [{ type: Schema.Types.ObjectId, ref: "Reactions" }],
+}, {
+  toObject: {
+    virtuals: true
+  },
+  id: true,
 });
 
 const postSchema = new Schema({
@@ -34,6 +39,11 @@ const postSchema = new Schema({
   reactions: [{ type: Schema.Types.ObjectId, ref: "Reactions" }],
   comments: [commentSchema],
   tags: [{ type: String }],
+}, {
+  toObject: {
+    virtuals: true
+  },
+  id: true,
 });
 
 const Post = model("Post", postSchema);
