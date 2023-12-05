@@ -252,7 +252,7 @@ const resolvers = {
         console.error(error);
       }
     },
-    addTagsToPost: async (parent, { postId, newTags }, context) => {
+    editTagsFromPost: async (parent, { postId, newTags }, context) => {
       try {
         // console.log("context.user:", context.user);
         // Check if user is logged in
@@ -260,26 +260,7 @@ const resolvers = {
           throw ErrorMustBeLoggedIn
         }
 
-        return await Post.findByIdAndUpdate(
-          new ObjectId(postId),
-          { $push: { tags: { $each: newTags } } },
-          { new: true }
-        )
-
-      } catch (error) {
-        console.log("Couldn't add tags to post");
-        console.error(error);
-      }
-    },
-    removeTagsFromPost: async (parent, { postId, newTags }, context) => {
-      try {
-        // console.log("context.user:", context.user);
-        // Check if user is logged in
-        if (!context.user) {
-          throw ErrorMustBeLoggedIn
-        }
-
-        // Overwrite the array with the tags that were kept
+        // Overwrite the array with the new tags
         return await Post.findByIdAndUpdate(
           new ObjectId(postId),
           { $set: { tags: newTags } },

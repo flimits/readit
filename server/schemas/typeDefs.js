@@ -56,8 +56,7 @@ type Mutation {
     addReactionToPost(postId: ID!, userId: ID!, applause: Boolean!): Reaction
     addReactionToComment(postId: ID!, commentId: ID!, userId: ID!, applause: Boolean!): Reaction
 
-    addTagsToPost(postId: ID!, newTags: [String]!): Post
-    removeTagsFromPost(postId: ID!, newTags: [String]!): Post
+    editTagsFromPost(postId: ID!, newTags: [String]!): Post
 }
 
 `;
