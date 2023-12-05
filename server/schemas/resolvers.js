@@ -124,6 +124,23 @@ const resolvers = {
         console.error(error)
       }
     },
+    deletePost: async (parent, { postId }, context) => {
+      try {
+        // console.log("context.user:", context.user);
+        // Check if user is logged in
+        if (!context.user) {
+          throw ErrorMustBeLoggedIn
+        }
+        
+        return await Post.findByIdAndDelete(
+          new ObjectId(postId),
+          { new: true }
+        )
+      } catch (error) {
+        console.log("couldn't delete post")
+        console.error(error)
+      }
+    },
     addComment: async (parent, { postId, ...newComment }, context) => {
       try {
         // console.log("context.user:", context.user);
