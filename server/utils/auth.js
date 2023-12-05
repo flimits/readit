@@ -6,9 +6,14 @@ const secret = process.env.JWT_SECRET
 const expiration = process.env.JWT_EXPIRATION
 
 module.exports = {
-    AuthenticationError: new GraphQLError("Could not authenticate user.", {
+    ErrorAuthentication: new GraphQLError("Could not authenticate user.", {
         extensions: {
             code: "UNAUTHENTICATED"
+        }
+    }),
+    ErrorLogin: new GraphQLError("Couldn't login user. Email or password is invalid.", {
+        extensions: {
+            code: "INVALID_LOGIN"
         }
     }),
     authMiddleware: function ({ req }) {

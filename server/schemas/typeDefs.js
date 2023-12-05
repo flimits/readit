@@ -30,17 +30,23 @@ type Reaction {
     applause: Boolean
 }
 
+type Auth {
+    token: ID!
+    user: User
+}
 
 type Query {
     users: [User]!
     getUser(userId: ID!): User
+    getMe: User
 
     posts: [Post]!
     getPost(postId: ID!): Post
 }
 
 type Mutation {
-    addUser(userName: String!, email: String!, password: String!): User
+    addUser(userName: String!, email: String!, password: String!): Auth
+    login(email: String!, password: String!): Auth
 
     addPost(userId: ID!, title: String!, postText: String!, tags: [String]): Post
     editPost(postId: ID!, newTitle: String, newText: String): Post

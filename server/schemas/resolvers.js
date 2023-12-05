@@ -1,5 +1,6 @@
 const { User, Post } = require("../models");
 const { ObjectId } = require('bson');
+const { signToken, ErrorAuthentication, ErrorLogin } = require("../utils/auth");
 
 const resolvers = {
   Query: {
@@ -19,6 +20,14 @@ const resolvers = {
         console.error(error)
       }
     },
+    getMe: async (parent, args, context) => { // TODO: Test with frontend
+      // If we know the logged in user is wanting to look at their account, use context
+      console.log("context.user:", context.user);
+      if (context.user) {
+        return User.findById(new ObjectId(context.user._id))
+      }
+      throw ErrorAuthentication
+    },
     posts: async () => {
       try {
         return await Post.find();
@@ -36,12 +45,38 @@ const resolvers = {
       }
     }
   },
+
   Mutation: {
     addUser: async (parent, args) => {
       try {
-        return await User.create(args);
+        const user = await User.create(args);
+
+        const token = signToken(user);
+        return { token, user }
       } catch (error) {
         console.log("couldn't add comment")
+        console.error(error)
+      }
+    },
+    login: async (parent, { email, password }) => {
+      try {
+        const user = await User.findOne({ email });
+
+        // Check if user exists
+        if (!user) {
+          throw ErrorLogin;
+        }
+
+        const isPasswordCorrect = user.comparePassword(password);
+
+        if (!isPasswordCorrect) {
+          throw ErrorLogin;
+        }
+
+        const token = signToken(user);
+        return { token, user }
+      } catch (error) {
+        console.log("couldn't login")
         console.error(error)
       }
     },
