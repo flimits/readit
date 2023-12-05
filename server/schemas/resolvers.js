@@ -13,7 +13,7 @@ const resolvers = {
     },
     getUser: async (parent, { userId }) => {
       try {
-        return await User.findById(new ObjectId(userId)).populate("posts");
+        return await User.findById(new ObjectId(userId)).populate("posts")
       } catch (error) {
         console.log("couldn't get single user")
         console.error(error)

@@ -27,12 +27,24 @@ const commentSchema = new Schema({
     required: "please fill out text",
   },
   reactions: [reactionSchema],
-},
-  {
-    toJSON: {
-      virtuals: true
-    },
-    id: true,
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+}, {
+  toJSON: {
+    virtuals: true
+  },
+  toObject: {
+    virtuals: true
+  },
+  id: true,
+});
+
+commentSchema
+  .virtual('applauseCount')
+  .get(function () {
+    return this.reactions.length;
   });
 
 const postSchema = new Schema({
@@ -52,13 +64,20 @@ const postSchema = new Schema({
   reactions: [reactionSchema],
   comments: [commentSchema],
   tags: [{ type: String }],
-},
-  {
-    toJSON: {
-      virtuals: true
-    },
-    id: true,
-  });
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+}, {
+  toJSON: {
+    virtuals: true
+  },
+  toObject: {
+    virtuals: true
+  },
+  id: true,
+
+});
 
 
 postSchema
