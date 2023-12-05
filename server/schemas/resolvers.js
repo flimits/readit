@@ -87,7 +87,7 @@ const resolvers = {
         // if (!context.user) {
         //   throw ErrorMustBeLoggedIn
         // }
-        
+
         const newPost = await Post.create(args)
 
         // Add the new post to the user's document
@@ -108,7 +108,7 @@ const resolvers = {
         if (!context.user) {
           throw ErrorMustBeLoggedIn
         }
-        
+
         return await Post.findByIdAndUpdate(
           new ObjectId(postId),
           {
@@ -131,7 +131,7 @@ const resolvers = {
         if (!context.user) {
           throw ErrorMustBeLoggedIn
         }
-        
+
         return await Post.findByIdAndDelete(
           new ObjectId(postId),
           { new: true }
@@ -148,7 +148,7 @@ const resolvers = {
         if (!context.user) {
           throw ErrorMustBeLoggedIn
         }
-        
+
         return await Post.findByIdAndUpdate(
           new ObjectId(postId),
           { $push: { comments: newComment } },
@@ -166,7 +166,7 @@ const resolvers = {
         if (!context.user) {
           throw ErrorMustBeLoggedIn
         }
-        
+
         const post = await Post.findById(new ObjectId(postId));
         const reactions = post.reactions;
 
@@ -209,7 +209,7 @@ const resolvers = {
         if (!context.user) {
           throw ErrorMustBeLoggedIn
         }
-        
+
         // set variables to use the postId AND commentId in the query in one go.
         const multipleIdFilter = { _id: new ObjectId(postId), 'comments._id': new ObjectId(commentId) }
 
@@ -259,10 +259,10 @@ const resolvers = {
         if (!context.user) {
           throw ErrorMustBeLoggedIn
         }
-        
+
         return await Post.findByIdAndUpdate(
           new ObjectId(postId),
-          { $push: { tags: { $each: newTags }}},
+          { $push: { tags: { $each: newTags } } },
           { new: true }
         )
 
@@ -270,7 +270,27 @@ const resolvers = {
         console.log("Couldn't add tags to post");
         console.error(error);
       }
-    }
+    },
+    removeTagsFromPost: async (parent, { postId, newTags }, context) => {
+      try {
+        // console.log("context.user:", context.user);
+        // Check if user is logged in
+        if (!context.user) {
+          throw ErrorMustBeLoggedIn
+        }
+
+        // Overwrite the array with the tags that were kept
+        return await Post.findByIdAndUpdate(
+          new ObjectId(postId),
+          { $set: { tags: newTags } },
+          { new: true }
+        )
+
+      } catch (error) {
+        console.log("Couldn't add tags to post");
+        console.error(error);
+      }
+    },
   }
 };
 
