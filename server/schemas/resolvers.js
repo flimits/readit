@@ -1,6 +1,6 @@
 const { User, Post } = require("../models");
 const { ObjectId } = require('bson');
-const { signToken, ErrorAuthentication, ErrorLogin } = require("../utils/auth");
+const { signToken, ErrorAuthentication, ErrorLogin, ErrorMustBeLoggedIn } = require("../utils/auth");
 
 const resolvers = {
   Query: {
@@ -80,8 +80,14 @@ const resolvers = {
         console.error(error)
       }
     },
-    addPost: async (parent, args) => {
+    addPost: async (parent, args, context) => {
       try {
+        // console.log("context.user:", context.user);
+        // Check if user is logged in
+        if (!context.user) {
+          throw ErrorMustBeLoggedIn
+        }
+        
         const newPost = await Post.create(args)
 
         // Add the new post to the user's document
@@ -91,12 +97,18 @@ const resolvers = {
 
         return newPost;
       } catch (error) {
-        console.log("couldn't add comment")
+        console.log("couldn't add post")
         console.error(error)
       }
     },
-    editPost: async (parent, { postId, newTitle, newText }) => {
+    editPost: async (parent, { postId, newTitle, newText }, context) => {
       try {
+        // console.log("context.user:", context.user);
+        // Check if user is logged in
+        if (!context.user) {
+          throw ErrorMustBeLoggedIn
+        }
+        
         return await Post.findByIdAndUpdate(
           new ObjectId(postId),
           {
@@ -108,12 +120,18 @@ const resolvers = {
           { new: true } // Return the updated post
         )
       } catch (error) {
-        console.log("couldn't add comment")
+        console.log("couldn't edit post")
         console.error(error)
       }
     },
-    addComment: async (parent, { postId, ...newComment }) => {
+    addComment: async (parent, { postId, ...newComment }, context) => {
       try {
+        // console.log("context.user:", context.user);
+        // Check if user is logged in
+        if (!context.user) {
+          throw ErrorMustBeLoggedIn
+        }
+        
         return await Post.findByIdAndUpdate(
           new ObjectId(postId),
           { $push: { comments: newComment } },
@@ -124,8 +142,14 @@ const resolvers = {
         console.error(error)
       }
     },
-    addReactionToPost: async (parent, { postId, ...newReaction }) => {
+    addReactionToPost: async (parent, { postId, ...newReaction }, context) => {
       try {
+        // console.log("context.user:", context.user);
+        // Check if user is logged in
+        if (!context.user) {
+          throw ErrorMustBeLoggedIn
+        }
+        
         const post = await Post.findById(new ObjectId(postId));
         const reactions = post.reactions;
 
@@ -161,8 +185,14 @@ const resolvers = {
         console.error(error);
       }
     },
-    addReactionToComment: async (parent, { postId, commentId, ...newReaction }) => {
+    addReactionToComment: async (parent, { postId, commentId, ...newReaction }, context) => {
       try {
+        // console.log("context.user:", context.user);
+        // Check if user is logged in
+        if (!context.user) {
+          throw ErrorMustBeLoggedIn
+        }
+        
         // set variables to use the postId AND commentId in the query in one go.
         const multipleIdFilter = { _id: new ObjectId(postId), 'comments._id': new ObjectId(commentId) }
 

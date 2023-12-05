@@ -16,6 +16,11 @@ module.exports = {
             code: "INVALID_LOGIN"
         }
     }),
+    ErrorMustBeLoggedIn: new GraphQLError("Must be logged in to do this.", {
+        extensions: {
+            code: "NOT_LOGGED_IN"
+        }
+    }),
     authMiddleware: function ({ req }) {
         let token = req.body.token || req.query.token || req.headers.authorization;
 
