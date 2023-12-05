@@ -27,7 +27,7 @@ const resolvers = {
       return newPost;
     },
     editPost: async (parent, { postId, newTitle, newText }) => {
-      return await Post.findOneAndUpdate(
+      return await Post.findByIdAndUpdate(
         new ObjectId(postId),
         {
           $set: {
@@ -35,10 +35,16 @@ const resolvers = {
             postText: newText
           }
         },
-        { new: true }
+        { new: true } // Return the updated post
       )
     },
-    
+    addComment: async (parent, { postId, ...newComment }) => {
+        return await Post.findByIdAndUpdate(
+          new ObjectId(postId),
+          { $push: { comments: newComment } },
+          { new: true }
+        )
+    },
   }
 };
 
