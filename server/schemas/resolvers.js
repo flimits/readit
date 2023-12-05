@@ -12,7 +12,7 @@ const resolvers = {
     posts: async () => {
       return await Post.find();
     },
-    getPost: async (parent, { postId }) => {      
+    getPost: async (parent, { postId }) => {
       return await Post.findById(new ObjectId(postId))
     }
   },
@@ -57,15 +57,26 @@ const resolvers = {
         const reactions = post.reactions;
 
         if (reactions.length > 0) {
-          const didUserReact = reactions.filter((reaction) => reaction.userId === newReaction.userId)
-  
-          if (!didUserReact[0]) {
-            console.log("user already reacted so we remove it")
+          // Find if the user has already reacted or not
+          const didUserReact = reactions.filter((reaction) => new ObjectId(newReaction.userId).equals(reaction.userId))
+
+          if (didUserReact[0]) {
+            // Remove the user's reaction
+            const userId = didUserReact[0].userId
+            return await Post.findByIdAndUpdate(
+              new ObjectId(postId),
+              {
+                $pull: {
+                  reactions: { userId: new ObjectId(userId) }
+                }
+              },
+              { new: true }
+            )
           }
 
           return
         }
-        
+
 
         return await Post.findByIdAndUpdate(
           new ObjectId(postId),
