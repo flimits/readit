@@ -33,6 +33,8 @@ type Reaction {
 
 type Query {
     users: [User]!
+    getUser(userId: ID!): User
+
     posts: [Post]!
     getPost(postId: ID!): Post
 }

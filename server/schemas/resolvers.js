@@ -6,6 +6,9 @@ const resolvers = {
     users: async () => {
       return await User.find().populate("posts");
     },
+    getUser: async (parent, { userId }) => {
+      return await User.findById(new ObjectId(userId)).populate("posts");
+    },
     posts: async () => {
       return await Post.find();
     },
