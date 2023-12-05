@@ -7,16 +7,6 @@ type User {
     posts:[Post]
 }
 
-type Comment {
-    userId: ID
-    text: String
-}
-
-type Reaction {
-    userId: ID
-    applause: Boolean
-}
-
 type Post {
     _id: ID
     title: String
@@ -27,9 +17,31 @@ type Post {
     reactions: [Reaction]
 }
 
+type Comment {
+    _id: ID
+    userId: ID
+    text: String
+}
+
+type Reaction {
+    _id: ID
+    userId: ID
+    applause: Boolean
+}
+
+
 type Query {
     users: [User]!
     posts: [Post]!
+}
+
+type Mutation {
+    addUser(userName: String!, email: String!, password: String!): User
+    addPost(userId: ID!, title: String!, postText: String!, tags: [String]): Post
+    addComment(postId: ID!, userId: ID!, text: String!): Comment
+    addReactionToPost(postId: ID!, userId: ID!, applause: Boolean!): Reaction
+    addReactionToComment(postId: ID!, commentId: ID!, userId: ID!, applause: Boolean!): Reaction
+    editPost(postId: ID!, title: String, postText: String): Post
 }
 
 `;

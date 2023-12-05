@@ -9,6 +9,13 @@ const resolvers = {
       return await Post.find();
     },
   },
+  Mutation: {
+    addUser: async (parent, args) => {
+      // console.log("newUser:", args);
+      return await User.create(args)
+    },
+    
+  }
 };
 
 module.exports = resolvers;
