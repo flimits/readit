@@ -77,7 +77,7 @@ const resolvers = {
           return
         }
 
-
+        // Add reaction to post
         return await Post.findByIdAndUpdate(
           new ObjectId(postId),
           { $push: { reactions: newReaction } },
@@ -87,20 +87,51 @@ const resolvers = {
         console.log("Couldn't add reaction to post");
         console.error(error);
       }
-
-
     },
     addReactionToComment: async (parent, { postId, commentId, ...newReaction }) => {
-      // set variables to use the postId AND commentId in the query in one go.
-      const multipleIdFilter = { _id: new ObjectId(postId), 'comments._id': new ObjectId(commentId) }
+      console.log("@addReactionToComment")
+      try {
+        // set variables to use the postId AND commentId in the query in one go.
+        const multipleIdFilter = { _id: new ObjectId(postId), 'comments._id': new ObjectId(commentId) }
 
-      return await Post.findOneAndUpdate(
-        multipleIdFilter,
-        {
-          $push: { 'comments.$.reactions': newReaction }
-        },
-        { new: true }
-      )
+        const post = await Post.findById(new ObjectId(postId));
+        const comments = post.comments;
+        const reactions = comments.filter((comment) => comment.id === commentId)[0].reactions
+
+        if (reactions.length > 0) {
+          // Find if the user has already reacted or not
+          const didUserReact = reactions.filter((reaction) => new ObjectId(newReaction.userId).equals(reaction.userId))
+
+          if (didUserReact[0]) {
+            // Remove the user's reaction from the comment
+            const userId = didUserReact[0].userId
+            
+            return await Post.findOneAndUpdate(
+              multipleIdFilter,
+              {
+                $pull: { 
+                  'comments.$.reactions': { userId: new ObjectId(userId) } 
+                }
+              },
+              { new: true }
+            )
+          }
+
+          return
+        }
+
+        // Add reaction to comment
+        return await Post.findOneAndUpdate(
+          multipleIdFilter,
+          {
+            $push: { 'comments.$.reactions': newReaction }
+          },
+          { new: true }
+        )
+      } catch (error) {
+        console.log("Couldn't add reaction to comment");
+        console.error(error);
+      }
     }
   }
 };
