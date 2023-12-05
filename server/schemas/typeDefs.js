@@ -41,7 +41,7 @@ type Mutation {
     addComment(postId: ID!, userId: ID!, text: String!): Comment
     addReactionToPost(postId: ID!, userId: ID!, applause: Boolean!): Reaction
     addReactionToComment(postId: ID!, commentId: ID!, userId: ID!, applause: Boolean!): Reaction
-    editPost(postId: ID!, title: String, postText: String): Post
+    editPost(postId: ID!, newTitle: String, newText: String): Post
 }
 
 `;

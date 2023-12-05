@@ -26,6 +26,19 @@ const resolvers = {
 
       return newPost;
     },
+    editPost: async (parent, { postId, newTitle, newText }) => {
+      return await Post.findOneAndUpdate(
+        new ObjectId(postId),
+        {
+          $set: {
+            title: newTitle,
+            postText: newText
+          }
+        },
+        { new: true }
+      )
+    },
+    
   }
 };
 
