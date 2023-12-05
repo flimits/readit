@@ -4,52 +4,90 @@ const { ObjectId } = require('bson');
 const resolvers = {
   Query: {
     users: async () => {
-      return await User.find().populate("posts");
+      try {
+        return await User.find().populate("posts");
+      } catch (error) {
+        console.log("couldn't get all users")
+        console.error(error)
+      }
     },
     getUser: async (parent, { userId }) => {
-      return await User.findById(new ObjectId(userId)).populate("posts");
+      try {
+        return await User.findById(new ObjectId(userId)).populate("posts");
+      } catch (error) {
+        console.log("couldn't get single user")
+        console.error(error)
+      }
     },
     posts: async () => {
-      return await Post.find();
+      try {
+        return await Post.find();
+      } catch (error) {
+        console.log("couldn't get all posts")
+        console.error(error)
+      }
     },
     getPost: async (parent, { postId }) => {
-      return await Post.findById(new ObjectId(postId))
+      try {
+        return await Post.findById(new ObjectId(postId))
+      } catch (error) {
+        console.log("couldn't get single post")
+        console.error(error)
+      }
     }
   },
   Mutation: {
     addUser: async (parent, args) => {
-      // console.log("newUser:", args);
-      return await User.create(args);
+      try {
+        return await User.create(args);
+      } catch (error) {
+        console.log("couldn't add comment")
+        console.error(error)
+      }
     },
     addPost: async (parent, args) => {
-      // console.log("newpost:", args);
-      const newPost = await Post.create(args)
+      try {
+        const newPost = await Post.create(args)
 
-      // Add the new post to the user's document
-      await User.findByIdAndUpdate(args.userId,
-        { $push: { posts: new ObjectId(newPost.id) } }
-      )
+        // Add the new post to the user's document
+        await User.findByIdAndUpdate(args.userId,
+          { $push: { posts: new ObjectId(newPost.id) } }
+        )
 
-      return newPost;
+        return newPost;
+      } catch (error) {
+        console.log("couldn't add comment")
+        console.error(error)
+      }
     },
     editPost: async (parent, { postId, newTitle, newText }) => {
-      return await Post.findByIdAndUpdate(
-        new ObjectId(postId),
-        {
-          $set: {
-            title: newTitle,
-            postText: newText
-          }
-        },
-        { new: true } // Return the updated post
-      )
+      try {
+        return await Post.findByIdAndUpdate(
+          new ObjectId(postId),
+          {
+            $set: {
+              title: newTitle,
+              postText: newText
+            }
+          },
+          { new: true } // Return the updated post
+        )
+      } catch (error) {
+        console.log("couldn't add comment")
+        console.error(error)
+      }
     },
     addComment: async (parent, { postId, ...newComment }) => {
-      return await Post.findByIdAndUpdate(
-        new ObjectId(postId),
-        { $push: { comments: newComment } },
-        { new: true }
-      )
+      try {
+        return await Post.findByIdAndUpdate(
+          new ObjectId(postId),
+          { $push: { comments: newComment } },
+          { new: true }
+        )
+      } catch (error) {
+        console.log("couldn't add comment")
+        console.error(error)
+      }
     },
     addReactionToPost: async (parent, { postId, ...newReaction }) => {
       try {
@@ -89,7 +127,6 @@ const resolvers = {
       }
     },
     addReactionToComment: async (parent, { postId, commentId, ...newReaction }) => {
-      console.log("@addReactionToComment")
       try {
         // set variables to use the postId AND commentId in the query in one go.
         const multipleIdFilter = { _id: new ObjectId(postId), 'comments._id': new ObjectId(commentId) }
@@ -105,12 +142,12 @@ const resolvers = {
           if (didUserReact[0]) {
             // Remove the user's reaction from the comment
             const userId = didUserReact[0].userId
-            
+
             return await Post.findOneAndUpdate(
               multipleIdFilter,
               {
-                $pull: { 
-                  'comments.$.reactions': { userId: new ObjectId(userId) } 
+                $pull: {
+                  'comments.$.reactions': { userId: new ObjectId(userId) }
                 }
               },
               { new: true }
