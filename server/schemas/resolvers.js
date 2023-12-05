@@ -105,9 +105,9 @@ const resolvers = {
       try {
         // console.log("context.user:", context.user);
         // Check if user is logged in
-        if (!context.user) {
-          throw ErrorMustBeLoggedIn
-        }
+        // if (!context.user) {
+        //   throw ErrorMustBeLoggedIn
+        // }
 
         return await Post.findByIdAndUpdate(
           new ObjectId(postId),
@@ -128,9 +128,9 @@ const resolvers = {
       try {
         // console.log("context.user:", context.user);
         // Check if user is logged in
-        if (!context.user) {
-          throw ErrorMustBeLoggedIn
-        }
+        // if (!context.user) {
+        //   throw ErrorMustBeLoggedIn
+        // }
 
         return await Post.findByIdAndDelete(
           new ObjectId(postId),
@@ -145,9 +145,9 @@ const resolvers = {
       try {
         // console.log("context.user:", context.user);
         // Check if user is logged in
-        if (!context.user) {
-          throw ErrorMustBeLoggedIn
-        }
+        // if (!context.user) {
+        //   throw ErrorMustBeLoggedIn
+        // }
 
         return await Post.findByIdAndUpdate(
           new ObjectId(postId),
@@ -163,9 +163,9 @@ const resolvers = {
       try {
         // console.log("context.user:", context.user);
         // Check if user is logged in
-        if (!context.user) {
-          throw ErrorMustBeLoggedIn
-        }
+        // if (!context.user) {
+        //   throw ErrorMustBeLoggedIn
+        // }
 
         const post = await Post.findById(new ObjectId(postId));
         const reactions = post.reactions;
@@ -206,9 +206,9 @@ const resolvers = {
       try {
         // console.log("context.user:", context.user);
         // Check if user is logged in
-        if (!context.user) {
-          throw ErrorMustBeLoggedIn
-        }
+        // if (!context.user) {
+        //   throw ErrorMustBeLoggedIn
+        // }
 
         // set variables to use the postId AND commentId in the query in one go.
         const multipleIdFilter = { _id: new ObjectId(postId), 'comments._id': new ObjectId(commentId) }
@@ -256,9 +256,9 @@ const resolvers = {
       try {
         // console.log("context.user:", context.user);
         // Check if user is logged in
-        if (!context.user) {
-          throw ErrorMustBeLoggedIn
-        }
+        // if (!context.user) {
+        //   throw ErrorMustBeLoggedIn
+        // }
 
         // Overwrite the array with the new tags
         return await Post.findByIdAndUpdate(

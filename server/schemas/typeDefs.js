@@ -53,8 +53,8 @@ type Mutation {
     deletePost(postId: ID!): Post
 
     addComment(postId: ID!, userId: ID!, text: String!): Comment
-    addReactionToPost(postId: ID!, userId: ID!, applause: Boolean!): Reaction
-    addReactionToComment(postId: ID!, commentId: ID!, userId: ID!, applause: Boolean!): Reaction
+    addReactionToPost(postId: ID!, userId: ID!, applause: Boolean!): Post
+    addReactionToComment(postId: ID!, commentId: ID!, userId: ID!, applause: Boolean!): Post
 
     editTagsFromPost(postId: ID!, newTags: [String]!): Post
 }

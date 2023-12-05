@@ -17,5 +17,8 @@
     "bson": "^6.2.0",
     "concurrently": "^8.2.2",
     "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
   }
 }
