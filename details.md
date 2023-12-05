@@ -22,3 +22,5 @@ addReactionToComment: async (parent, { postId, commentId, ...newReaction }) => {
 ## Resources 
 
 [JWT docs](https://www.npmjs.com/package/jsonwebtoken)
+
+[Mongoose $each](https://www.mongodb.com/docs/manual/reference/operator/update/push/)

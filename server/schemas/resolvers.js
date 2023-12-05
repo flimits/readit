@@ -84,9 +84,9 @@ const resolvers = {
       try {
         // console.log("context.user:", context.user);
         // Check if user is logged in
-        if (!context.user) {
-          throw ErrorMustBeLoggedIn
-        }
+        // if (!context.user) {
+        //   throw ErrorMustBeLoggedIn
+        // }
         
         const newPost = await Post.create(args)
 
@@ -249,6 +249,25 @@ const resolvers = {
         )
       } catch (error) {
         console.log("Couldn't add reaction to comment");
+        console.error(error);
+      }
+    },
+    addTagsToPost: async (parent, { postId, newTags }, context) => {
+      try {
+        // console.log("context.user:", context.user);
+        // Check if user is logged in
+        if (!context.user) {
+          throw ErrorMustBeLoggedIn
+        }
+        
+        return await Post.findByIdAndUpdate(
+          new ObjectId(postId),
+          { $push: { tags: { $each: newTags }}},
+          { new: true }
+        )
+
+      } catch (error) {
+        console.log("Couldn't add tags to post");
         console.error(error);
       }
     }

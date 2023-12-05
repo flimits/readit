@@ -63,7 +63,10 @@ const postSchema = new Schema({
   },
   reactions: [reactionSchema],
   comments: [commentSchema],
-  tags: [{ type: String }],
+  tags: {
+    type: [String], // Declare an array of strings
+    default: [] // Set a default empty array if needed
+  },
   createdAt: {
     type: Date,
     default: Date.now
