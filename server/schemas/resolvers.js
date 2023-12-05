@@ -52,6 +52,18 @@ const resolvers = {
         { new: true }
       )
     },
+    addReactionToComment: async (parent, { postId, commentId, ...newReaction }) => {
+      // set variables to use the postId AND commentId in the query in one go.
+      const multipleIdFilter = { _id: new ObjectId(postId), 'comments._id': new ObjectId(commentId) }
+      
+      return await Post.findOneAndUpdate(
+        multipleIdFilter,
+        {
+          $push: { 'comments.$.reactions': newReaction }
+        },
+        { new: true }
+      )
+    }
   }
 };
 

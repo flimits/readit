@@ -21,6 +21,7 @@ type Comment {
     _id: ID
     userId: ID
     text: String
+    reactions: [Reaction]
 }
 
 type Reaction {
@@ -37,11 +38,13 @@ type Query {
 
 type Mutation {
     addUser(userName: String!, email: String!, password: String!): User
+
     addPost(userId: ID!, title: String!, postText: String!, tags: [String]): Post
+    editPost(postId: ID!, newTitle: String, newText: String): Post
+    
     addComment(postId: ID!, userId: ID!, text: String!): Comment
     addReactionToPost(postId: ID!, userId: ID!, applause: Boolean!): Reaction
     addReactionToComment(postId: ID!, commentId: ID!, userId: ID!, applause: Boolean!): Reaction
-    editPost(postId: ID!, newTitle: String, newText: String): Post
 }
 
 `;
