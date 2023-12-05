@@ -45,6 +45,13 @@ const resolvers = {
           { new: true }
         )
     },
+    addReactionToPost: async (parent, { postId, ...newReaction }) => {
+      return await Post.findByIdAndUpdate(
+        new ObjectId(postId),
+        { $push: { reactions: newReaction } },
+        { new: true }
+      )
+    },
   }
 };
 
