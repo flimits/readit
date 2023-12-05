@@ -9,6 +9,9 @@ const resolvers = {
     posts: async () => {
       return await Post.find();
     },
+    getPost: async (parent, { postId }) => {
+      return await Post.findById(new ObjectId(postId))
+    }
   },
   Mutation: {
     addUser: async (parent, args) => {

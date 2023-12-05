@@ -34,6 +34,7 @@ type Reaction {
 type Query {
     users: [User]!
     posts: [Post]!
+    getPost(postId: ID!): Post
 }
 
 type Mutation {
@@ -41,7 +42,7 @@ type Mutation {
 
     addPost(userId: ID!, title: String!, postText: String!, tags: [String]): Post
     editPost(postId: ID!, newTitle: String, newText: String): Post
-    
+
     addComment(postId: ID!, userId: ID!, text: String!): Comment
     addReactionToPost(postId: ID!, userId: ID!, applause: Boolean!): Reaction
     addReactionToComment(postId: ID!, commentId: ID!, userId: ID!, applause: Boolean!): Reaction
