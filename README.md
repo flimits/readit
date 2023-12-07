@@ -172,3 +172,7 @@ Sharing...
   <!-- * Notifications
     * id
     * username [] -->
+
+
+// landing page is all posts
+// have login 
