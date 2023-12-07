@@ -35,6 +35,43 @@ const postsData = [
         ]
     },
     {
+        "title": "I want to make cookies",
+        "userId": "",
+        "postText": "What's everyone's favorite cookie recipe?",
+        "reactions": [
+            {
+                "userId": "",
+                "applause": "true",
+            },
+            {
+                "userId": "",
+                "applause": "true",
+            }
+        ],
+        "tags": [
+            "baking"
+        ]
+    },
+    {
+        "title": "GTA 6 trailer leak??",
+        "userId": "",
+        "postText": "Anyone see the trailer early??",
+        "reactions": [
+            {
+                "userId": "",
+                "applause": "true",
+            },
+            {
+                "userId": "",
+                "applause": "true",
+            }
+        ],
+        "tags": [
+            "gaming",
+            "leak"
+        ]
+    },
+    {
         "title": "I love GraphQL",
         "userId": "",
         "postText": "It's quick to get info from db",
@@ -57,7 +94,8 @@ const postsData = [
         ],
         "tags": [
             "mern",
-            "web dev"
+            "webdev",
+            "react"
         ]
     }
 ]

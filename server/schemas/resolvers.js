@@ -47,25 +47,30 @@ const resolvers = {
     searchPosts: async (parent, { query, useTitle = true, usePost = true, useTags = true }) => {
       try {
         let findQuery = {}
-        const regex = { $regex: query, $options: 'i' }
-        let queryList = []
-
-        // Add to the list of queries
-        if (useTitle) queryList.push({ title: regex})
-        if (usePost) queryList.push({ postText: regex})
-        if (useTags) queryList.push({ tags: regex})
 
         // If no specific criteria, search all
         if (!useTitle && !usePost && !useTags) findQuery = { $text: { $search: query } }
         // Else set the query criteria
-        else findQuery = { $or: queryList }
+        else {
+          // Allow querying for multiple keywords separated by whitespace.
+          findQuery = {
+            $or: query.split(" ").map(keyword => {
+              let queryList = []
+              const regex = { $regex: keyword.trim(), $options: 'i' }
+              // Add to the list of queries
+              if (useTitle) queryList.push({ title: regex })
+              if (usePost) queryList.push({ postText: regex })
+              if (useTags) queryList.push({ tags: regex })
+
+              return { $or: queryList }
+            })
+          }
+        }
 
         // console.log("queryList:", queryList)
         // console.log("full query:", findQuery)
 
         const posts = await Post.find(findQuery)
-
-        
 
         // console.log("posts:", posts);
         return posts
