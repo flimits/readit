@@ -42,7 +42,7 @@ type Query {
 
     posts: [Post]!
     getPost(postId: ID!): Post
-    searchPosts(query: String!): [Post]
+    searchPosts(query: String!, useTitle: Boolean, usePost: Boolean, useTags: Boolean): [Post]
 }
 
 type Mutation {

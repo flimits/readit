@@ -2,9 +2,27 @@
 
 const postsData = [
     {
+        "title": "I like this js framework",
+        "userId": "",
+        "postText": "I've started to learn about React and I really like it. It takes some time to understand it but it's totally worth it",
+        "reactions": [
+            {
+                "userId": "",
+                "applause": "true",
+            },
+            {
+                "userId": "",
+                "applause": "true",
+            }
+        ],
+        "tags": [
+            "react"
+        ]
+    },
+    {
         "title": "I love React",
         "userId": "",
-        "postText": "I think react is really neat",
+        "postText": "I think it's really cool and super useful. It handles a LOT and makes front end super dynamic",
         "reactions": [
             {
                 "userId": "",

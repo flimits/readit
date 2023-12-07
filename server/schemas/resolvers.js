@@ -44,16 +44,30 @@ const resolvers = {
         console.error(error)
       }
     },
-    searchPosts: async (parent, { query }) => {
+    searchPosts: async (parent, { query, useTitle = true, usePost = true, useTags = true }) => {
       try {
-        const posts = await Post.find({
-          $text: {
-            $search: query,
-            $caseSensitive: false
-          }
-        })
+        let findQuery = {}
+        const regex = { $regex: query, $options: 'i' }
+        let queryList = []
 
-        console.log("posts:", posts);
+        // Add to the list of queries
+        if (useTitle) queryList.push({ title: regex})
+        if (usePost) queryList.push({ postText: regex})
+        if (useTags) queryList.push({ tags: regex})
+
+        // If no specific criteria, search all
+        if (!useTitle && !usePost && !useTags) findQuery = { $text: { $search: query } }
+        // Else set the query criteria
+        else findQuery = { $or: queryList }
+
+        // console.log("queryList:", queryList)
+        // console.log("full query:", findQuery)
+
+        const posts = await Post.find(findQuery)
+
+        
+
+        // console.log("posts:", posts);
         return posts
       } catch (error) {
         console.log(`Couldn't find posts with search: "${query}"`)

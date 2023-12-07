@@ -17,10 +17,13 @@ addReactionToComment: async (parent, { postId, commentId, ...newReaction }) => {
 
 [Comparing ObjectIds](https://futurestud.io/tutorials/mongodb-how-to-compare-objectids-in-node-js)
 
-[MongoDB Indexes for $text](https://stackoverflow.com/a/59922531)
 
 ## Resources 
 
 [JWT docs](https://www.npmjs.com/package/jsonwebtoken)
 
 [Mongoose $each](https://www.mongodb.com/docs/manual/reference/operator/update/push/)
+
+[MongoDB Indexes for $text](https://stackoverflow.com/a/59922531)
+
+[MongoDB using Regex in .find()](https://www.mongodb.com/docs/manual/reference/operator/query/regex/#examples)
