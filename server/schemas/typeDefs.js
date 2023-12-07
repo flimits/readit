@@ -42,6 +42,7 @@ type Query {
 
     posts: [Post]!
     getPost(postId: ID!): Post
+    searchPosts(query: String!): [Post]
 }
 
 type Mutation {

@@ -43,6 +43,22 @@ const resolvers = {
         console.log("couldn't get single post")
         console.error(error)
       }
+    },
+    searchPosts: async (parent, { query }) => {
+      try {
+        const posts = await Post.find({
+          $text: {
+            $search: query,
+            $caseSensitive: false
+          }
+        })
+
+        console.log("posts:", posts);
+        return posts
+      } catch (error) {
+        console.log(`Couldn't find posts with search: "${query}"`)
+        console.error(error);
+      }
     }
   },
 

@@ -17,7 +17,7 @@ addReactionToComment: async (parent, { postId, commentId, ...newReaction }) => {
 
 [Comparing ObjectIds](https://futurestud.io/tutorials/mongodb-how-to-compare-objectids-in-node-js)
 
-
+[MongoDB Indexes for $text](https://stackoverflow.com/a/59922531)
 
 ## Resources 
 

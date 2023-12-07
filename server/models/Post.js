@@ -64,8 +64,8 @@ const postSchema = new Schema({
   reactions: [reactionSchema],
   comments: [commentSchema],
   tags: {
-    type: [String], // Declare an array of strings
-    default: [] // Set a default empty array if needed
+    type: [String],
+    default: [],
   },
   createdAt: {
     type: Date,
@@ -79,7 +79,6 @@ const postSchema = new Schema({
     virtuals: true
   },
   id: true,
-
 });
 
 
@@ -89,5 +88,14 @@ postSchema
     return this.reactions.length;
   });
 
+// Create indexes for Mongo find $text
+postSchema.index({
+   title: 'text', 
+   postText: 'text', 
+   tags: 'text'
+});
+
 const Post = model("Post", postSchema);
+Post.createIndexes();
+
 module.exports = Post;
