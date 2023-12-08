@@ -32,7 +32,7 @@ const LoginForm = () => {
           userName: "",
           password: "",
         });
-        alert("Could not login");
+        alert("Invalid Credentials");
         return;
       }
 
