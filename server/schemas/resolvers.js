@@ -93,9 +93,9 @@ const resolvers = {
         console.error(error)
       }
     },
-    login: async (parent, { email, password }) => {
+    login: async (parent, { userName, password }) => {
       try {
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ userName });
 
         // Check if user exists
         if (!user) {
