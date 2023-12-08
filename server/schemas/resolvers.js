@@ -44,7 +44,7 @@ const resolvers = {
         console.error(error)
       }
     },
-    searchPosts: async (parent, { query, useTitle = true, usePost = true, useTags = true }) => {
+    searchPosts: async (parent, { query, useTitle = true, useText = true, useTags = true }) => {
       try {
         let findQuery = {}
 
@@ -59,7 +59,7 @@ const resolvers = {
               const regex = { $regex: keyword.trim(), $options: 'i' }
               // Add to the list of queries
               if (useTitle) queryList.push({ title: regex })
-              if (usePost) queryList.push({ postText: regex })
+              if (useText) queryList.push({ postText: regex })
               if (useTags) queryList.push({ tags: regex })
 
               return { $or: queryList }
