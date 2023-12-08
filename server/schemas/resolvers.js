@@ -102,7 +102,7 @@ const resolvers = {
           throw ErrorLogin;
         }
 
-        const isPasswordCorrect = user.comparePassword(password);
+        const isPasswordCorrect = await user.comparePassword(password);
 
         if (!isPasswordCorrect) {
           throw ErrorLogin;
