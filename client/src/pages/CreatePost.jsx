@@ -1,37 +1,58 @@
-export default function createPost() {
-  return (
-    <>
+import React, { useState } from 'react';
 
-      <form>
-        <div className="form-group">
-          <label for="exampleFormControlInput1">Email address</label>
-          <input type="email" className="form-control" id="exampleFormControlInput1" placeholder="name@example.com" />
-        </div>
-        <div className="form-group">
-          <label for="exampleFormControlSelect1">Example select</label>
-          <select className="form-control" id="exampleFormControlSelect1">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-          </select>
-        </div>
-        <div className="form-group">
-          <label for="exampleFormControlSelect2">Example multiple select</label>
-          <select multiple className="form-control" id="exampleFormControlSelect2">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-          </select>
-        </div>
-        <div className="form-group">
-          <label for="exampleFormControlTextarea1">Example textarea</label>
-          <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-        </div>
-      </form>
-    </>
+export default function CreatePost() {
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Perform form submission logic here
+    // For simplicity, we're just updating the state to simulate a submission.
+    setSubmitted(true);
+
+    // Redirect back to the page after a 2-second delay
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 2000);
+  };
+
+
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', background: '#f0f0f0' }}>
+      <div style={{ width: '50%', padding: '20px', background: 'white', borderRadius: '8px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
+        {submitted ? (
+          <div>
+            <h2>Your post has been submitted</h2>
+            {/* You can add additional content or redirect the user as needed */}
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <input type="text" className="form-control" id="title" placeholder="Title" />
+            </div>
+            <br></br>
+            <div className="form-group">
+              <textarea className="form-control" id="post-body" rows="3" placeholder="Post Message"></textarea>
+            </div>
+            <br></br>
+            <div className="form-group">
+              <input type="text" className="form-control" id="newtag" placeholder="Add Tags" />
+            </div>
+            <div className="form-group">
+              <label htmlFor="tagControlSelect">Tags</label>
+              <select className="form-control" id="tagControlSelect">
+                <option>tag1</option>
+                <option>tag2</option>
+                <option>tag3</option>
+                <option>tag4</option>
+                <option>tag5</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <button type="submit" className="btn btn-primary">Submit</button>
+            </div>
+          </form>
+        )}
+      </div>
+    </div>
   );
 }
