@@ -1,9 +1,8 @@
-# React + Vite
+# ReadIt
 
  readit
-The only blog that you'll need to talk, chat, share
+The only blog that you'll need to post and comments.
 (A microblogging site.)
-# React + Vite
 
 ## MVP
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -176,3 +175,43 @@ Sharing...
 
 // landing page is all posts
 // have login 
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+## git workflow !!
+
+git pull origin main
+create a new branch feature/<feature-name>
+
+
+always do this before creating a PR
+
+commit your changes.  
+git add .
+git commit -m "message"
+git pull origin main  
+resolve any merge conflicts using Visual studio code
+
+git add . 
+git commit -m "message"
+git push origin feature/<feature-name>
+
+got to github and create a PR.
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+friday day 1
+
+
+login/signup :  backend, create UI and integrate
+
+Home: View posts
+
+Create and save a post.
+
+post component: for displaying !
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+day 2
