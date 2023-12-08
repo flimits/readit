@@ -62,6 +62,18 @@ function NavTabs() {
               </li>
               <li className="nav-item">
                 <Link
+                  to="/create-post"
+                  className={
+                    currentPage === "/create-post"
+                      ? "nav-link custom-nav active"
+                      : "nav-link custom-nav"
+                  }
+                >
+                  Create A Post
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
                   to="/search"
                   className={
                     currentPage === "/search"
