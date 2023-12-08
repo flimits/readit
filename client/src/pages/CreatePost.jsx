@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import "../App.css";
 
 export default function CreatePost() {
   const [submitted, setSubmitted] = useState(false);
@@ -17,8 +18,8 @@ export default function CreatePost() {
 
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', background: '#f0f0f0' }}>
-      <div style={{ width: '50%', padding: '20px', background: 'white', borderRadius: '8px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
+    <div className='createpost-form'>
+      <div className='createpost-boxinform'>
         {submitted ? (
           <div>
             <h2>Your post has been submitted</h2>
