@@ -16,7 +16,7 @@ export default function loginForm() {
               className="form-control mb-3"
               id="lPassword"
             />
-            <button type="button" className="btn btn-primary">
+            <button type="submit" className="btn btn-primary">
               Login
             </button>
           </div>
@@ -44,7 +44,7 @@ export default function loginForm() {
               className="form-control mb-3"
               id="sPassword"
             />
-            <button type="button" className="btn btn-primary">
+            <button type="submit" className="btn btn-primary">
               SignUp
             </button>
           </div>
