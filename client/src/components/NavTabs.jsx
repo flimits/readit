@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import Login from "../pages/Login";
+import Login from "./Login";
 
 function NavTabs() {
   const currentPage = useLocation().pathname;
