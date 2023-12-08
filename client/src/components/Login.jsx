@@ -1,4 +1,5 @@
-import Form from "./LoginForm";
+import LoginForm from "./LoginForm";
+import SignUpForm from "./SignUpForm";
 
 export default function Login() {
   return (
@@ -25,7 +26,10 @@ export default function Login() {
                 aria-label="Close"
               ></button>
             </div>
-            <Form />
+            <div className="mx-2">
+              <LoginForm />
+              <SignUpForm />
+            </div>
             <div className="modal-footer">
               <button
                 type="button"
