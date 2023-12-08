@@ -19,6 +19,7 @@ addReactionToComment: async (parent, { postId, commentId, ...newReaction }) => {
 
 [Idea for multiple $or queries](https://stackoverflow.com/a/37722869)
 
+[Idea for react rendering with multiple conditions](https://dev.to/samba_code/nested-ternary-statements-in-react-jsx-35kp)
 
 ## Resources 
 
