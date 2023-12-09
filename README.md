@@ -214,4 +214,27 @@ post component: for displaying !
 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-day 2
+whats left saturday
+
+intgearte saving post to backend.
+
+sign up 
+
+Notifications inside the form login/signup
+toggle signup and login
+
+
+Home page
+
+add comments 
+add reactions to a post
+
+My post page
+edit your posts/delete posts.
+
+Search display posts and the logic to search
+
+
+Tags !!
+
+STYLING !!
