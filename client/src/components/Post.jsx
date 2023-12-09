@@ -1,21 +1,21 @@
-import PropTypes from 'prop-types';
-import PostModel from '../model/PostModel';
+import PropTypes from "prop-types";
 
 const Post = (props) => {
   const postInstance = props.post;
 
   const emojiCodePoint = "\u{1F4DD}";
-  const deleteIcon = "\u{26D4}";
+  const deleteIcon = "\u{1F5D1}";
 
   return (
     <div className="post-container container">
       <div className="card mb-3">
         <div className="card-body text-left">
-
           <div className="card-text row">
             <div className="col-2">{postInstance.userId}</div>
             <div className="col-8 fs-5">{postInstance.title}</div>
-            <div className="col-2">{emojiCodePoint} {deleteIcon}</div>
+            <div className="col-2">
+              {emojiCodePoint} {deleteIcon}
+            </div>
           </div>
           <div className="card-text">
             <div className="col-8">{postInstance.postText}</div>
@@ -38,7 +38,16 @@ const Post = (props) => {
 };
 
 Post.propTypes = {
-    post: PropTypes.shape(PostModel).isRequired,
+  post: PropTypes.shape({
+    id: PropTypes.any,
+    title: PropTypes.string,
+    userId: PropTypes.any,
+    postText: PropTypes.string,
+    reactions: PropTypes.array,
+    comments: PropTypes.array,
+    tags: PropTypes.array,
+    createdAt: PropTypes.any,
+  }),
 };
 
 export default Post;
