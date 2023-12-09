@@ -1,10 +1,14 @@
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 const Post = (props) => {
   const postInstance = props.post;
 
   const emojiCodePoint = "\u{1F4DD}";
   const deleteIcon = "\u{1F5D1}";
+  console.log("postInstance: ", postInstance);
+
+  if (!postInstance?._id) return "No Post to view !!";
 
   return (
     <div className="post-container container">
@@ -12,7 +16,11 @@ const Post = (props) => {
         <div className="card-body text-left">
           <div className="card-text row">
             <div className="col-2">User</div>
-            <div className="col-8 fs-5">{postInstance.title}</div>
+            <div className="col-8 fs-5">
+              <Link to={`view-post/${postInstance._id}`}>
+                {postInstance.title}
+              </Link>
+            </div>
             <div className="col-2">
               {emojiCodePoint} {deleteIcon}
             </div>
@@ -21,8 +29,14 @@ const Post = (props) => {
             <div className="col-8">{postInstance.postText}</div>
           </div>
           <div className="card-text row">
-            <div className="col-1">{"\u{1F44F}"}{postInstance?.reactions.length}</div>
-            <div className="col-1">{"\u{1F4AC}"}{postInstance?.comments.length}</div>
+            <div className="col-1">
+              {"\u{1F44F}"}
+              {postInstance?.reactions.length}
+            </div>
+            <div className="col-1">
+              {"\u{1F4AC}"}
+              {postInstance?.comments.length}
+            </div>
             <div className="col-8">Tags {postInstance?.tags.length}</div>
             <div></div>
           </div>
@@ -39,6 +53,7 @@ const Post = (props) => {
 
 Post.propTypes = {
   post: PropTypes.shape({
+    _id: PropTypes.string,
     id: PropTypes.any,
     title: PropTypes.string,
     userId: PropTypes.any,
