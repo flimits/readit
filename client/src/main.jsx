@@ -7,6 +7,7 @@ import App from "./App.jsx";
 import Home from "./pages/Home";
 import Error from "./pages/Error";
 import Search from "./pages/Search.jsx";
+import CreatePost from "./pages/CreatePost.jsx";
 
 const router = createBrowserRouter([
   {
@@ -20,8 +21,12 @@ const router = createBrowserRouter([
       },
       {
         path: "search",
-        element: <Search/>
-      }
+        element: <Search />,
+      },
+      {
+        path: "create-post",
+        element: <CreatePost />,
+      },
     ],
   },
 ]);
