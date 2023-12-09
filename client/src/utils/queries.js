@@ -23,3 +23,25 @@ export const QUERY_THOUGHTS = gql`
     }
   }
 `;
+
+export const QUERY_SINGLE_POST = gql`
+  query getSinglePost($postId: ID!) {
+    getPost(postId: $postId) {
+      _id
+      title
+      userId
+      postText
+      comments {
+        _id
+        userId
+        text
+      }
+      reactions {
+        _id
+        userId
+        applause
+      }
+      tags
+    }
+  }
+`;
