@@ -11,7 +11,7 @@ const Post = (props) => {
       <div className="card mb-3">
         <div className="card-body text-left">
           <div className="card-text row">
-            <div className="col-2">{postInstance.userId}</div>
+            <div className="col-2">User</div>
             <div className="col-8 fs-5">{postInstance.title}</div>
             <div className="col-2">
               {emojiCodePoint} {deleteIcon}
@@ -21,9 +21,9 @@ const Post = (props) => {
             <div className="col-8">{postInstance.postText}</div>
           </div>
           <div className="card-text row">
-            <div className="col-1">{"\u{1F44F}"}10</div>
-            <div className="col-1">{"\u{1F4AC}"}12</div>
-            <div className="col-8">Tags {postInstance.tags}</div>
+            <div className="col-1">{"\u{1F44F}"}{postInstance?.reactions.length}</div>
+            <div className="col-1">{"\u{1F4AC}"}{postInstance?.comments.length}</div>
+            <div className="col-8">Tags {postInstance?.tags.length}</div>
             <div></div>
           </div>
           <p className="card-text">
