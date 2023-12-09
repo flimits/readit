@@ -1,3 +1,6 @@
+import PropTypes from 'prop-types';
+import PostModel from '../model/PostModel';
+
 const Post = (props) => {
   const postInstance = props.post;
 
@@ -32,6 +35,10 @@ const Post = (props) => {
       </div>
     </div>
   );
+};
+
+Post.propTypes = {
+    post: PropTypes.shape(PostModel).isRequired,
 };
 
 export default Post;
