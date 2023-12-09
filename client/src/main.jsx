@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import Error from "./pages/Error";
 import Search from "./pages/Search.jsx";
 import CreatePost from "./pages/CreatePost.jsx";
+import ViewPost from "./pages/ViewPost.jsx";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
         path: "create-post",
         element: <CreatePost />,
       },
+      {
+        path: "view-post/:postId",
+        element: <ViewPost/>
+      }
     ],
   },
 ]);
