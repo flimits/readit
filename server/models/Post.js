@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 
 const reactionSchema = new Schema({
-  userId: {
+  author: {
     type: Schema.Types.ObjectId,
     ref: "User",
     required: true,
@@ -17,7 +17,7 @@ const commentSchema = new Schema({
   //   type: Schema.Types.ObjectId,
   //   default: new ObjectId(),
   // },
-  userId: {
+  author: {
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true,
@@ -52,7 +52,7 @@ const postSchema = new Schema({
     type: String,
     required: "Please fill out title",
   },
-  userId: {
+  author: {
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true,

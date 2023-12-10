@@ -36,10 +36,12 @@ const resolvers = {
     },
     posts: async () => {
       try {
-        return await Post.find().populate({
-          path: "userId",
+        const posts = await Post.find().populate({
+          path: "author",
           select: 'userName'
         });
+        console.log("posts:", posts)
+        return posts;
       } catch (error) {
         console.log("couldn't get all posts");
         console.error(error);
@@ -48,7 +50,7 @@ const resolvers = {
     getPost: async (parent, { postId }) => {
       try {
         return await Post.findById(new ObjectId(postId)).populate({
-          path: "userId",
+          path: "author",
           select: 'userName'
         });
       } catch (error) {
@@ -83,7 +85,7 @@ const resolvers = {
         // console.log("full query:", findQuery)
 
         const posts = await Post.find(findQuery).populate({
-          path: "userId",
+          path: "author",
           select: 'userName'
         });
 
@@ -139,11 +141,11 @@ const resolvers = {
         // if (!context.user) {
         //   throw ErrorMustBeLoggedIn
         // }
-        args.userId = context.user._id;
+        args.author = context.user._id;
         const newPost = await Post.create(args);
 
         // Add the new post to the user's document
-        await User.findByIdAndUpdate(args.userId, {
+        await User.findByIdAndUpdate(args.author, {
           $push: { posts: new ObjectId(newPost.id) },
         });
 
@@ -224,17 +226,17 @@ const resolvers = {
         if (reactions.length > 0) {
           // Find if the user has already reacted or not
           const didUserReact = reactions.filter((reaction) =>
-            new ObjectId(newReaction.userId).equals(reaction.userId)
+            new ObjectId(newReaction.author).equals(reaction.author)
           );
 
           if (didUserReact[0]) {
             // Remove the user's reaction
-            const userId = didUserReact[0].userId;
+            const author = didUserReact[0].author;
             return await Post.findByIdAndUpdate(
               new ObjectId(postId),
               {
                 $pull: {
-                  reactions: { userId: new ObjectId(userId) },
+                  reactions: { author: new ObjectId(author) },
                 },
               },
               { new: true }
@@ -282,18 +284,18 @@ const resolvers = {
         if (reactions.length > 0) {
           // Find if the user has already reacted or not
           const didUserReact = reactions.filter((reaction) =>
-            new ObjectId(newReaction.userId).equals(reaction.userId)
+            new ObjectId(newReaction.author).equals(reaction.author)
           );
 
           if (didUserReact[0]) {
             // Remove the user's reaction from the comment
-            const userId = didUserReact[0].userId;
+            const author = didUserReact[0].author;
 
             return await Post.findOneAndUpdate(
               multipleIdFilter,
               {
                 $pull: {
-                  "comments.$.reactions": { userId: new ObjectId(userId) },
+                  "comments.$.reactions": { author: new ObjectId(author) },
                 },
               },
               { new: true }

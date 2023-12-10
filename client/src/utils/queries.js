@@ -8,18 +8,20 @@ export const GET_POSTS = gql`
       _id
       title
       postText
-      userId {
+      author {
         userName
       }
       createdAt
       comments {
         _id
-        userId
+        author {
+          userName
+        }
         text
       }
       reactions {
         _id
-        userId
+        author
         applause
       }
       tags
@@ -33,18 +35,20 @@ export const SINGLE_POST = gql`
       _id
       title
       postText
-      userId {
+      author {
         userName
       }
       createdAt
       comments {
         _id
-        userId
+        author {
+          userName
+        }
         text
       }
       reactions {
         _id
-        userId
+        author
         applause
       }
       tags
@@ -59,7 +63,7 @@ query SearchPosts($query: String!, $filterTitle: Boolean, $filterContent: Boolea
     _id
     title
     postText
-    userId {
+    author {
       userName
     }
     createdAt

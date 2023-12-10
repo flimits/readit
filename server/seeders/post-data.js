@@ -3,15 +3,15 @@
 const postsData = [
     {
         "title": "I like this js framework",
-        "userId": "",
+        "author": "",
         "postText": "I've started to learn about React and I really like it. It takes some time to understand it but it's totally worth it",
         "reactions": [
             {
-                "userId": "",
+                "author": "",
                 "applause": "true",
             },
             {
-                "userId": "",
+                "author": "",
                 "applause": "true",
             }
         ],
@@ -21,30 +21,30 @@ const postsData = [
     },
     {
         "title": "I love React",
-        "userId": "",
+        "author": "",
         "postText": "I think it's really cool and super useful. It handles a LOT and makes front end super dynamic",
         "reactions": [
             {
-                "userId": "",
+                "author": "",
                 "applause": "true",
             },
             {
-                "userId": "",
+                "author": "",
                 "applause": "true",
             }
         ]
     },
     {
         "title": "I want to make cookies",
-        "userId": "",
+        "author": "",
         "postText": "What's everyone's favorite cookie recipe?",
         "reactions": [
             {
-                "userId": "",
+                "author": "",
                 "applause": "true",
             },
             {
-                "userId": "",
+                "author": "",
                 "applause": "true",
             }
         ],
@@ -54,15 +54,15 @@ const postsData = [
     },
     {
         "title": "GTA 6 trailer leak??",
-        "userId": "",
+        "author": "",
         "postText": "Anyone see the trailer early??",
         "reactions": [
             {
-                "userId": "",
+                "author": "",
                 "applause": "true",
             },
             {
-                "userId": "",
+                "author": "",
                 "applause": "true",
             }
         ],
@@ -73,22 +73,22 @@ const postsData = [
     },
     {
         "title": "I love GraphQL",
-        "userId": "",
+        "author": "",
         "postText": "It's quick to get info from db",
         "comments": [
             {
-                "userId": "",
+                "author": "",
                 "text": "Yeah I really like it too"
             }
         ]
     },
     {
         "title": "I love MERN",
-        "userId": "",
+        "author": "",
         "postText": "It just makes sense",
         "comments": [
             {
-                "userId": "",
+                "author": "",
                 "text": "Yeah I really like it too"
             }
         ],
@@ -103,7 +103,7 @@ const postsData = [
 
 const postsDataBad = [
     {
-        "userId": "",
+        "author": "",
         "postText": "I think react is really neat",
     },
     {
@@ -112,21 +112,21 @@ const postsDataBad = [
     },
     {
         "title": "I love React",
-        "userId": "",
+        "author": "",
     },
     {
         "title": "I'm a tester",
-        "userId": "",
+        "author": "",
         "postText": "It's quick to get info from db",
         "comments": [
             {
-                "userId": "",
+                "author": "",
             }
         ]
     },
     {
         "title": "I'm a tester 2",
-        "userId": "",
+        "author": "",
         "postText": "It's quick to get info from db",
         "comments": [
             {
