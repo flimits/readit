@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useLazyQuery } from '@apollo/client';
 import { SEARCH_POSTS } from '../utils/queries'
+import Post from "../components/Post";
 
 export default function Search() {
   const [searchPosts, { data }] = useLazyQuery(SEARCH_POSTS);
@@ -91,16 +92,7 @@ export default function Search() {
 
           {posts.map((post, index) => {
             // TODO: Put in Post component here when finished
-            return (
-              <div key={index}>
-                <p>{post.title}</p>
-                <p>{post.postText}</p>
-                <p>Tags: {post.tags}</p>
-                <p>Applause: {post.applauseCount}</p>
-                <p>created: {post.createdAt}</p>
-                <br />
-              </div>
-            )
+            return <Post key={index} post={post} />
           })}
         </div>
       )
