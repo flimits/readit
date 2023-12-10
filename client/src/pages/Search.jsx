@@ -97,6 +97,7 @@ export default function Search() {
                 <p>{post.postText}</p>
                 <p>Tags: {post.tags}</p>
                 <p>Applause: {post.applauseCount}</p>
+                <p>created: {post.createdAt}</p>
                 <br />
               </div>
             )

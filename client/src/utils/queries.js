@@ -22,6 +22,7 @@ query SearchPosts($query: String!, $filterTitle: Boolean, $filterContent: Boolea
     title
     postText
     tags
+    createdAt
     reactions {
       applause
     }
