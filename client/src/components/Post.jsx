@@ -45,7 +45,7 @@ const Post = (props) => {
             <div className="col-2 fs-4">
               {editDeleteEnabled ? (
                 <>
-                  <Link>{emojiCodePoint}</Link>
+                  <Link to={`edit-post/${postInstance._id}`}>{emojiCodePoint}</Link>
                   <Link>{deleteIcon}</Link>
                 </>
               ) : (
