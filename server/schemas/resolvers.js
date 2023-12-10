@@ -124,12 +124,13 @@ const resolvers = {
     },
     addPost: async (parent, args, context) => {
       try {
-        // console.log("context.user:", context.user);
+        console.log("context.user:", context.user);
+        console.log("args are",args)
         // Check if user is logged in
         // if (!context.user) {
         //   throw ErrorMustBeLoggedIn
         // }
-
+        args.userId = context.user._id;
         const newPost = await Post.create(args);
 
         // Add the new post to the user's document
