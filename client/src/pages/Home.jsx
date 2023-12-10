@@ -1,5 +1,4 @@
 import Post from "../components/Post";
-//import PostModel from "../model/PostModel";
 import { QUERY_THOUGHTS } from "../utils/queries";
 
 import { useQuery } from "@apollo/client";
@@ -9,13 +8,6 @@ const Home = () => {
 
   if (loading) return "Loading ...";
   if (error) return `Error ! ${error.message}`;
-  console.log("data is: ", data);
-
-  // const testPost = PostModel;
-  // testPost.title = "First Post Title";
-  // testPost.postText = "My post text is super awesome ........";
-  // testPost.createdAt = "December 8th ";
-  // testPost.userId = "User";
 
   return (
     <main className="container">
