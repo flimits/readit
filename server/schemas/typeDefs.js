@@ -25,6 +25,7 @@ type Comment {
     author: User
     text: String
     reactions: [Reaction]
+    createdAt: Date
 }
 
 type Reaction {

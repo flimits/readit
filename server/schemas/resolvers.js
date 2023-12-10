@@ -208,11 +208,12 @@ const resolvers = {
     },
     addComment: async (parent, { postId, ...newComment }, context) => {
       try {
-        // console.log("context.user:", context.user);
         // Check if user is logged in
-        // if (!context.user) {
-        //   throw ErrorMustBeLoggedIn
-        // }
+        if (!context.user) {
+          throw ErrorMustBeLoggedIn;
+        }
+
+        newComment.author = context.user;
 
         return await Post.findByIdAndUpdate(
           new ObjectId(postId),
