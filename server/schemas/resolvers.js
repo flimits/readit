@@ -47,7 +47,10 @@ const resolvers = {
     },
     getPost: async (parent, { postId }) => {
       try {
-        return await Post.findById(new ObjectId(postId));
+        return await Post.findById(new ObjectId(postId)).populate({
+          path: "userId",
+          select: 'userName'
+        });
       } catch (error) {
         console.log("couldn't get single post");
         console.error(error);
@@ -79,7 +82,10 @@ const resolvers = {
         // console.log("queryList:", queryList)
         // console.log("full query:", findQuery)
 
-        const posts = await Post.find(findQuery)
+        const posts = await Post.find(findQuery).populate({
+          path: "userId",
+          select: 'userName'
+        });
 
         // console.log("posts:", posts);
         return posts

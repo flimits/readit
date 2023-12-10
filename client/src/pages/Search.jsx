@@ -91,7 +91,6 @@ export default function Search() {
           <h2>Search results for: {finalQuery}</h2>
 
           {posts.map((post, index) => {
-            // TODO: Put in Post component here when finished
             return <Post key={index} post={post} />
           })}
         </div>
@@ -112,7 +111,7 @@ export default function Search() {
       <div className="d-flex  justify-content-center mt-3">
         <form className="w-75" role="search" onSubmit={handleOnSubmit}>
           <label htmlFor="searchInput" className="form-label fs-3">What do you want to search for?</label>
-
+          <p>(Separate keywords by spaces)</p>
           <div className="input-group">
             <input
               id="searchInput"
