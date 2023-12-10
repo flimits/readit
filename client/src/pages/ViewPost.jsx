@@ -4,6 +4,7 @@ import { useMutation } from "@apollo/client";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { ADD_COMMENT } from "../utils/mutations";
+import Auth from "../utils/auth";
 
 import Post from "../components/Post";
 import Comment from "../components/Comment";
@@ -13,7 +14,18 @@ import { SINGLE_POST } from "../utils/queries";
 const ViewPost = () => {
   const { postId } = useParams();
 
-  const [formState, setFormState] = useState({ postId: postId, text: "" });
+  try {
+    const loggedUser = Auth.getProfile();
+    console.log(loggedUser);
+  } catch (error) {
+    console.log("Authorization error !!", error);
+  }
+
+  const [formState, setFormState] = useState({
+    // author: loggedUser,
+    postId: postId,
+    text: "",
+  });
   const [addComment, { error, commentData }] = useMutation(ADD_COMMENT);
 
   const handleChange = (event) => {
@@ -85,7 +97,7 @@ const ViewPost = () => {
         </div>
       </div>
       <div>
-        {post.comments.length === 0 && "No Comments on this post yet"}
+        {post?.comments.length === 0 && "No Comments on this post yet"}
         {post?.comments.map((comments) => (
           <Comment key={comments._id} comment={comments} />
         ))}

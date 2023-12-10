@@ -44,12 +44,14 @@ export const SINGLE_POST = gql`
       comments {
         _id
         author {
+          _id
           userName
         }
         text
         reactions {
           applause
         }
+        createdAt
       }
       reactions {
         _id
