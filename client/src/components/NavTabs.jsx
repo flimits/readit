@@ -1,7 +1,13 @@
 import { Link, useLocation } from "react-router-dom";
 import Login from "./Login";
 
+import Auth from "../utils/auth";
+
 function NavTabs() {
+  const logout = (event) => {
+    event.preventDefault();
+    Auth.logout();
+  };
   const currentPage = useLocation().pathname;
 
   return (
@@ -62,6 +68,18 @@ function NavTabs() {
               </li>
               <li className="nav-item">
                 <Link
+                  to="/create-post"
+                  className={
+                    currentPage === "/create-post"
+                      ? "nav-link custom-nav active"
+                      : "nav-link custom-nav"
+                  }
+                >
+                  Create A Post
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
                   to="/search"
                   className={
                     currentPage === "/search"
@@ -73,14 +91,24 @@ function NavTabs() {
                 </Link>
               </li>
               <li className="nav-item">
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#staticBackdrop"
-                >
-                  Login
-                </button>
+                {Auth.loggedIn() ? (
+                  <button
+                    type="button"
+                    className="btn btn-success"
+                    onClick={logout}
+                  >
+                    Logout
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop"
+                  >
+                    Login
+                  </button>
+                )}
               </li>
             </ul>
           </div>

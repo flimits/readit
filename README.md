@@ -214,4 +214,29 @@ post component: for displaying !
 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-day 2
+whats left saturday
+
+intgrate saving post to backend.
+
+sign up - done
+
+Notifications inside the form login/signup
+login/logout is done.
+toggle signup and login
+
+
+Home page
+
+view a post - done [disable link to view-post once the user is on the view-post url !!]
+add comments 
+add reactions to a post
+
+My post page
+edit your posts/delete posts.
+
+Search display posts and the logic to search
+
+
+Tags !!
+
+STYLING !!

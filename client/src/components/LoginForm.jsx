@@ -37,6 +37,7 @@ const LoginForm = () => {
       }
 
       Auth.login(data.login.token);
+      window.location.reload();
     } catch (e) {
       console.error(e);
     }
@@ -76,9 +77,10 @@ const LoginForm = () => {
             onChange={handleChange}
           />
           <button
-            style={{ cursor: "pointer" }}
+            id="lbtn"
             type="submit"
             className="btn btn-primary"
+            style={{ cursor: "pointer" }}
           >
             Login
           </button>
@@ -92,3 +94,4 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
+
