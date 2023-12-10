@@ -10,6 +10,7 @@ export const GET_POSTS = gql`
       postText
       author {
         userName
+        _id
       }
       createdAt
       comments {
@@ -36,6 +37,7 @@ export const SINGLE_POST = gql`
       title
       postText
       author {
+        _id
         userName
       }
       createdAt
