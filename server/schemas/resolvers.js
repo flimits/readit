@@ -38,7 +38,7 @@ const resolvers = {
       try {
         const posts = await Post.find().populate({
           path: "author",
-          select: 'userName'
+          select: "userName",
         });
         // console.log("posts:", posts)
         return posts;
@@ -49,36 +49,48 @@ const resolvers = {
     },
     getPost: async (parent, { postId }) => {
       try {
-        return await Post.findById(new ObjectId(postId)).populate({
-          path: "author",
-          select: 'userName'
-        });
+        return await Post.findById(new ObjectId(postId))
+          .populate({
+            path: "author",
+            select: "userName",
+          })
+          .populate({
+            path: "comments",
+            populate: {
+              path: "author",
+              select: "userName",
+            },
+          });
       } catch (error) {
         console.log("couldn't get single post");
         console.error(error);
       }
     },
-    searchPosts: async (parent, { query, filterTitle = true, filterContent = true, filterTags = true }) => {
+    searchPosts: async (
+      parent,
+      { query, filterTitle = true, filterContent = true, filterTags = true }
+    ) => {
       try {
-        let findQuery = {}
+        let findQuery = {};
 
         // If no specific criteria, search all
-        if (!filterTitle && !filterContent && !filterTags) findQuery = { $text: { $search: query } }
+        if (!filterTitle && !filterContent && !filterTags)
+          findQuery = { $text: { $search: query } };
         // Else set the query criteria
         else {
           // Allow querying for multiple keywords separated by whitespace.
           findQuery = {
-            $or: query.split(" ").map(keyword => {
-              let queryList = []
-              const regex = { $regex: keyword.trim(), $options: 'i' }
+            $or: query.split(" ").map((keyword) => {
+              let queryList = [];
+              const regex = { $regex: keyword.trim(), $options: "i" };
               // Add to the list of queries
-              if (filterTitle) queryList.push({ title: regex })
-              if (filterContent) queryList.push({ postText: regex })
-              if (filterTags) queryList.push({ tags: regex })
+              if (filterTitle) queryList.push({ title: regex });
+              if (filterContent) queryList.push({ postText: regex });
+              if (filterTags) queryList.push({ tags: regex });
 
-              return { $or: queryList }
-            })
-          }
+              return { $or: queryList };
+            }),
+          };
         }
 
         // console.log("queryList:", queryList)
@@ -86,16 +98,16 @@ const resolvers = {
 
         const posts = await Post.find(findQuery).populate({
           path: "author",
-          select: 'userName'
+          select: "userName",
         });
 
         // console.log("posts:", posts);
-        return posts
+        return posts;
       } catch (error) {
-        console.log(`Couldn't find posts with search: "${query}"`)
+        console.log(`Couldn't find posts with search: "${query}"`);
         console.error(error);
       }
-    }
+    },
   },
 
   Mutation: {
@@ -136,7 +148,7 @@ const resolvers = {
     addPost: async (parent, args, context) => {
       try {
         console.log("context.user:", context.user);
-        console.log("args are",args)
+        console.log("args are", args);
         // Check if user is logged in
         // if (!context.user) {
         //   throw ErrorMustBeLoggedIn

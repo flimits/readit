@@ -29,11 +29,24 @@ export const ADD_POST = gql`
     addPost(title: $title, postText: $postText) {
       _id
       title
-      author { 
+      author {
         _id
         userName
       }
-      postText 
+      postText
+    }
+  }
+`;
+
+export const ADD_COMMENT = gql`
+  mutation addComment($postId: ID!, $text: String!) {
+    addComment(postId: $postId, text: $text) {
+      _id
+      author {
+        _id
+        userName
+      }
+      text
     }
   }
 `;
