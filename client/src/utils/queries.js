@@ -50,6 +50,7 @@ export const SINGLE_POST = gql`
         reactions {
           applause
         }
+        createdAt
       }
       reactions {
         _id
