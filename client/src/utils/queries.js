@@ -7,8 +7,10 @@ export const GET_POSTS = gql`
     posts {
       _id
       title
-      userId
       postText
+      userId {
+        userName
+      }
       createdAt
       comments {
         _id
@@ -30,8 +32,10 @@ export const SINGLE_POST = gql`
     getPost(postId: $postId) {
       _id
       title
-      userId
       postText
+      userId {
+        userName
+      }
       createdAt
       comments {
         _id
@@ -53,9 +57,11 @@ export const SEARCH_POSTS = gql`
 query SearchPosts($query: String!, $filterTitle: Boolean, $filterContent: Boolean, $filterTags: Boolean) {
   searchPosts(query: $query, filterTitle: $filterTitle, filterContent: $filterContent, filterTags: $filterTags) {
     _id
-    userId
     title
     postText
+    userId {
+      userName
+    }
     createdAt
     tags
     reactions {

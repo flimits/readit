@@ -18,7 +18,7 @@ const Post = (props) => {
       <div className="card mb-3">
         <div className="card-body text-left">
           <div className="card-text row">
-            <div className="col-2">User</div>
+            <div className="col-2">{postInstance.userId.userName}</div>
             <div className="col-8 fs-5">
               {disableTitleLink ? (
                 postInstance.title

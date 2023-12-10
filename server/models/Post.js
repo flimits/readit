@@ -1,5 +1,4 @@
 const { Schema, model } = require("mongoose");
-const { ObjectId } = require("bson");
 
 const reactionSchema = new Schema({
   userId: {
@@ -20,6 +19,7 @@ const commentSchema = new Schema({
   // },
   userId: {
     type: Schema.Types.ObjectId,
+    ref: 'User',
     required: true,
   },
   text: {
@@ -54,7 +54,7 @@ const postSchema = new Schema({
   },
   userId: {
     type: Schema.Types.ObjectId,
-    ref: "User",
+    ref: 'User',
     required: true,
   },
   postText: {

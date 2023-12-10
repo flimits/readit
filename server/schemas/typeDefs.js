@@ -12,7 +12,7 @@ type User {
 type Post {
     _id: ID
     title: String
-    userId: ID
+    userId: User
     postText: String
     createdAt: Date
     comments: [Comment]

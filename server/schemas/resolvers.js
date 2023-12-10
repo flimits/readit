@@ -36,7 +36,10 @@ const resolvers = {
     },
     posts: async () => {
       try {
-        return await Post.find();
+        return await Post.find().populate({
+          path: "userId",
+          select: 'userName'
+        });
       } catch (error) {
         console.log("couldn't get all posts");
         console.error(error);
