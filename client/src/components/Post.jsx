@@ -1,12 +1,15 @@
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Post = (props) => {
   const postInstance = props.post;
 
   const emojiCodePoint = "\u{1F4DD}";
   const deleteIcon = "\u{1F5D1}";
-  console.log("postInstance: ", postInstance);
+
+  const currentPage = useLocation().pathname;
+  //Dont make title clickable, if they are already on view post page.
+  const disableTitleLink = currentPage.includes("/view-post/");
 
   if (!postInstance?._id) return "No Post to view !!";
 
@@ -17,9 +20,13 @@ const Post = (props) => {
           <div className="card-text row">
             <div className="col-2">User</div>
             <div className="col-8 fs-5">
-              <Link to={`view-post/${postInstance._id}`}>
-                {postInstance.title}
-              </Link>
+              {disableTitleLink ? (
+                postInstance.title
+              ) : (
+                <Link to={`view-post/${postInstance._id}`}>
+                  {postInstance.title}
+                </Link>
+              )}
             </div>
             <div className="col-2">
               {emojiCodePoint} {deleteIcon}
