@@ -40,7 +40,7 @@ const resolvers = {
           path: "author",
           select: 'userName'
         });
-        console.log("posts:", posts)
+        // console.log("posts:", posts)
         return posts;
       } catch (error) {
         console.log("couldn't get all posts");
