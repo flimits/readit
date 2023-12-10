@@ -1,10 +1,10 @@
 import Post from "../components/Post";
-import { QUERY_THOUGHTS } from "../utils/queries";
+import { GET_POSTS } from "../utils/queries";
 
 import { useQuery } from "@apollo/client";
 
 const Home = () => {
-  const { data, loading, error } = useQuery(QUERY_THOUGHTS);
+  const { data, loading, error } = useQuery(GET_POSTS);
 
   if (loading) return "Loading ...";
   if (error) return `Error ! ${error.message}`;

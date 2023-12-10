@@ -4,11 +4,11 @@ import { useQuery } from "@apollo/client";
 
 import Post from "../components/Post";
 
-import { QUERY_SINGLE_POST } from "../utils/queries";
+import { SINGLE_POST } from "../utils/queries";
 
 const ViewPost = () => {
   const { postId } = useParams();
-  const { loading, data } = useQuery(QUERY_SINGLE_POST, {
+  const { loading, data } = useQuery(SINGLE_POST, {
     //pass url params
     variables: { postId: postId },
   });
