@@ -240,3 +240,15 @@ Search display posts and the logic to search
 Tags !!
 
 STYLING !!
+
+
+>>>>>>>>>>>>
+
+More commits !!
+
+2 new technologies !!!
+
+1. Moment.js for formatting time stamps
+2. font awesome for icons
+
+3. ??
