@@ -44,12 +44,12 @@ const resolvers = {
         console.error(error)
       }
     },
-    searchPosts: async (parent, { query, useTitle = true, useText = true, useTags = true }) => {
+    searchPosts: async (parent, { query, filterTitle = true, filterContent = true, filterTags = true }) => {
       try {
         let findQuery = {}
 
         // If no specific criteria, search all
-        if (!useTitle && !usePost && !useTags) findQuery = { $text: { $search: query } }
+        if (!filterTitle && !filterContent && !filterTags) findQuery = { $text: { $search: query } }
         // Else set the query criteria
         else {
           // Allow querying for multiple keywords separated by whitespace.
@@ -58,9 +58,9 @@ const resolvers = {
               let queryList = []
               const regex = { $regex: keyword.trim(), $options: 'i' }
               // Add to the list of queries
-              if (useTitle) queryList.push({ title: regex })
-              if (useText) queryList.push({ postText: regex })
-              if (useTags) queryList.push({ tags: regex })
+              if (filterTitle) queryList.push({ title: regex })
+              if (filterContent) queryList.push({ postText: regex })
+              if (filterTags) queryList.push({ tags: regex })
 
               return { $or: queryList }
             })

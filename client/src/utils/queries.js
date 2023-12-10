@@ -15,8 +15,8 @@ export const QUERY_THOUGHTS = gql`
 
 
 export const SEARCH_POSTS = gql`
-query SearchPosts($query: String!, $useTitle: Boolean, $useText: Boolean, $useTags: Boolean) {
-  searchPosts(query: $query, useTitle: $useTitle, useText: $useText, useTags: $useTags) {
+query SearchPosts($query: String!, $filterTitle: Boolean, $filterContent: Boolean, $filterTags: Boolean) {
+  searchPosts(query: $query, filterTitle: $filterTitle, filterContent: $filterContent, filterTags: $filterTags) {
     _id
     userId
     title

@@ -8,33 +8,67 @@ export default function Search() {
   const [posts, setPosts] = useState([])
   const [finalQuery, setFinalQuery] = useState(''); // Used for showing what the user searched for
   const [searchQuery, setSearch] = useState('');
-  const [searchTitle, setTitle] = useState(true);
-  const [searchText, setText] = useState(true);
-  const [searchTags, setTags] = useState(true);
+  const [filterTitle, setFilterTitle] = useState(true);
+  const [filterContent, setFilterContent] = useState(true);
+  const [filterTags, setFilterTags] = useState(true);
+
+  const CHECKBOX_IDS = {
+    TITLE: "search-filter-title",
+    CONTENT: "search-filter-content",
+    TAGS: "search-filter-tags",
+  }
 
   useEffect(() => {
     if (data) setPosts([...data.searchPosts])
   }, [data])
 
   useEffect(() => {
-    console.log("posts:", posts)
+    // console.log("posts:", posts)
   }, [posts])
 
-  const handleOnChange = (event) => {
+  // Initialize the filter checkboxes to true once after rendering
+  useEffect(() => {
+    document.getElementById(CHECKBOX_IDS.TITLE).checked = filterTitle
+    document.getElementById(CHECKBOX_IDS.CONTENT).checked = filterContent
+    document.getElementById(CHECKBOX_IDS.TAGS).checked = filterTags
+  }, [])
+
+  const handleOnChangeSearch = (event) => {
     setSearch(event.target.value);
+  }
+
+  /**
+   * Updates the state variables to match the checkbox's `.checked` values
+   * @param {Object} target Deconstructed from "event"
+   */
+  const handleOnChangeFilter = ({ target }) => {
+    // console.log("event.target:", target)
+
+    switch (target.id) {
+      case CHECKBOX_IDS.TITLE:
+        setFilterTitle(target.checked)
+        break;
+      case CHECKBOX_IDS.CONTENT:
+        setFilterContent(target.checked)
+        break;
+      case CHECKBOX_IDS.TAGS:
+        setFilterTags(target.checked)
+        break;
+    }
   }
 
   const handleOnSubmit = async (event) => {
     event.preventDefault();
     // console.log("query:", searchQuery)
     setFinalQuery(searchQuery);
+
     try {
       await searchPosts({
         variables: {
           query: searchQuery,
-          useTitle: searchTitle,
-          useText: searchText,
-          useTags: searchTags,
+          filterTitle,
+          filterContent,
+          filterTags,
         }
       })
     } catch (error) {
@@ -54,6 +88,7 @@ export default function Search() {
       return (
         <div>
           <h2>Search results for: {finalQuery}</h2>
+
           {posts.map((post, index) => {
             // TODO: Put in Post component here when finished
             return (
@@ -90,11 +125,53 @@ export default function Search() {
               id="searchInput"
               className="form-control me-2"
               value={searchQuery}
-              onChange={handleOnChange}
+              onChange={handleOnChangeSearch}
               type="search"
               placeholder="e.g. baking golf programming"
               aria-label="Search"
             />
+
+            <div className="dropdown me-2">
+              <button type="button" className="btn btn-primary dropdown-toggle rounded-0" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                Filters
+              </button>
+              <div className="dropdown-menu p-2">
+                <div className="form-check">
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    id={`${CHECKBOX_IDS.TITLE}`}
+                    onChange={(e) => handleOnChangeFilter(e)}
+                  />
+                  <label className="form-check-label" htmlFor={`${CHECKBOX_IDS.TITLE}`}>
+                    Titles
+                  </label>
+                </div>
+                <div className="form-check">
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    id={`${CHECKBOX_IDS.CONTENT}`}
+                    onChange={(e) => handleOnChangeFilter(e)}
+                  />
+                  <label className="form-check-label" htmlFor={`${CHECKBOX_IDS.CONTENT}`}>
+                    Content
+                  </label>
+                </div>
+                <div className="form-check">
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    id={`${CHECKBOX_IDS.TAGS}`}
+                    onChange={(e) => handleOnChangeFilter(e)}
+                  />
+                  <label className="form-check-label" htmlFor={`${CHECKBOX_IDS.TAGS}`}>
+                    Tags
+                  </label>
+                </div>
+              </div>
+            </div>
+
             <button className="btn btn-outline-success" type="submit">Search</button>
           </div>
         </form>
