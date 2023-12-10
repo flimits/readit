@@ -1,17 +1,31 @@
 import PropTypes from "prop-types";
 import { Link, useLocation } from "react-router-dom";
+import Auth from "../utils/auth";
 
 const Post = (props) => {
   const postInstance = props.post;
-
-  const emojiCodePoint = "\u{1F4DD}";
-  const deleteIcon = "\u{1F5D1}";
 
   const currentPage = useLocation().pathname;
   //Dont make title clickable, if they are already on view post page.
   const disableTitleLink = currentPage.includes("/view-post/");
 
   if (!postInstance?._id) return "No Post to view !!";
+
+  let editDeleteEnabled = false;
+
+  try {
+    const loggedUser = Auth.getProfile();
+    if (loggedUser?.data?._id === postInstance?.author?._id) {
+      editDeleteEnabled = true;
+    }
+  } catch (error) {
+    console.log("Authorization error !!", error);
+  }
+
+  console.log("Post in postInstance is: ", postInstance);
+
+  const emojiCodePoint = "\u{1F4DD}";
+  const deleteIcon = "\u{1F5D1}";
 
   return (
     <div className="post-container container">
@@ -28,8 +42,15 @@ const Post = (props) => {
                 </Link>
               )}
             </div>
-            <div className="col-2">
-              {emojiCodePoint} {deleteIcon}
+            <div className="col-2 fs-4">
+              {editDeleteEnabled ? (
+                <>
+                  <Link>{emojiCodePoint}</Link>
+                  <Link>{deleteIcon}</Link>
+                </>
+              ) : (
+                " "
+              )}
             </div>
           </div>
           <div className="card-text">
