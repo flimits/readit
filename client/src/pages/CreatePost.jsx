@@ -10,7 +10,7 @@ export default function CreatePost() {
   const [submitted, setSubmitted] = useState(false);
 
   const [formState, setFormState] = useState({
-    userId: "",
+    author: "",
     title: "",
     postText: "",
   })

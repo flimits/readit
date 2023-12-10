@@ -2,21 +2,26 @@
 import { gql } from '@apollo/client';
 
 // Use the gql function to access the thoughts entrypoint and export it
-export const QUERY_THOUGHTS = gql`
+export const GET_POSTS = gql`
   query getPosts {
     posts {
       _id
       title
-      userId
       postText
+      author {
+        userName
+      }
+      createdAt
       comments {
         _id
-        userId
+        author {
+          userName
+        }
         text
       }
       reactions {
         _id
-        userId
+        author
         applause
       }
       tags
@@ -24,21 +29,26 @@ export const QUERY_THOUGHTS = gql`
   }
 `;
 
-export const QUERY_SINGLE_POST = gql`
+export const SINGLE_POST = gql`
   query getSinglePost($postId: ID!) {
     getPost(postId: $postId) {
       _id
       title
-      userId
       postText
+      author {
+        userName
+      }
+      createdAt
       comments {
         _id
-        userId
+        author {
+          userName
+        }
         text
       }
       reactions {
         _id
-        userId
+        author
         applause
       }
       tags
@@ -51,11 +61,13 @@ export const SEARCH_POSTS = gql`
 query SearchPosts($query: String!, $filterTitle: Boolean, $filterContent: Boolean, $filterTags: Boolean) {
   searchPosts(query: $query, filterTitle: $filterTitle, filterContent: $filterContent, filterTags: $filterTags) {
     _id
-    userId
     title
     postText
-    tags
+    author {
+      userName
+    }
     createdAt
+    tags
     reactions {
       applause
     }

@@ -12,7 +12,7 @@ type User {
 type Post {
     _id: ID
     title: String
-    userId: ID
+    author: User
     postText: String
     createdAt: Date
     comments: [Comment]
@@ -22,14 +22,14 @@ type Post {
 
 type Comment {
     _id: ID
-    userId: ID
+    author: User
     text: String
     reactions: [Reaction]
 }
 
 type Reaction {
     _id: ID
-    userId: ID
+    author: ID
     applause: Boolean
 }
 
@@ -52,13 +52,13 @@ type Mutation {
     addUser(userName: String!, email: String!, password: String!): Auth
     login(userName: String!, password: String!): Auth
 
-    addPost(userId: ID!, title: String!, postText: String!): Post
+    addPost(title: String!, postText: String!): Post
     editPost(postId: ID!, newTitle: String, newText: String): Post
     deletePost(postId: ID!): Post
 
-    addComment(postId: ID!, userId: ID!, text: String!): Comment
-    addReactionToPost(postId: ID!, userId: ID!, applause: Boolean!): Post
-    addReactionToComment(postId: ID!, commentId: ID!, userId: ID!, applause: Boolean!): Post
+    addComment(postId: ID!, text: String!): Comment
+    addReactionToPost(postId: ID!, applause: Boolean!): Post
+    addReactionToComment(postId: ID!, commentId: ID!, applause: Boolean!): Post
 
     editTagsFromPost(postId: ID!, newTags: [String]!): Post
 }

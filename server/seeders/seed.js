@@ -68,13 +68,13 @@ async function seedPosts(users) {
     try {
       // Randomly assign a userId to a post
       const randomUser = users[Math.floor(Math.random() * users.length)].id;
-      post["userId"] = randomUser;
+      post.author = randomUser;
 
       // Randomly assign a userId to a comment
-      post.comments?.map((comment) => comment.userId = users[Math.floor(Math.random() * users.length)].id)
+      post.comments?.map((comment) => comment.author = users[Math.floor(Math.random() * users.length)].id)
 
       // randomly assign a userId to any post reaction
-      post.reactions?.map((reaction) => reaction.userId = users[Math.floor(Math.random() * users.length)].id)
+      post.reactions?.map((reaction) => reaction.author = users[Math.floor(Math.random() * users.length)].id)
 
       // TODO: Test this seeding when reaction schema is implemented
       // randomly assign a userId to a reaction
