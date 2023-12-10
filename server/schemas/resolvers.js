@@ -50,6 +50,41 @@ const resolvers = {
         console.error(error);
       }
     },
+    searchPosts: async (parent, { query, filterTitle = true, filterContent = true, filterTags = true }) => {
+      try {
+        let findQuery = {}
+
+        // If no specific criteria, search all
+        if (!filterTitle && !filterContent && !filterTags) findQuery = { $text: { $search: query } }
+        // Else set the query criteria
+        else {
+          // Allow querying for multiple keywords separated by whitespace.
+          findQuery = {
+            $or: query.split(" ").map(keyword => {
+              let queryList = []
+              const regex = { $regex: keyword.trim(), $options: 'i' }
+              // Add to the list of queries
+              if (filterTitle) queryList.push({ title: regex })
+              if (filterContent) queryList.push({ postText: regex })
+              if (filterTags) queryList.push({ tags: regex })
+
+              return { $or: queryList }
+            })
+          }
+        }
+
+        // console.log("queryList:", queryList)
+        // console.log("full query:", findQuery)
+
+        const posts = await Post.find(findQuery)
+
+        // console.log("posts:", posts);
+        return posts
+      } catch (error) {
+        console.log(`Couldn't find posts with search: "${query}"`)
+        console.error(error);
+      }
+    }
   },
 
   Mutation: {

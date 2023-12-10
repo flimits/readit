@@ -70,6 +70,7 @@ const SignUpForm = () => {
             value={formState.userName}
             onChange={handleChange}
           />
+
           <label htmlFor="sEmail" className="form-label">
             Email address
           </label>
@@ -101,6 +102,7 @@ const SignUpForm = () => {
             className="btn btn-primary"
             style={{ cursor: "pointer" }}
           >
+
             SignUp
           </button>
         </div>

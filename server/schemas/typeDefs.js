@@ -1,4 +1,6 @@
 const typeDefs = `
+scalar Date
+
 type User {
     _id: ID
     userName: String
@@ -12,6 +14,7 @@ type Post {
     title: String
     userId: ID
     postText: String
+    createdAt: Date
     comments: [Comment]
     tags: [String]
     reactions: [Reaction]
@@ -42,6 +45,7 @@ type Query {
 
     posts: [Post]!
     getPost(postId: ID!): Post
+    searchPosts(query: String!, filterTitle: Boolean, filterContent: Boolean, filterTags: Boolean): [Post]
 }
 
 type Mutation {

@@ -37,7 +37,6 @@ const LoginForm = () => {
       }
 
       Auth.login(data.login.token);
-
       window.location.reload();
     } catch (e) {
       console.error(e);
@@ -95,3 +94,4 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
+

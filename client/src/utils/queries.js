@@ -45,3 +45,23 @@ export const QUERY_SINGLE_POST = gql`
     }
   }
 `;
+
+
+export const SEARCH_POSTS = gql`
+query SearchPosts($query: String!, $filterTitle: Boolean, $filterContent: Boolean, $filterTags: Boolean) {
+  searchPosts(query: $query, filterTitle: $filterTitle, filterContent: $filterContent, filterTags: $filterTags) {
+    _id
+    userId
+    title
+    postText
+    tags
+    createdAt
+    reactions {
+      applause
+    }
+    comments {
+      text
+    }
+  }
+}
+`;
