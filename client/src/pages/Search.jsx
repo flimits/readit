@@ -5,83 +5,79 @@ import Post from "../components/Post";
 import { useLocation } from "react-router-dom";
 
 export default function Search() {
-  const [searchPosts, { data }] = useLazyQuery(SEARCH_POSTS);
-
   const [posts, setPosts] = useState([])
   const [finalQuery, setFinalQuery] = useState(''); // Used for showing what the user searched for
   const [searchQuery, setSearch] = useState('');
   const [filterTitle, setFilterTitle] = useState(true);
   const [filterContent, setFilterContent] = useState(true);
   const [filterTags, setFilterTags] = useState(true);
-  
-  // TODO? Somehow check when the webpage changes address?
-  // Get any thing from the address bar that has a "?"
-  const addressBarQuery = useState(useLocation().search)
+
+  // Tracks if address bar changes due to clicking a tag. Initialize to the react hook for this to work
+  const [addressBarQuery, setAddressBar] = useState(useLocation().search)
+
+  const [searchPosts, { data }] = useLazyQuery(SEARCH_POSTS, {
+    variables: {
+      query: finalQuery,
+      filterTitle,
+      filterContent,
+      filterTags,
+    }
+  });
+
+
   const CHECKBOX_IDS = {
     TITLE: "search-filter-title",
     CONTENT: "search-filter-content",
     TAGS: "search-filter-tags",
   }
 
-  // console.log("location:", useLocation())
-
+  // Triggers if posts were found in the database. Renders the posts
   useEffect(() => {
-    console.log("data:", data);
+    // console.log("data:", data);
     if (data) setPosts([...data.searchPosts])
   }, [data])
 
+  // Triggers when the address bar is updated
   useEffect(() => {
-    // console.log("posts:", posts)
-  }, [posts])
+    // Check if there's a ? in the address bar. Meaning it's redirected from a tag, so we do a search instantly 
+    if (addressBarQuery[0] === "?") {
+      const query = addressBarQuery.split("=").pop(); // get the query after the = sign
+      setSearch(query);
+      setFinalQuery(query);
+    }
+  }, [addressBarQuery])
 
+  // Triggers when clicking on a tag that will update the address bar
   useEffect(() => {
-    if (finalQuery.length > 0) {
+    // Use window.location.search since we can't use useLocation() inside of another hook
+    setAddressBar(window.location.search)
+  }, [useLocation().search])
+
+  // Triggers whenever finalQuery is changed. This starts searching for posts
+  useEffect(() => {
+    if (finalQuery.length > 0) { // Checks against whitespace
       const doSearch = async () => {
-        console.log("@doSearch");
-        await searchForPosts(finalQuery);
+        try {
+          await searchPosts()
+        } catch (error) {
+          console.error(error);
+        }
       }
-  
+
       doSearch();
     }
   }, [finalQuery])
-
-  useEffect(() => {
-    console.log("addressBarQuery:", addressBarQuery)
-  }, [addressBarQuery])
 
   // Initialize the filter checkboxes to true once after rendering
   useEffect(() => {
     document.getElementById(CHECKBOX_IDS.TITLE).checked = filterTitle
     document.getElementById(CHECKBOX_IDS.CONTENT).checked = filterContent
     document.getElementById(CHECKBOX_IDS.TAGS).checked = filterTags
-
-    // Check if there's a ? in the address bar. Meaning it's redirected from a tag, so we do a search instantly 
-    if (addressBarQuery[0]) {
-      console.log("addressBarQuery:", addressBarQuery);
-      const query = addressBarQuery[0].split("=").pop();
-      setSearch(query);
-      setFinalQuery(query);
-    }
   }, [])
 
-  const searchForPosts = async (query) => {
-    console.log("@searchForPosts");
-    console.log("searchQuery:", searchQuery)
-
-    try {
-      await searchPosts({
-        variables: {
-          query,
-          filterTitle,
-          filterContent,
-          filterTags,
-        }
-      })
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
+  /** 
+   * Update the value `searchQuery` to reflect what the user is typing in the search bar 
+   */ 
   const handleOnChangeSearch = (event) => {
     setSearch(event.target.value);
   }
@@ -106,6 +102,10 @@ export default function Search() {
     }
   }
 
+  /**
+   * Sets `finalQuery` value which will trigger searching for posts
+   * @param {Event} event 
+   */
   const handleOnSubmit = async (event) => {
     event.preventDefault();
     // console.log("query:", searchQuery)
