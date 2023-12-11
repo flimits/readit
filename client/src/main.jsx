@@ -48,6 +48,10 @@ const router = createBrowserRouter([
       {
         path: "/search/view-post/:postId/edit-post/:postId", //TODO check if we can avoid view-post/:postId prefix !!
         element: <EditPost/>
+      },
+      {
+        path: "/search/edit-post/:postId", //TODO check if we can avoid view-post/:postId prefix !!
+        element: <EditPost/>
       }
     ],
   },

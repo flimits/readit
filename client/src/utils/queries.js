@@ -88,9 +88,6 @@ export const SEARCH_POSTS = gql`
       reactions {
         _id
         applause
-        author {
-          _id
-        }
       }
       comments {
         text
