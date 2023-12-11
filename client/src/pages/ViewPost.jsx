@@ -64,7 +64,7 @@ const ViewPost = () => {
       <div>
         <button
           type="button"
-          className="btn btn-light"
+          className="btn btn-light mb-3"
           data-bs-toggle="collapse"
           data-bs-target="#collapsAddComment"
           aria-expanded="false"
@@ -73,7 +73,7 @@ const ViewPost = () => {
           Add A Comment
         </button>
       </div>
-      <div className="collapse" id="collapsAddComment">
+      <div className="collapse mb-3" id="collapsAddComment">
         <div className="card card-body">
           <form className="comment-form" onSubmit={handleFormSubmit}>
             <div className="mb-3">
@@ -89,7 +89,7 @@ const ViewPost = () => {
                 onChange={handleChange}
                 rows="3"
               ></textarea>
-              <button type="submit" className="btn btn-primary">
+              <button type="submit" className="btn btn-primary mt-3">
                 Submit
               </button>
             </div>
