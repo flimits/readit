@@ -56,14 +56,14 @@ function NavTabs() {
               </li>
               <li className="nav-item">
                 <Link
-                  to="/my-posts"
+                  to="/my-profile"
                   className={
-                    currentPage === "/my-posts"
+                    currentPage === "/my-profile"
                       ? "nav-link custom-nav active"
                       : "nav-link custom-nav"
                   }
                 >
-                  My Posts
+                  My Profile
                 </Link>
               </li>
               <li className="nav-item">

@@ -95,3 +95,34 @@ export const SEARCH_POSTS = gql`
     }
   }
 `;
+
+export const GET_ME = gql`
+  query getMe {
+    getMe {
+      posts {
+        _id
+        title
+        postText
+        author {
+          userName
+          _id
+        }
+        createdAt
+        comments {
+          _id
+          author {
+            userName
+          }
+          text
+        }
+        reactions {
+          _id
+          author
+          applause
+        }
+        tags
+      }
+    }
+  }
+`;
+

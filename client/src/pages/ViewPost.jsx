@@ -64,16 +64,18 @@ const ViewPost = () => {
       {/* Viewing single post !! */}
       <Post post={post} />
       <div>
-        <button
-          type="button"
-          className="btn btn-light mb-3"
-          data-bs-toggle="collapse"
-          data-bs-target="#collapsAddComment"
-          aria-expanded="false"
-          aria-controls="collapsAddComment"
-        >
-          Add A Comment
-        </button>
+        {Auth.loggedIn() && (
+          <button
+            type="button"
+            className="btn btn-light mb-3"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapsAddComment"
+            aria-expanded="false"
+            aria-controls="collapsAddComment"
+          >
+            Add A Comment
+          </button>
+        )}
       </div>
       <div className="collapse mb-3" id="collapsAddComment">
         <div className="card card-body">
