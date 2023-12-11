@@ -8,6 +8,7 @@ import "../App.css";
 
 export default function CreatePost() {
   const [submitted, setSubmitted] = useState(false);
+  const [isPostValid, setPostValid] = useState(false);
 
   const [title, setTitle] = useState('');
   const [postText, setPostText] = useState('');
@@ -16,13 +17,27 @@ export default function CreatePost() {
 
   const [addPost, { error, data }] = useMutation(ADD_POST);
 
+  // Checks if the title and postText are filled out to see if Create Post button is enabled or not
+  useEffect(() => {
+    if (title && postText) {
+      setPostValid(true);
+    } else {
+      setPostValid(false);
+    }
+  }, [title, postText, tags])
+
+  // Determines if the Create Post button is enabled or disabled
+  useEffect(() => {
+    document.getElementById('button-create-post').disabled = !isPostValid
+  }, [isPostValid])
+
   // If the post was added to the db, then redirect the user back to the main page
   useEffect(() => {
-    if (data) {
+    if (data && isPostValid) {
       setSubmitted(true); // show the post was submitted
       setTimeout(() => {
         window.location.href = "/";
-      }, 2000);
+      }, 1500);
     }
   }, [data])
 
@@ -64,6 +79,16 @@ export default function CreatePost() {
 
     try {
       console.log("FormState U R Posting: ", { title, postText, tags })
+
+      // Prevent the user from adding a post if no title or text
+      if (!title || !postText) {
+        setPostValid(false);
+        return;
+      }
+
+      // Filter out any empty spaces in tags array
+      const filteredTags = tags.filter((tag) => tag.length > 0)
+      console.log("filteredTags:", filteredTags);
       
       await addPost({
         variables: { title, postText, tags },
@@ -114,8 +139,8 @@ export default function CreatePost() {
             </div>
             <br></br>
             <div className="form-group">
-              <label htmlFor='new-tag' className='fs-3'>Tags:</label>
-              <p className='mb-2'>(Separate tags with a space in between)</p>
+              <label htmlFor='new-tag' className='fs-3'>Tags (optional):</label>
+              <p className='mb-2'>Separate tags with a space in between</p>
               <input
                 type="text"
                 className="form-control"
@@ -127,9 +152,7 @@ export default function CreatePost() {
               />
             </div>
             <br></br>
-            <div className="form-group">
-              <button type="submit" className="btn btn-primary">Submit</button>
-            </div>
+            <button id='button-create-post' type="submit" className="btn btn-primary" disabled>Create Post</button>
           </form>
         )}
       </div>
