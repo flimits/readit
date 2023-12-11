@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import Auth from "../utils/auth";
+import Tag from "./Tag";
 import { EDIT_POST } from "../utils/mutations";
 
 const Post = (props) => {
@@ -29,10 +30,13 @@ const Post = (props) => {
   let editDeleteEnabled = false;
 
   try {
-    const loggedUser = Auth.getProfile();
-    if (loggedUser?.data?._id === postInstance?.author?._id) {
-      editDeleteEnabled = true;
+    if (Auth.loggedIn()) { // Only try this if the user is logged in
+      const loggedUser = Auth.getProfile();
+      if (loggedUser?.data?._id === postInstance?.author?._id) {
+        editDeleteEnabled = true;
+      }
     }
+
   } catch (error) {
     console.log("Authorization error !!", error);
   }
@@ -148,8 +152,10 @@ const Post = (props) => {
               {"\u{1F4AC}"}
               {postInstance?.comments.length}
             </div>
-            <div className="col-8">Tags {postInstance?.tags.length}</div>
-            <div></div>
+            <div className="col-8">Tags: {postInstance.tags.map((tag, index) => {
+                return <Tag key={index} tag={tag} />
+            })}
+            </div>
           </div>
           <p className="card-text">
             <small className="text-muted">

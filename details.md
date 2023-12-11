@@ -17,6 +17,8 @@ addReactionToComment: async (parent, { postId, commentId, ...newReaction }) => {
 
 [Comparing ObjectIds](https://futurestud.io/tutorials/mongodb-how-to-compare-objectids-in-node-js)
 
+[Using async in react `useEffect` hook](https://devtrium.com/posts/async-functions-useeffect)
+
 [Idea for multiple $or queries](https://stackoverflow.com/a/37722869)
 
 [Idea for react rendering with multiple conditions](https://dev.to/samba_code/nested-ternary-statements-in-react-jsx-35kp)
