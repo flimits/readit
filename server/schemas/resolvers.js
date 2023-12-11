@@ -169,11 +169,11 @@ const resolvers = {
     },
     editPost: async (parent, { postId, newTitle, newText }, context) => {
       try {
-        // console.log("context.user:", context.user);
-        // Check if user is logged in
-        // if (!context.user) {
-        //   throw ErrorMustBeLoggedIn
-        // }
+        console.log("context.user:", context.user);
+        //Check if user is logged in
+        if (!context.user) {
+          throw ErrorMustBeLoggedIn;
+        }
 
         return await Post.findByIdAndUpdate(
           new ObjectId(postId),
