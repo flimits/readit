@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 
 import { ADD_POST } from '../utils/mutations';
+import Auth from "../utils/auth";
 
 import "../App.css";
 
@@ -28,7 +29,12 @@ export default function CreatePost() {
 
   // Determines if the Create Post button is enabled or disabled
   useEffect(() => {
-    document.getElementById('button-create-post').disabled = !isPostValid
+    const buttonCreate = document.getElementById('button-create-post')
+
+    // Check if the button is rendered before editing it
+    if (buttonCreate) { 
+      buttonCreate.disabled = !isPostValid
+    }
   }, [isPostValid])
 
   // If the post was added to the db, then redirect the user back to the main page
@@ -37,7 +43,7 @@ export default function CreatePost() {
       setSubmitted(true); // show the post was submitted
       setTimeout(() => {
         window.location.href = "/";
-      }, 1500);
+      }, 1200);
     }
   }, [data])
 
@@ -45,7 +51,6 @@ export default function CreatePost() {
   useEffect(() => {
     if (tagString) {
       const split = tagString.split(" ");
-      console.log("split:", split);
       setTags(split)
     } else {
       setTags([])
@@ -88,10 +93,10 @@ export default function CreatePost() {
 
       // Filter out any empty spaces in tags array
       const filteredTags = tags.filter((tag) => tag.length > 0)
-      console.log("filteredTags:", filteredTags);
-      
+      console.log("filteredTags:", filteredTags)
+
       await addPost({
-        variables: { title, postText, tags },
+        variables: { title, postText, tags: filteredTags }
       });
 
     } catch (err) {
@@ -100,62 +105,73 @@ export default function CreatePost() {
   };
 
 
-  return (
-    <div className='createpost-form'>
-      <div className='createpost-boxinform'>
-        {submitted ? (
-          <div>
-            <h2>Your post has been submitted! Redirecting back to home page...</h2>
-          </div>
-        ) : (
-          <form onSubmit={handleFormSubmit}>
-            <div className="form-group">
-              <label htmlFor='title' className='fs-3 mb-1'>Title:</label>
-              <input
-                type="text"
-                className="form-control"
-                id="title"
-                placeholder="Title"
-                value={title}
-                onChange={handleOnChangeTitle}
-                name="title"
-              />
+  const renderPostForm = () => {
+    return (
+      <div className='createpost-form'>
+        <div className='createpost-boxinform'>
+          {submitted ? (
+            <div>
+              <h2>Your post has been submitted! Redirecting back to home page...</h2>
+            </div>
+          ) : (
+            <form onSubmit={handleFormSubmit}>
+              <div className="form-group">
+                <label htmlFor='title' className='fs-3 mb-1'>Title:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="title"
+                  placeholder="Title"
+                  value={title}
+                  onChange={handleOnChangeTitle}
+                  name="title"
+                />
 
 
-            </div>
-            <br></br>
-            <div className="form-group">
-              <label htmlFor='post-text' className='fs-3 mb-1'>Text:</label>
-              <textarea
-                className="form-control"
-                id="post-text"
-                rows="4"
-                placeholder="Post Message"
-                value={postText}
-                onChange={handleOnChangePostText}
-                name="postText"
-              />
+              </div>
+              <br></br>
+              <div className="form-group">
+                <label htmlFor='post-text' className='fs-3 mb-1'>Text:</label>
+                <textarea
+                  className="form-control"
+                  id="post-text"
+                  rows="4"
+                  placeholder="Post Message"
+                  value={postText}
+                  onChange={handleOnChangePostText}
+                  name="postText"
+                />
 
-            </div>
-            <br></br>
-            <div className="form-group">
-              <label htmlFor='new-tag' className='fs-3'>Tags (optional):</label>
-              <p className='mb-2'>Separate tags with a space in between</p>
-              <input
-                type="text"
-                className="form-control"
-                id="new-tag"
-                placeholder="e.g. cooking football vacation"
-                value={tagString}
-                onChange={handleOnChangeTags}
-                name="tagString"
-              />
-            </div>
-            <br></br>
-            <button id='button-create-post' type="submit" className="btn btn-primary" disabled>Create Post</button>
-          </form>
-        )}
+              </div>
+              <br></br>
+              <div className="form-group">
+                <label htmlFor='new-tag' className='fs-3'>Tags (optional):</label>
+                <p className='mb-2'>Separate tags with a space in between</p>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="new-tag"
+                  placeholder="e.g. cooking football vacation"
+                  value={tagString}
+                  onChange={handleOnChangeTags}
+                  name="tagString"
+                />
+              </div>
+              <br></br>
+              <button id='button-create-post' type="submit" className="btn btn-primary" disabled>Create Post</button>
+            </form>
+          )}
+        </div>
       </div>
-    </div>
+    )
+  }
+
+  return (
+    <>
+      {Auth.loggedIn() ?
+        renderPostForm() :
+        <h2 className='text-center fs-1 mt-5'>Please login to create a post</h2>
+      }
+    </>
   );
 }
