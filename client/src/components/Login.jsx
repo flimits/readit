@@ -26,9 +26,33 @@ export default function Login() {
                 aria-label="Close"
               ></button>
             </div>
-            <div className="mx-2">
-              <LoginForm />
-              <SignUpForm />
+            <div className="mx-2 d-flex flex-column">
+              <button
+                className="btn btn-secondary my-3"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#loginCollapse"
+                aria-expanded="false"
+                aria-controls="loginCollapse"
+              >
+                Click Here To Login
+              </button>
+              <div className="collapse" id="loginCollapse">
+                <LoginForm />
+              </div>
+              <button
+                className="btn btn-secondary"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#signUpCollapse"
+                aria-expanded="false"
+                aria-controls="signUpCollapse"
+              >
+                Click Here To SignUp
+              </button>
+              <div className="collapse" id="signUpCollapse">
+                <SignUpForm />
+              </div>
             </div>
             <div className="modal-footer">
               <button

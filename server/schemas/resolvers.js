@@ -169,11 +169,11 @@ const resolvers = {
     },
     editPost: async (parent, { postId, newTitle, newText }, context) => {
       try {
-        // console.log("context.user:", context.user);
-        // Check if user is logged in
-        // if (!context.user) {
-        //   throw ErrorMustBeLoggedIn
-        // }
+        console.log("context.user:", context.user);
+        //Check if user is logged in
+        if (!context.user) {
+          throw ErrorMustBeLoggedIn;
+        }
 
         return await Post.findByIdAndUpdate(
           new ObjectId(postId),
@@ -208,11 +208,12 @@ const resolvers = {
     },
     addComment: async (parent, { postId, ...newComment }, context) => {
       try {
-        // console.log("context.user:", context.user);
         // Check if user is logged in
-        // if (!context.user) {
-        //   throw ErrorMustBeLoggedIn
-        // }
+        if (!context.user) {
+          throw ErrorMustBeLoggedIn;
+        }
+
+        newComment.author = context.user;
 
         return await Post.findByIdAndUpdate(
           new ObjectId(postId),

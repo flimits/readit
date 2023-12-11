@@ -44,12 +44,14 @@ export const SINGLE_POST = gql`
       comments {
         _id
         author {
+          _id
           userName
         }
         text
         reactions {
           applause
         }
+        createdAt
       }
       reactions {
         _id
@@ -78,11 +80,13 @@ export const SEARCH_POSTS = gql`
       title
       postText
       author {
+        _id
         userName
       }
       createdAt
       tags
       reactions {
+        _id
         applause
       }
       comments {

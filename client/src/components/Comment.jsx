@@ -1,10 +1,24 @@
 import PropTypes from "prop-types";
+import Auth from "../utils/auth";
+import { Link } from "react-router-dom";
 
 const Comments = (props) => {
   console.log(props);
   const commentInstance = props.comment;
 
   console.log(commentInstance);
+
+  let editDeleteEnabled = false;
+
+  try {
+    const loggedUser = Auth.getProfile();
+
+    if (loggedUser?.data?._id === commentInstance?.author?._id) {
+      editDeleteEnabled = true;
+    }
+  } catch (error) {
+    console.log("Authorization error !!", error);
+  }
 
   const emojiCodePoint = "\u{1F4DD}";
   const deleteIcon = "\u{1F5D1}";
@@ -18,7 +32,14 @@ const Comments = (props) => {
           <div className="card-text row">
             <div className="col-2">{commentInstance.author.userName}</div>
             <div className="col-2">
-              {emojiCodePoint} {deleteIcon}
+              {editDeleteEnabled ? (
+                <>
+                  <Link>{emojiCodePoint}</Link>
+                  <Link>{deleteIcon}</Link>
+                </>
+              ) : (
+                " "
+              )}
             </div>
           </div>
           <div className="card-text">

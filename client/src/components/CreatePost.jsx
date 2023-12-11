@@ -1,141 +1,177 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 
 import { ADD_POST } from '../utils/mutations';
+import Auth from "../utils/auth";
 
 import "../App.css";
 
 export default function CreatePost() {
   const [submitted, setSubmitted] = useState(false);
+  const [isPostValid, setPostValid] = useState(false);
 
-  const [formState, setFormState] = useState({
-    author: "",
-    title: "",
-    postText: "",
-  })
+  const [title, setTitle] = useState('');
+  const [postText, setPostText] = useState('');
+  const [tags, setTags] = useState([]);
+  const [tagString, setTagString] = useState('');
 
   const [addPost, { error, data }] = useMutation(ADD_POST);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  // Checks if the title and postText are filled out to see if Create Post button is enabled or not
+  useEffect(() => {
+    if (title && postText) {
+      setPostValid(true);
+    } else {
+      setPostValid(false);
+    }
+  }, [title, postText, tags])
 
-    // setFormState((prevFormState) => {
-    //   if (name === "tags") {
-    //     // If the input is for tags, split the value by commas and push to the array
-    //     const newTags = value.split(",").map((tag) => tag.trim());
-    //     console.log("new tags is? ",newTags)
-    //     return {
-    //       ...prevFormState,
-    //       [name]: newTags,
-    //     };
-    //   } else {
-    //     // For other inputs, simply update the value
-    //     return {
-    //       ...prevFormState,
-    //       [name]: value,
-    //     };
-    //   }
-    // });
+  // Determines if the Create Post button is enabled or disabled
+  useEffect(() => {
+    const buttonCreate = document.getElementById('button-create-post')
 
-    setFormState((prevFormState) => ({
-      ...prevFormState,
-      [name]: value,
-    }));
-  };
+    // Check if the button is rendered before editing it
+    if (buttonCreate) { 
+      buttonCreate.disabled = !isPostValid
+    }
+  }, [isPostValid])
+
+  // If the post was added to the db, then redirect the user back to the main page
+  useEffect(() => {
+    if (data && isPostValid) {
+      setSubmitted(true); // show the post was submitted
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 1200);
+    }
+  }, [data])
+
+  // Update the "tags" variable by splitting the "tagString" by whitespace to get an array of tags.
+  useEffect(() => {
+    if (tagString) {
+      const split = tagString.split(" ");
+      setTags(split)
+    } else {
+      setTags([])
+    }
+  }, [tagString])
+
+  // Update the title with what the user is typing
+  const handleOnChangeTitle = async (event) => {
+    event.preventDefault();
+
+    setTitle(event.target.value)
+  }
+
+  // Update the post text with what the user is typing
+  const handleOnChangePostText = async (event) => {
+    event.preventDefault();
+
+    setPostText(event.target.value)
+  }
+
+  // Update the tags with what the user is typing
+  const handleOnChangeTags = async (event) => {
+    event.preventDefault();
+
+    setTagString(event.target.value)
+  }
 
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      console.log("FormState U R Posting: ", { ...formState })
-      const { data } = await addPost({
-        variables: { ...formState },
-      });
+      console.log("FormState U R Posting: ", { title, postText, tags })
 
-
-      console.log("Data saved to DB: ", data);
-
-      if (!data.addPost) {
-
-        setFormState({
-          title: "",
-          postText: "",
-        });
-
-
-        alert("Did you make a change? Make sure all fields are filled out properly");
+      // Prevent the user from adding a post if no title or text
+      if (!title || !postText) {
+        setPostValid(false);
         return;
       }
-      // Perform form submission logic here
-      // Update state upon successful submission.
-      setSubmitted(true);
 
+      // Filter out any empty spaces in tags array
+      const filteredTags = tags.filter((tag) => tag.length > 0)
+      console.log("filteredTags:", filteredTags)
+
+      await addPost({
+        variables: { title, postText, tags: filteredTags }
+      });
 
     } catch (err) {
       console.log(err);
     }
-    // Redirect back to the page after a 2-second delay
-    setTimeout(() => {
-      window.location.href = "/";
-    }, 2000);
   };
 
 
-  return (
-    <div className='createpost-form'>
-      <div className='createpost-boxinform'>
-        {submitted ? (
-          <div>
-            <h2>Your post has been submitted</h2>
-          </div>
-        ) : (
-          <form onSubmit={handleFormSubmit}>
-            <div className="form-group">
-              <input
-                type="text"
-                className="form-control"
-                id="title"
-                placeholder="Title"
-                value={formState.title}
-                onChange={handleChange}
-                name="title"
-              />
+  const renderPostForm = () => {
+    return (
+      <div className='createpost-form'>
+        <div className='createpost-boxinform'>
+          {submitted ? (
+            <div>
+              <h2>Your post has been submitted! Redirecting back to home page...</h2>
+            </div>
+          ) : (
+            <form onSubmit={handleFormSubmit}>
+              <div className="form-group">
+                <label htmlFor='title' className='fs-3 mb-1'>Title:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="title"
+                  placeholder="Title"
+                  value={title}
+                  onChange={handleOnChangeTitle}
+                  name="title"
+                />
 
 
-            </div>
-            <br></br>
-            <div className="form-group">
-              <textarea
-                className="form-control"
-                id="post-body"
-                rows="3"
-                placeholder="Post Message"
-                value={formState.postText}
-                onChange={handleChange}
-                name="postText"
-              />
+              </div>
+              <br></br>
+              <div className="form-group">
+                <label htmlFor='post-text' className='fs-3 mb-1'>Text:</label>
+                <textarea
+                  className="form-control"
+                  id="post-text"
+                  rows="4"
+                  placeholder="Post Message"
+                  value={postText}
+                  onChange={handleOnChangePostText}
+                  name="postText"
+                />
 
-            </div>
-            <br></br>
-            <div className="form-group">
-              <input
-                type="text"
-                className="form-control"
-                id="newtag"
-                placeholder="Add Tags"
-                value={formState.tag}
-                onChange={handleChange}
-                name="tags"
-              />
-            </div>
-            <div className="form-group">
-              <button type="submit" className="btn btn-primary">Submit</button>
-            </div>
-          </form>
-        )}
+              </div>
+              <br></br>
+              <div className="form-group">
+                <label htmlFor='new-tag' className='fs-3'>Tags (optional):</label>
+                <p className='mb-2'>Separate tags with a space in between</p>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="new-tag"
+                  placeholder="e.g. cooking football vacation"
+                  value={tagString}
+                  onChange={handleOnChangeTags}
+                  name="tagString"
+                />
+              </div>
+              <br></br>
+              <button id='button-create-post' type="submit" className="btn btn-primary" disabled>Create Post</button>
+            </form>
+          )}
+        </div>
       </div>
-    </div>
+    )
+  }
+
+  return (
+    <>
+      {Auth.loggedIn() ?
+        renderPostForm() :
+        <h2 className='text-center fs-1 mt-5'>Please login to create a post</h2>
+      }
+    </>
   );
 }
