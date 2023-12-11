@@ -252,3 +252,18 @@ More commits !!
 2. font awesome for icons
 
 3. ??
+
+### What is left.
+* Update applause (reactions)
+* Delete a post
+* Use at least 2 libraries
+  * fontawesome
+  * date formatter called DayJS
+  * momentjs
+* Styling
+* Diplaying Tags?
+* Custom alerting (modals)
+  * Create a post is a page, but could be more of a window that pops up (modal)
+* Edit Comments (user owned)
+* Delete comments (user owned)
+* Dashboard needs updating to have more than just my own posts
