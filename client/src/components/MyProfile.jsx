@@ -1,19 +1,23 @@
-import Post from "../components/Post";
-import { GET_POSTS } from "../utils/queries";
-
+import Post from "./Post";
 import { useQuery } from "@apollo/client";
+import { GET_ME } from "../utils/queries";
+import Auth from "../utils/auth";
 
-const MyPosts = () => {
-  const { data, loading, error } = useQuery(GET_POSTS);
+
+const MyProfile = () => {
+
+  const { data, loading, error } = useQuery(GET_ME);
 
   if (loading) return "Loading ...";
   if (error) return `Error ! ${error.message}`;
+
+  console.log("my data is:", data?.getMe?.posts);
 
   return (
     <main className="container">
       <div className="flex-row justify-center">
         <div className="col-12 mb-3">
-          {data?.posts.map((item) => (
+          {data?.getMe?.posts.map((item) => (
             <Post post={item} key={item._id} />
           ))}
         </div>
@@ -22,4 +26,4 @@ const MyPosts = () => {
   );
 };
 
-export default MyPosts;
+export default MyProfile;

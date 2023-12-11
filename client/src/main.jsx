@@ -9,7 +9,7 @@ import Error from "./pages/Error";
 import Search from "./pages/Search.jsx";
 import CreatePost from "./components/CreatePost.jsx";
 import ViewPost from "./pages/ViewPost.jsx";
-import MyPosts from "./components/MyPosts.jsx"; // Updated import
+import MyProfile from "./components/MyProfile.jsx";
 
 const router = createBrowserRouter([
   {
@@ -26,9 +26,13 @@ const router = createBrowserRouter([
         element: <Search />,
       },
       {
-        path: "my-posts",
-        element: <MyPosts /> // Updated element
-      },      
+        path: "my-profile",
+        element: <MyProfile />
+      },
+      {
+        path: "my-profile/view-post/:postId",
+        element: <ViewPost />
+      },
       {
         path: "create-post",
         element: <CreatePost />,
