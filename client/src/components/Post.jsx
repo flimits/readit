@@ -109,8 +109,8 @@ const Post = (props) => {
               {editDeleteEnabled ? (
                 <>
                   {isEditing ? (
-                    <a href="#" onClick={handleSave}>
-                      💾
+                    <a href="#"  onClick={handleCancelClick}>
+                      {"\u{2716}"}
                     </a>
                   ) : (
                     <a onClick={handleEditClick} href="#">
@@ -134,8 +134,8 @@ const Post = (props) => {
                     value={editedText}
                     onChange={handlePostTextChange}
                   />
-                  <button type="button" onClick={handleCancelClick} className="btn btn-secondary w-100 my-1">
-                    Cancel
+                  <button type="button" onClick={handleSave} className="btn btn-secondary w-100 my-1">
+                    Save  💾
                   </button>
                 </>
               ) : (
