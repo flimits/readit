@@ -9,6 +9,7 @@ import Error from "./pages/Error";
 import Search from "./pages/Search.jsx";
 import CreatePost from "./components/CreatePost.jsx";
 import ViewPost from "./pages/ViewPost.jsx";
+import MyPosts from "./components/MyPosts.jsx"; // Updated import
 
 const router = createBrowserRouter([
   {
@@ -25,16 +26,20 @@ const router = createBrowserRouter([
         element: <Search />,
       },
       {
+        path: "my-posts",
+        element: <MyPosts /> // Updated element
+      },      
+      {
         path: "create-post",
         element: <CreatePost />,
       },
       {
         path: "view-post/:postId",
-        element: <ViewPost/>
+        element: <ViewPost />
       },
       {
         path: "search/view-post/:postId",
-        element: <ViewPost/>
+        element: <ViewPost />
       }
     ],
   },
@@ -43,3 +48,4 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <RouterProvider router={router} />
 );
+
