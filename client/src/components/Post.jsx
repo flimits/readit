@@ -37,9 +37,6 @@ const Post = (props) => {
     console.log("Authorization error !!", error);
   }
 
-
-
-
   const handleTitleChange = (e) => {
     // Update state as the user edits the input
     setEditedTitle(e.target.value);
@@ -81,8 +78,7 @@ const Post = (props) => {
       <div className="card mb-3">
         <div className="card-body text-left">
           <div className="card-text row">
-            <div className="col-2">{postInstance.author.userName}</div>
-            <div className="col-8 fs-5">
+            <div className="col-10 fs-5">
               {isEditing ? (
                 <>
                   <input
@@ -134,7 +130,7 @@ const Post = (props) => {
                     value={editedText}
                     onChange={handlePostTextChange}
                   />
-                  <button type="button" onClick={handleCancelClick} className="btn btn-primary w-100 my-1">
+                  <button type="button" onClick={handleCancelClick} className="btn btn-secondary w-100 my-1">
                     Cancel
                   </button>
                 </>
@@ -157,7 +153,7 @@ const Post = (props) => {
           </div>
           <p className="card-text">
             <small className="text-muted">
-              Created on: {postInstance.createdAt}
+            <b>{postInstance.author.userName}</b> on: {postInstance.createdAt}
             </small>
           </p>
         </div>
