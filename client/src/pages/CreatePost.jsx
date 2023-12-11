@@ -75,45 +75,6 @@ export default function CreatePost() {
   };
 
 
-  // const handleFormSubmit = async (event) => {
-  //   event.preventDefault();
-
-  //   try {
-  //     console.log("FormState U R Posting: ", { ...formState })
-      
-  //     const { data } = await addPost({
-  //       variables: { ...formState },
-  //     });
-
-
-  //     console.log("Data saved to DB: ", data);
-
-  //     if (!data.addPost) {
-
-  //       setFormState({
-  //         title: "",
-  //         postText: "",
-  //       });
-
-
-  //       alert("Did you make a change? Make sure all fields are filled out properly");
-  //       return;
-  //     }
-  //     // Perform form submission logic here
-  //     // Update state upon successful submission.
-  //     setSubmitted(true);
-
-
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  //   // Redirect back to the page after a 2-second delay
-    // setTimeout(() => {
-    //   window.location.href = "/";
-    // }, 2000);
-  // };
-
-
   return (
     <div className='createpost-form'>
       <div className='createpost-boxinform'>
@@ -124,6 +85,7 @@ export default function CreatePost() {
         ) : (
           <form onSubmit={handleFormSubmit}>
             <div className="form-group">
+              <label htmlFor='title' className='fs-3 mb-1'>Title:</label>
               <input
                 type="text"
                 className="form-control"
@@ -138,10 +100,11 @@ export default function CreatePost() {
             </div>
             <br></br>
             <div className="form-group">
+              <label htmlFor='post-text' className='fs-3 mb-1'>Text:</label>
               <textarea
                 className="form-control"
-                id="post-body"
-                rows="3"
+                id="post-text"
+                rows="4"
                 placeholder="Post Message"
                 value={postText}
                 onChange={handleOnChangePostText}
@@ -151,16 +114,19 @@ export default function CreatePost() {
             </div>
             <br></br>
             <div className="form-group">
+              <label htmlFor='new-tag' className='fs-3'>Tags:</label>
+              <p className='mb-2'>(Separate tags with a space in between)</p>
               <input
                 type="text"
                 className="form-control"
-                id="newtag"
-                placeholder="Add Tags"
+                id="new-tag"
+                placeholder="e.g. cooking football vacation"
                 value={tagString}
                 onChange={handleOnChangeTags}
                 name="tagString"
               />
             </div>
+            <br></br>
             <div className="form-group">
               <button type="submit" className="btn btn-primary">Submit</button>
             </div>
