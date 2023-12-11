@@ -15,8 +15,10 @@ const ViewPost = () => {
   const { postId } = useParams();
 
   try {
-    const loggedUser = Auth.getProfile();
-    console.log(loggedUser);
+    if (Auth.loggedIn()) { // Only try this if the user is logged in
+      const loggedUser = Auth.getProfile();
+      // console.log(loggedUser);
+    }
   } catch (error) {
     console.log("Authorization error !!", error);
   }
@@ -43,7 +45,7 @@ const ViewPost = () => {
       const { data } = await addComment({
         variables: { ...formState },
       });
-      console.log(data);
+      // console.log(data);
       window.location.reload();
     } catch (err) {
       console.log(err);
@@ -59,7 +61,7 @@ const ViewPost = () => {
   const post = data?.getPost || {};
   return (
     <div>
-      Viewing single post !!
+      {/* Viewing single post !! */}
       <Post post={post} />
       <div>
         <button
