@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 
@@ -9,78 +9,109 @@ import "../App.css";
 export default function CreatePost() {
   const [submitted, setSubmitted] = useState(false);
 
-  const [formState, setFormState] = useState({
-    author: "",
-    title: "",
-    postText: "",
-  })
+  const [title, setTitle] = useState('');
+  const [postText, setPostText] = useState('');
+  const [tags, setTags] = useState([]);
+  const [tagString, setTagString] = useState('');
 
   const [addPost, { error, data }] = useMutation(ADD_POST);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  // If the post was added to the db, then redirect the user back to the main page
+  useEffect(() => {
+    if (data) {
+      setSubmitted(true); // show the post was submitted
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 2000);
+    }
+  }, [data])
 
-    // setFormState((prevFormState) => {
-    //   if (name === "tags") {
-    //     // If the input is for tags, split the value by commas and push to the array
-    //     const newTags = value.split(",").map((tag) => tag.trim());
-    //     console.log("new tags is? ",newTags)
-    //     return {
-    //       ...prevFormState,
-    //       [name]: newTags,
-    //     };
-    //   } else {
-    //     // For other inputs, simply update the value
-    //     return {
-    //       ...prevFormState,
-    //       [name]: value,
-    //     };
-    //   }
-    // });
+  // Update the "tags" variable by splitting the "tagString" by whitespace to get an array of tags.
+  useEffect(() => {
+    if (tagString) {
+      const split = tagString.split(" ");
+      console.log("split:", split);
+      setTags(split)
+    } else {
+      setTags([])
+    }
+  }, [tagString])
 
-    setFormState((prevFormState) => ({
-      ...prevFormState,
-      [name]: value,
-    }));
-  };
+  // Update the title with what the user is typing
+  const handleOnChangeTitle = async (event) => {
+    event.preventDefault();
+
+    setTitle(event.target.value)
+  }
+
+  // Update the post text with what the user is typing
+  const handleOnChangePostText = async (event) => {
+    event.preventDefault();
+
+    setPostText(event.target.value)
+  }
+
+  // Update the tags with what the user is typing
+  const handleOnChangeTags = async (event) => {
+    event.preventDefault();
+
+    setTagString(event.target.value)
+  }
 
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      console.log("FormState U R Posting: ", { ...formState })
-      const { data } = await addPost({
-        variables: { ...formState },
+      console.log("FormState U R Posting: ", { title, postText, tags })
+      
+      await addPost({
+        variables: { title, postText, tags },
       });
-
-
-      console.log("Data saved to DB: ", data);
-
-      if (!data.addPost) {
-
-        setFormState({
-          title: "",
-          postText: "",
-        });
-
-
-        alert("Did you make a change? Make sure all fields are filled out properly");
-        return;
-      }
-      // Perform form submission logic here
-      // Update state upon successful submission.
-      setSubmitted(true);
-
 
     } catch (err) {
       console.log(err);
     }
-    // Redirect back to the page after a 2-second delay
-    setTimeout(() => {
-      window.location.href = "/";
-    }, 2000);
   };
+
+
+  // const handleFormSubmit = async (event) => {
+  //   event.preventDefault();
+
+  //   try {
+  //     console.log("FormState U R Posting: ", { ...formState })
+      
+  //     const { data } = await addPost({
+  //       variables: { ...formState },
+  //     });
+
+
+  //     console.log("Data saved to DB: ", data);
+
+  //     if (!data.addPost) {
+
+  //       setFormState({
+  //         title: "",
+  //         postText: "",
+  //       });
+
+
+  //       alert("Did you make a change? Make sure all fields are filled out properly");
+  //       return;
+  //     }
+  //     // Perform form submission logic here
+  //     // Update state upon successful submission.
+  //     setSubmitted(true);
+
+
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  //   // Redirect back to the page after a 2-second delay
+    // setTimeout(() => {
+    //   window.location.href = "/";
+    // }, 2000);
+  // };
 
 
   return (
@@ -88,7 +119,7 @@ export default function CreatePost() {
       <div className='createpost-boxinform'>
         {submitted ? (
           <div>
-            <h2>Your post has been submitted</h2>
+            <h2>Your post has been submitted! Redirecting back to home page...</h2>
           </div>
         ) : (
           <form onSubmit={handleFormSubmit}>
@@ -98,8 +129,8 @@ export default function CreatePost() {
                 className="form-control"
                 id="title"
                 placeholder="Title"
-                value={formState.title}
-                onChange={handleChange}
+                value={title}
+                onChange={handleOnChangeTitle}
                 name="title"
               />
 
@@ -112,8 +143,8 @@ export default function CreatePost() {
                 id="post-body"
                 rows="3"
                 placeholder="Post Message"
-                value={formState.postText}
-                onChange={handleChange}
+                value={postText}
+                onChange={handleOnChangePostText}
                 name="postText"
               />
 
@@ -125,9 +156,9 @@ export default function CreatePost() {
                 className="form-control"
                 id="newtag"
                 placeholder="Add Tags"
-                value={formState.tag}
-                onChange={handleChange}
-                name="tags"
+                value={tagString}
+                onChange={handleOnChangeTags}
+                name="tagString"
               />
             </div>
             <div className="form-group">
