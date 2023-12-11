@@ -5,6 +5,10 @@
   /* text-align: center; */
 }
 
+textarea {
+  resize: none;
+}
+
 .loginForm,
 .signUpForm {
   padding: 5px;
