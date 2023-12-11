@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import { Link, useLocation } from "react-router-dom";
 import Auth from "../utils/auth";
-import Tag from "./Tag";
 
 const Post = (props) => {
   const postInstance = props.post;
@@ -74,7 +73,14 @@ const Post = (props) => {
                 <>
                   <div className="d-inline-flex">
                     <ul className="list-unstyled">
-                      <li key={index} className="rounded p-1 me-2 bg-secondary text-white">{tag}</li>
+                      <li key={index} className="rounded p-1 me-2 bg-secondary text-white">
+                        <Link
+                          className="btn btn-secondary p-1"
+                          to={`/search/?tag=${tag}`}
+                        >
+                        {tag}
+                        </Link>
+                      </li>
                     </ul>
                   </div>
                 </>

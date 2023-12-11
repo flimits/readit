@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useLazyQuery } from '@apollo/client';
 import { SEARCH_POSTS } from '../utils/queries'
 import Post from "../components/Post";
+import { useLocation } from "react-router-dom";
 
 export default function Search() {
   const [searchPosts, { data }] = useLazyQuery(SEARCH_POSTS);
@@ -12,14 +13,20 @@ export default function Search() {
   const [filterTitle, setFilterTitle] = useState(true);
   const [filterContent, setFilterContent] = useState(true);
   const [filterTags, setFilterTags] = useState(true);
-
+  
+  // TODO? Somehow check when the webpage changes address?
+  // Get any thing from the address bar that has a "?"
+  const addressBarQuery = useState(useLocation().search)
   const CHECKBOX_IDS = {
     TITLE: "search-filter-title",
     CONTENT: "search-filter-content",
     TAGS: "search-filter-tags",
   }
 
+  // console.log("location:", useLocation())
+
   useEffect(() => {
+    console.log("data:", data);
     if (data) setPosts([...data.searchPosts])
   }, [data])
 
@@ -27,12 +34,53 @@ export default function Search() {
     // console.log("posts:", posts)
   }, [posts])
 
+  useEffect(() => {
+    if (finalQuery.length > 0) {
+      const doSearch = async () => {
+        console.log("@doSearch");
+        await searchForPosts(finalQuery);
+      }
+  
+      doSearch();
+    }
+  }, [finalQuery])
+
+  useEffect(() => {
+    console.log("addressBarQuery:", addressBarQuery)
+  }, [addressBarQuery])
+
   // Initialize the filter checkboxes to true once after rendering
   useEffect(() => {
     document.getElementById(CHECKBOX_IDS.TITLE).checked = filterTitle
     document.getElementById(CHECKBOX_IDS.CONTENT).checked = filterContent
     document.getElementById(CHECKBOX_IDS.TAGS).checked = filterTags
+
+    // Check if there's a ? in the address bar. Meaning it's redirected from a tag, so we do a search instantly 
+    if (addressBarQuery[0]) {
+      console.log("addressBarQuery:", addressBarQuery);
+      const query = addressBarQuery[0].split("=").pop();
+      setSearch(query);
+      setFinalQuery(query);
+    }
   }, [])
+
+  const searchForPosts = async (query) => {
+    console.log("@searchForPosts");
+    console.log("searchQuery:", searchQuery)
+
+    try {
+      await searchPosts({
+        variables: {
+          query,
+          filterTitle,
+          filterContent,
+          filterTags,
+        }
+      })
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const handleOnChangeSearch = (event) => {
     setSearch(event.target.value);
@@ -62,19 +110,6 @@ export default function Search() {
     event.preventDefault();
     // console.log("query:", searchQuery)
     setFinalQuery(searchQuery);
-
-    try {
-      await searchPosts({
-        variables: {
-          query: searchQuery,
-          filterTitle,
-          filterContent,
-          filterTags,
-        }
-      })
-    } catch (error) {
-      console.error(error);
-    }
   }
 
   /**
