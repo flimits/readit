@@ -184,7 +184,7 @@ const resolvers = {
             },
           },
           { new: true } // Return the updated post
-        );
+        ).populate("author");
       } catch (error) {
         console.log("couldn't edit post");
         console.error(error);

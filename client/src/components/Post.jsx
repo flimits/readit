@@ -1,13 +1,28 @@
 import PropTypes from "prop-types";
 import { Link, useLocation } from "react-router-dom";
+import { useState } from "react";
+import { useMutation } from "@apollo/client";
 import Auth from "../utils/auth";
+import { EDIT_POST } from "../utils/mutations";
 
 const Post = (props) => {
+
+  const emojiCodePoint = "\u{1F4DD}";
+  const deleteIcon = "\u{1F5D1}";
+
   const postInstance = props.post;
+  console.log("PostInsance: ", postInstance);
 
   const currentPage = useLocation().pathname;
   //Dont make title clickable, if they are already on view post page.
   const disableTitleLink = currentPage.includes("/view-post/");
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedTitle, setEditedTitle] = useState(postInstance.title);
+  const [editedText, setEditedText] = useState(postInstance.postText);
+
+  // mutation to edit a post
+  const [editPost] = useMutation(EDIT_POST);
 
   if (!postInstance?._id) return "No Post to view !!";
 
@@ -22,8 +37,44 @@ const Post = (props) => {
     console.log("Authorization error !!", error);
   }
 
-  const emojiCodePoint = "\u{1F4DD}";
-  const deleteIcon = "\u{1F5D1}";
+
+
+
+  const handleTitleChange = (e) => {
+    // Update state as the user edits the input
+    setEditedTitle(e.target.value);
+  };
+  const handlePostTextChange = (e) => {
+    // Update state as the user edits the input
+    setEditedText(e.target.value);
+  };
+
+  const handleCancelClick = () => {
+    // Reset editedTitle and editedText
+    setEditedTitle(postInstance.title);
+    setEditedText(postInstance.postText);
+    setIsEditing(false);
+  };
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+
+    try {
+      await editPost({
+        variables: {
+          postId: postInstance._id,
+          newTitle: editedTitle,
+          newText: editedText,
+        },
+      });
+    } catch (error) {
+      console.log("Error Editing: ", error);
+    }
+    setIsEditing(false);
+  };
 
   return (
     <div className="post-container container">
@@ -32,20 +83,40 @@ const Post = (props) => {
           <div className="card-text row">
             <div className="col-2">{postInstance.author.userName}</div>
             <div className="col-8 fs-5">
-              {disableTitleLink ? (
-                postInstance.title
+              {isEditing ? (
+                <>
+                  <input
+                    type="text"
+                    name="title"
+                    className="form-control me-2"
+                    value={editedTitle}
+                    onChange={handleTitleChange}
+                  />
+                </>
               ) : (
-                <Link to={`view-post/${postInstance._id}`}>
-                  {postInstance.title}
-                </Link>
+                <>
+                  {disableTitleLink ? (
+                    postInstance.title
+                  ) : (
+                    <Link to={`view-post/${postInstance._id}`}>
+                      {postInstance.title}
+                    </Link>
+                  )}
+                </>
               )}
             </div>
             <div className="col-2 fs-4">
               {editDeleteEnabled ? (
                 <>
-                  <Link to={`edit-post/${postInstance._id}`}>
-                    {emojiCodePoint}
-                  </Link>
+                  {isEditing ? (
+                    <a href="#" onClick={handleSave}>
+                      💾
+                    </a>
+                  ) : (
+                    <a onClick={handleEditClick} href="#">
+                      {emojiCodePoint}
+                    </a>
+                  )}
                   <Link>{deleteIcon}</Link>
                 </>
               ) : (
@@ -54,7 +125,23 @@ const Post = (props) => {
             </div>
           </div>
           <div className="card-text">
-            <div className="col-8">{postInstance.postText}</div>
+            <div className="col-12">
+              {isEditing ? (
+                <>
+                  <textarea
+                    name="postText"
+                    className="form-control my-1 mb-10"
+                    value={editedText}
+                    onChange={handlePostTextChange}
+                  />
+                  <button type="button" onClick={handleCancelClick} className="btn btn-primary w-100 my-1">
+                    Cancel
+                  </button>
+                </>
+              ) : (
+                <>{postInstance.postText}</>
+              )}
+            </div>
           </div>
           <div className="card-text row">
             <div className="col-1">
