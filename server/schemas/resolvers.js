@@ -30,7 +30,7 @@ const resolvers = {
       // If we know the logged in user is wanting to look at their account, use context
       console.log("context.user:", context.user);
       if (context.user) {
-        return User.findById(new ObjectId(context.user._id));
+        return User.findById(new ObjectId(context.user._id)).populate("posts");
       }
       throw ErrorAuthentication;
     },
