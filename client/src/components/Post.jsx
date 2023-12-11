@@ -22,8 +22,6 @@ const Post = (props) => {
     console.log("Authorization error !!", error);
   }
 
-  // console.log("Post in postInstance is: ", postInstance);
-
   const emojiCodePoint = "\u{1F4DD}";
   const deleteIcon = "\u{1F5D1}";
 
@@ -45,7 +43,9 @@ const Post = (props) => {
             <div className="col-2 fs-4">
               {editDeleteEnabled ? (
                 <>
-                  <Link>{emojiCodePoint}</Link>
+                  <Link to={`edit-post/${postInstance._id}`}>
+                    {emojiCodePoint}
+                  </Link>
                   <Link>{deleteIcon}</Link>
                 </>
               ) : (

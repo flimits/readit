@@ -9,6 +9,7 @@ import Error from "./pages/Error";
 import Search from "./pages/Search.jsx";
 import CreatePost from "./pages/CreatePost.jsx";
 import ViewPost from "./pages/ViewPost.jsx";
+import EditPost from "./pages/EditPost.jsx";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,22 @@ const router = createBrowserRouter([
       {
         path: "search/view-post/:postId",
         element: <ViewPost/>
+      },
+      {
+        path: "/edit-post/:postId",
+        element: <EditPost/>
+      },
+      {
+        path: "view-post/:postId/edit-post/:postId", //TODO check if we can avoid view-post/:postId prefix !!
+        element: <EditPost/>
+      },
+      {
+        path: "/search/view-post/:postId/edit-post/:postId", //TODO check if we can avoid view-post/:postId prefix !!
+        element: <EditPost/>
+      },
+      {
+        path: "/search/edit-post/:postId", //TODO check if we can avoid view-post/:postId prefix !!
+        element: <EditPost/>
       }
     ],
   },

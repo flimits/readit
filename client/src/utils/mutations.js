@@ -39,6 +39,20 @@ export const ADD_POST = gql`
   }
 `;
 
+export const EDIT_POST = gql`
+  mutation editPost($postId: ID!, $newTitle: String, $newText: String) {
+    editPost(postId: $postId, newTitle: $newTitle, newText: $newText ) {
+      _id
+      title
+      author {
+        _id
+        userName
+      }
+      postText      
+    }
+  }
+`;
+
 export const ADD_COMMENT = gql`
   mutation addComment($postId: ID!, $text: String!) {
     addComment(postId: $postId, text: $text) {

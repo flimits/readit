@@ -80,11 +80,13 @@ export const SEARCH_POSTS = gql`
       title
       postText
       author {
+        _id
         userName
       }
       createdAt
       tags
       reactions {
+        _id
         applause
       }
       comments {
