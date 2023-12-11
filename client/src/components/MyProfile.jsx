@@ -1,8 +1,10 @@
 import Post from "./Post";
 import { useQuery } from "@apollo/client";
 import { GET_ME } from "../utils/queries";
-import Auth from "../utils/auth";
 
+// Simply using the getMe query in order to pull back authenticated posts that are the
+// users only. (pretty much the same as the homepage only now it is for the users things
+// that will be seen here).
 
 const MyProfile = () => {
 

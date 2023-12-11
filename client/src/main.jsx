@@ -30,7 +30,7 @@ const router = createBrowserRouter([
         element: <MyProfile />
       },
       {
-        path: "my-profile/view-post/:postId",
+        path: "my-profile/view-post/:postId", // this enables the authenticated user to view a singlepost
         element: <ViewPost />
       },
       {
