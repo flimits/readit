@@ -152,11 +152,14 @@ const Post = (props) => {
               {editDeleteEnabled ? (
                 <>
                   {isEditing ? (
-                    <a href="#" onClick={handleCancelClick}>
+                    <a
+                      style={{ cursor: "pointer" }}
+                      onClick={handleCancelClick}
+                    >
                       {"\u{2716}"}
                     </a>
                   ) : (
-                    <a onClick={handleEditClick} href="#">
+                    <a style={{ cursor: "pointer" }} onClick={handleEditClick}>
                       {emojiCodePoint}
                     </a>
                   )}
