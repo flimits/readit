@@ -4,39 +4,45 @@ import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import Auth from "../utils/auth";
 import Tag from "./Tag";
-import { EDIT_POST } from "../utils/mutations";
+import { DELETE_POST, EDIT_POST } from "../utils/mutations";
 
 const Post = (props) => {
-
   const emojiCodePoint = "\u{1F4DD}";
   const deleteIcon = "\u{1F5D1}";
 
-  const postInstance = props.post;
-  console.log("PostInsance: ", postInstance);
+  const [postInstance, setPostInstance] = useState(props?.post);
 
   const currentPage = useLocation().pathname;
   //Dont make title clickable, if they are already on view post page.
   const disableTitleLink = currentPage.includes("/view-post/");
 
+  //Tracks if user is editing a post
   const [isEditing, setIsEditing] = useState(false);
-  const [editedTitle, setEditedTitle] = useState(postInstance.title);
-  const [editedText, setEditedText] = useState(postInstance.postText);
+  const [editedTitle, setEditedTitle] = useState(postInstance?.title);
+  const [editedText, setEditedText] = useState(postInstance?.postText);
 
   // mutation to edit a post
   const [editPost] = useMutation(EDIT_POST);
 
-  if (!postInstance?._id) return "No Post to view !!";
+  // mutation to Delete a post
+  const [deletePost] = useMutation(DELETE_POST);
+
+  //Tracks if user is deleting a post
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  //if no post instance do nothing
+  if (!postInstance) return <></>;
 
   let editDeleteEnabled = false;
 
   try {
-    if (Auth.loggedIn()) { // Only try this if the user is logged in
+    if (Auth.loggedIn()) {
+      // Only try this if the user is logged in
       const loggedUser = Auth.getProfile();
       if (loggedUser?.data?._id === postInstance?.author?._id) {
         editDeleteEnabled = true;
       }
     }
-
   } catch (error) {
     console.log("Authorization error !!", error);
   }
@@ -51,10 +57,10 @@ const Post = (props) => {
   };
 
   const handleCancelClick = () => {
-    // Reset editedTitle and editedText
     setEditedTitle(postInstance.title);
     setEditedText(postInstance.postText);
     setIsEditing(false);
+    setIsDeleting(false);
   };
   const handleEditClick = () => {
     setIsEditing(true);
@@ -64,17 +70,39 @@ const Post = (props) => {
     e.preventDefault();
 
     try {
-      await editPost({
+      let editedPost = await editPost({
         variables: {
           postId: postInstance._id,
           newTitle: editedTitle,
           newText: editedText,
         },
       });
+      // set the current post to the received edited post
+      setPostInstance(editedPost?.data?.editPost);
     } catch (error) {
       console.log("Error Editing: ", error);
     }
     setIsEditing(false);
+  };
+
+  //delete a post !!
+  const handleDeleteClick = () => {
+    setIsDeleting(true);
+  };
+
+  const handleDelete = async () => {
+    try {
+      const deletedPost = await deletePost({
+        variables: { postId: postInstance?._id },
+      });
+      // if the postInstance was deleted, update state.
+      if (deletedPost?.data?.deletePost._id === postInstance?._id) {
+        setPostInstance(null);
+      }
+    } catch (error) {
+      console.log("Error deleting Post !!", error);
+    }
+    setIsDeleting(false);
   };
 
   return (
@@ -96,10 +124,10 @@ const Post = (props) => {
               ) : (
                 <>
                   {disableTitleLink ? (
-                    postInstance.title
+                    postInstance?.title
                   ) : (
-                    <Link to={`view-post/${postInstance._id}`}>
-                      {postInstance.title}
+                    <Link to={`view-post/${postInstance?._id}`}>
+                      {postInstance?.title}
                     </Link>
                   )}
                 </>
@@ -109,7 +137,7 @@ const Post = (props) => {
               {editDeleteEnabled ? (
                 <>
                   {isEditing ? (
-                    <a href="#"  onClick={handleCancelClick}>
+                    <a href="#" onClick={handleCancelClick}>
                       {"\u{2716}"}
                     </a>
                   ) : (
@@ -117,7 +145,15 @@ const Post = (props) => {
                       {emojiCodePoint}
                     </a>
                   )}
-                  <Link>{deleteIcon}</Link>
+                  {isDeleting ? (
+                    <a href="#" onClick={handleCancelClick}>
+                      {"\u{2716}"}
+                    </a>
+                  ) : (
+                    <a href="#" onClick={handleDeleteClick}>
+                      {deleteIcon}
+                    </a>
+                  )}
                 </>
               ) : (
                 " "
@@ -134,34 +170,62 @@ const Post = (props) => {
                     value={editedText}
                     onChange={handlePostTextChange}
                   />
-                  <button type="button" onClick={handleSave} className="btn btn-secondary w-100 my-1">
-                    Save  💾
+                  <button
+                    type="button"
+                    onClick={handleSave}
+                    className="btn btn-secondary w-100 my-1"
+                  >
+                    Save 💾
                   </button>
                 </>
               ) : (
-                <>{postInstance.postText}</>
+                <>{postInstance?.postText}</>
               )}
             </div>
           </div>
           <div className="card-text row">
             <div className="col-1">
               {"\u{1F44F}"}
-              {postInstance?.reactions.length}
+              {postInstance?.reactions?.length}
             </div>
             <div className="col-1">
               {"\u{1F4AC}"}
-              {postInstance?.comments.length}
+              {postInstance?.comments?.length}
             </div>
-            <div className="col-8">Tags: {postInstance.tags.map((tag, index) => {
-                return <Tag key={index} tag={tag} />
-            })}
+            <div className="col-8">
+              Tags:{" "}
+              {postInstance?.tags?.map((tag, index) => {
+                return <Tag key={index} tag={tag} />;
+              })}
             </div>
           </div>
           <p className="card-text">
             <small className="text-muted">
-            <b>{postInstance.author.userName}</b> on: {postInstance.createdAt}
+              <b>{postInstance?.author.userName}</b> on: {postInstance?.createdAt}
             </small>
           </p>
+          {isDeleting ? (
+            <>
+              <div className="delete-post-mask">
+                <button
+                  type="button"
+                  onClick={handleDelete}
+                  className="btn btn-primary"
+                >
+                  Confirm Delete
+                </button>
+                <button
+                  type="button"
+                  onClick={handleCancelClick}
+                  className="btn btn-primary"
+                >
+                  Cancel
+                </button>
+              </div>
+            </>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </div>
