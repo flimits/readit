@@ -242,6 +242,19 @@ const resolvers = {
         console.error(error);
       }
     },
+    deleteComment: async (parent, { postId }, context) => {
+      try {
+
+        const deleteComment = await Post.findByIdAndDelete(new ObjectId(postId), {
+          new: true,
+        });
+        console.log("deletedComment ",deletedComment);
+        return deletedComment;
+      } catch (error) {
+        console.log("Couldn't delete Comment");
+        console.error(error);
+      }
+    },
     editComment: async (parent, { postId, commentId, newText }, context) => {
       try {
         if (!context.user) {
