@@ -2,6 +2,8 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
+  --lightest-color: #d8f3dc;
+  --text-color: #081c15;
   /* text-align: center; */
 }
 
@@ -22,7 +24,7 @@ textarea {
   background: #f0f0f0;
 }
 
-.createpost-boxinform{
+.createpost-boxinform {
   width: 50%;
   padding: 20px;
   background: white;
@@ -56,4 +58,9 @@ textarea {
   width: 2px; /* Width of the vertical line */
   background-color: black; /* Color of the vertical line */
   margin: 0 10px; /* Adjust the margin to control spacing between tabs and lines */
+}
+
+/* Jorge Started Here */
+.custom-post-card {
+  background-color: var(--lightest-color);
 }
