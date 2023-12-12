@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
-import { useMutation } from "@apollo/client";
+import { useMutation, useLazyQuery } from "@apollo/client";
 import Auth from "../utils/auth";
 import Tag from "./Tag";
 import { EDIT_POST } from "../utils/mutations";
@@ -12,7 +12,7 @@ const Post = (props) => {
   const deleteIcon = "\u{1F5D1}";
 
   const postInstance = props.post;
-  console.log("PostInsance: ", postInstance);
+  // console.log("PostInsance: ", postInstance);
 
   const currentPage = useLocation().pathname;
   //Dont make title clickable, if they are already on view post page.
@@ -39,6 +39,30 @@ const Post = (props) => {
 
   } catch (error) {
     console.log("Authorization error !!", error);
+  }
+
+  // Checks if the user has reacted or not
+  const didUserReact = () => {
+
+    if (!Auth.loggedIn() || postInstance.reactions.length === 0) {
+      return "handclap-unclicked"
+    }
+    
+    const reaction = postInstance.reactions.filter((reaction) => reaction.author === Auth.getProfile()?.data?._id)
+    console.log("postInstance.reactions:", reaction);
+
+    if (reaction[0]) return ""
+    return "handclap-unclicked" 
+  }
+
+
+  const handleOnClickReaction = async (e) => {
+    e.preventDefault();
+
+    if (!Auth.loggedIn()) {
+      alert("You must be logged in to react to this post")
+      return false
+    }
   }
 
   const handleTitleChange = (e) => {
@@ -144,22 +168,30 @@ const Post = (props) => {
             </div>
           </div>
           <div className="card-text row">
-            <div className="col-1">
-              {"\u{1F44F}"}
+            <div className="d-inline-flex fs-5 col-1">
+              <div className="handclap-full me-2">
+                <button
+                  id="button-post-reaction"
+                  className="border-0 bg-white button-post-reaction"
+                  onClick={() => handleOnClickReaction}
+                >
+                  <span className={didUserReact()}>{"\u{1F44F}"}</span>
+                </button>
+              </div>
               {postInstance?.reactions.length}
             </div>
-            <div className="col-1">
+            <div className="col-1 fs-5">
               {"\u{1F4AC}"}
               {postInstance?.comments.length}
             </div>
-            <div className="col-8">Tags: {postInstance.tags.map((tag, index) => {
-                return <Tag key={index} tag={tag} />
+            <div className="col-8 fs-5">Tags: {postInstance.tags.map((tag, index) => {
+              return <Tag key={index} tag={tag} />
             })}
             </div>
           </div>
           <p className="card-text">
             <small className="text-muted">
-            <b>{postInstance.author.userName}</b> on: {postInstance.createdAt}
+              <b>{postInstance.author.userName}</b> on: {postInstance.createdAt}
             </small>
           </p>
         </div>
