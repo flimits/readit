@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import Login from "./Login";
+import CreatePost from "./CreatePost";
 
 import Auth from "../utils/auth";
 
@@ -14,6 +15,7 @@ function NavTabs() {
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <Login />
+        <CreatePost />
         <div className="container-fluid">
           <Link
             to="/"
@@ -66,7 +68,7 @@ function NavTabs() {
                   My Profile
                 </Link>
               </li>
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <Link
                   to="/create-post"
                   className={
@@ -77,6 +79,16 @@ function NavTabs() {
                 >
                   Create A Post
                 </Link>
+              </li> */}
+              <li className="nav-item">
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#staticBackdropCreatePost"
+                  >
+                    Create A Post
+                  </button>
               </li>
               <li className="nav-item">
                 <Link

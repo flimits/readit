@@ -7,7 +7,7 @@ import App from "./App.jsx";
 import Home from "./pages/Home";
 import Error from "./pages/Error";
 import Search from "./pages/Search.jsx";
-import CreatePost from "./components/CreatePost.jsx";
+// import CreatePost from "./components/CreatePost.jsx";
 import ViewPost from "./pages/ViewPost.jsx";
 import EditPost from "./pages/EditPost.jsx";
 import MyProfile from "./components/MyProfile.jsx";
@@ -34,14 +34,14 @@ const router = createBrowserRouter([
         path: "my-profile/view-post/:postId", // this enables the authenticated user to view a single post
         element: <ViewPost />
       },
-      {
-        path: "create-post",
-        element: <CreatePost />,
-      },
-      {
-        path: "view-post/:postId",
-        element: <ViewPost />
-      },
+      // {
+      //   path: "create-post",
+      //   element: <CreatePost />,
+      // },
+      // {
+      //   path: "view-post/:postId",
+      //   element: <ViewPost />
+      // },
       {
         path: "search/view-post/:postId",
         element: <ViewPost />
