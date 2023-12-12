@@ -64,3 +64,8 @@ textarea {
 .custom-post-card {
   background-color: var(--lightest-color);
 }
+/** edit/delete/cancel links **/
+.link {
+  cursor: pointer;
+  text-decoration: none;
+}

@@ -126,3 +126,39 @@ export const ADD_REACTION = gql`
     }
   }
 `;
+
+
+export const ADD_REACTION_TO_COMMENT = gql`
+mutation AddReactionToComment($postId: ID!, $commentId: ID!, $applause: Boolean!) {
+  addReactionToComment(postId: $postId, commentId: $commentId, applause: $applause) {
+    _id
+    title
+    postText
+    tags
+    author {
+      _id
+      userName
+    }
+    comments {
+      _id
+      text
+      author {
+        _id
+        userName
+      }
+      createdAt
+      reactions {
+        _id
+        author
+        applause
+      }
+    }
+    reactions {
+      _id
+      author
+      applause
+    }
+    createdAt
+  }
+}
+`;
