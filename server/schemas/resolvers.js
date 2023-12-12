@@ -164,8 +164,6 @@ const resolvers = {
     },
     addPost: async (parent, args, context) => {
       try {
-        console.log("context.user:", context.user);
-        console.log("args are", args);
         // Check if user is logged in
         // if (!context.user) {
         //   throw ErrorMustBeLoggedIn
@@ -244,7 +242,6 @@ const resolvers = {
     },
     editComment: async (parent, { postId, commentId, newText }, context) => {
       try {
-        console.log("context.user:", context.user);
         if (!context.user) {
           throw ErrorMustBeLoggedIn;
         }
@@ -261,8 +258,6 @@ const resolvers = {
           },
           { new: true }
         );
-
-        console.log(updatedPost);
 
         return updatedPost;
 

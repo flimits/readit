@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
 import Auth from "../utils/auth";
 import { EDIT_COMMENT, ADD_REACTION } from "../utils/mutations";
+import moment from "moment";
 
 const Comments = (props) => {
   const emojiCodePoint = "\u{1F4DD}";
@@ -25,10 +26,7 @@ const Comments = (props) => {
     },
   });
 
-  useEffect(() => {
-    console.log(data);
-    console.log(updateComment);
-  }, [data, updateComment]);
+  useEffect(() => {}, [data, updateComment]);
 
   if (!commentInstance) return "No Comments for this post yet";
 
@@ -94,8 +92,6 @@ const Comments = (props) => {
   const handleSave = async (e) => {
     e.preventDefault();
 
-    console.log(commentInstance, postInstance._id);
-
     try {
       const updatedComment = await editComment({
         variables: {
@@ -105,7 +101,6 @@ const Comments = (props) => {
         },
       });
       // window.location.reload();
-      console.log(updatedComment);
       setUpdateComment(updatedComment);
     } catch (error) {
       console.log("Error Editing: ", error);
@@ -173,7 +168,8 @@ const Comments = (props) => {
           </div>
           <p className="card-text">
             <small className="text-muted">
-              Created on: {commentInstance.createdAt}
+              Created on:{" "}
+              {moment(`${commentInstance.createdAt}`).format("MMMM Do YYYY")}
             </small>
           </p>
         </div>

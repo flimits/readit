@@ -51,9 +51,7 @@ const ViewPost = () => {
     });
   };
 
-  useEffect(() => {
-    console.log(addedComment);
-  }, [addedComment]);
+  useEffect(() => {}, [addedComment]);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
