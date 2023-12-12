@@ -27,6 +27,7 @@ function NavTabs() {
                 : "nav-link custom-nav navbar-brand"
             }
           >
+            <img src="/READIT_LOGO-01.svg" className="me-3"/>
             ReadIt
           </Link>
           <button
