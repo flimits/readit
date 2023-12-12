@@ -51,6 +51,12 @@ const ViewPost = () => {
     });
   };
 
+  const changeBtnOnSubmit = (value) => {
+    if (formState.text) {
+      setToggleCommentBtn(!value);
+    }
+  };
+
   useEffect(() => {}, [addedComment]);
 
   const handleFormSubmit = async (event) => {
@@ -119,6 +125,7 @@ const ViewPost = () => {
                 type="submit"
                 className="btn btn-primary mt-3"
                 data-bs-toggle={formState.text ? "collapse" : ""}
+                onClick={() => changeBtnOnSubmit(toggleCommentBtn)}
                 data-bs-target="#collapsAddComment"
               >
                 Submit
