@@ -182,9 +182,9 @@ const resolvers = {
         console.error(error);
       }
     },
-    editPost: async (parent, { postId, newTitle, newText }, context) => {
+    editPost: async (parent, { postId, newTitle, newText, newTags }, context) => {
       try {
-        console.log("context.user:", context.user);
+        // console.log("context.user:", context.user);
         //Check if user is logged in
         if (!context.user) {
           throw ErrorMustBeLoggedIn;
@@ -196,6 +196,7 @@ const resolvers = {
             $set: {
               title: newTitle,
               postText: newText,
+              tags: newTags
             },
           },
           { new: true } // Return the updated post
@@ -209,9 +210,9 @@ const resolvers = {
       try {
         // console.log("context.user:", context.user);
         // Check if user is logged in
-        // if (!context.user) {
-        //   throw ErrorMustBeLoggedIn
-        // }
+        if (!context.user) {
+          throw ErrorMustBeLoggedIn
+        }
 
         const deletedData = await Post.findByIdAndDelete(new ObjectId(postId), {
           new: true,
