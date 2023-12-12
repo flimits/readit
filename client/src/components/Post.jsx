@@ -142,7 +142,7 @@ const Post = (props) => {
     e.preventDefault();
 
     try {
-      let editedPost = await editPost({
+      await editPost({
         variables: {
           postId: postInstance._id,
           newTitle: editedTitle,
@@ -205,20 +205,20 @@ const Post = (props) => {
               {editDeleteEnabled ? (
                 <>
                   {isEditing ? (
-                    <a href="#" onClick={handleCancelClick}>
+                    <a className="link " onClick={handleCancelClick}>
                       {"\u{2716}"}
                     </a>
                   ) : (
-                    <a onClick={handleEditClick} href="#">
+                    <a onClick={handleEditClick} className="link ">
                       {emojiCodePoint}
                     </a>
                   )}
                   {isDeleting ? (
-                    <a href="#" onClick={handleCancelClick}>
+                    <a className="link " onClick={handleCancelClick}>
                       {"\u{2716}"}
                     </a>
                   ) : (
-                    <a href="#" onClick={handleDeleteClick}>
+                    <a className="link " onClick={handleDeleteClick}>
                       {deleteIcon}
                     </a>
                   )}
