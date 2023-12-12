@@ -344,17 +344,13 @@ const resolvers = {
         console.error(error);
       }
     },
-    addReactionToComment: async (
-      parent,
-      { postId, commentId, ...newReaction },
-      context
-    ) => {
+    addReactionToComment: async (parent, { postId, commentId, ...newReaction }, context) => {
       try {
         // console.log("context.user:", context.user);
         // Check if user is logged in
-        // if (!context.user) {
-        //   throw ErrorMustBeLoggedIn
-        // }
+        if (!context.user) {
+          throw ErrorMustBeLoggedIn
+        }
 
         // set variables to use the postId AND commentId in the query in one go.
         const multipleIdFilter = {
@@ -370,14 +366,14 @@ const resolvers = {
 
         if (reactions.length > 0) {
           // Find if the user has already reacted or not
-          const didUserReact = reactions.filter((reaction) =>
-            new ObjectId(newReaction.author).equals(reaction.author)
-          );
+          const didUserReact = reactions.filter((reaction) => new ObjectId(context.user._id).equals(reaction.author));
+
+          // console.log("didUserReact:", didUserReact);
 
           if (didUserReact[0]) {
+            // console.log("going to remove reaction")
             // Remove the user's reaction from the comment
             const author = didUserReact[0].author;
-
             return await Post.findOneAndUpdate(
               multipleIdFilter,
               {
@@ -388,11 +384,11 @@ const resolvers = {
               { new: true }
             );
           }
-
-          return;
         }
 
         // Add reaction to comment
+        // console.log("going to add reaction")
+        newReaction.author = context.user._id; // Add the user's id to the reaction object
         return await Post.findOneAndUpdate(
           multipleIdFilter,
           {

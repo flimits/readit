@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
 import Auth from "../utils/auth";
-import { EDIT_COMMENT, ADD_REACTION } from "../utils/mutations";
+import { EDIT_COMMENT, ADD_REACTION_TO_COMMENT } from "../utils/mutations";
 
 const Comments = (props) => {
   const emojiCodePoint = "\u{1F4DD}";
@@ -13,22 +13,33 @@ const Comments = (props) => {
   const postInstance = props.post;
 
   const [isEditing, setIsEditing] = useState(false);
-  const [updateComment, setUpdateComment] = useState({});
-  const [editedText, setEditedText] = useState(commentInstance.text);
+  // const [updateComment, setUpdateComment] = useState({});
+  // const [editedText, setEditedText] = useState(commentInstance.text);
+  const [editedText, setEditedText] = useState('');
 
   // mutation to edit a post
   const [editComment, { data }] = useMutation(EDIT_COMMENT);
-  const [toggleReaction] = useMutation(ADD_REACTION, {
+  const [toggleReaction, { error: errorReaction, data: dataReaction}] = useMutation(ADD_REACTION_TO_COMMENT, {
     variables: {
-      postId: commentInstance._id,
+      postId: postInstance._id,
+      commentId: commentInstance._id,
       applause: true,
     },
   });
 
   useEffect(() => {
-    console.log(data);
-    console.log(updateComment);
-  }, [data, updateComment]);
+    if (errorReaction) console.log("errorReaction:", errorReaction)
+    if (dataReaction) console.log("dataReaction:", dataReaction)
+  }, [errorReaction, dataReaction])
+
+  useEffect(() => {
+    if (data) console.log(data);
+    // console.log(updateComment);
+  }, [data]);
+
+  useEffect(() => {
+    if (isEditing) setEditedText(commentInstance?.text)
+  }, [isEditing])
 
   if (!commentInstance) return "No Comments for this post yet";
 
@@ -57,8 +68,7 @@ const Comments = (props) => {
     // console.log("postInstance.reactions:", reaction);
 
     // If user has reacted, don't apply the class, otherwise apply the class
-    if (reaction[0]) return "";
-    return "handclap-unclicked";
+    return reaction ? "" : "handclap-unclicked";
   };
 
   const handleOnClickReaction = async (e) => {
@@ -106,7 +116,7 @@ const Comments = (props) => {
       });
       // window.location.reload();
       console.log(updatedComment);
-      setUpdateComment(updatedComment);
+      // setUpdateComment(updatedComment);
     } catch (error) {
       console.log("Error Editing: ", error);
     }
@@ -166,8 +176,16 @@ const Comments = (props) => {
             </div>
           </div>
           <div className="card-text row">
-            <div className="col-1">
-              {"\u{1F44F}"}
+          <div className="d-inline-flex fs-5 col-1">
+              <div className="handclap-full me-2">
+                <button
+                  id="button-post-reaction"
+                  className="border-0 bg-white button-post-reaction"
+                  onClick={(e) => handleOnClickReaction(e)}
+                >
+                  <span className={didUserReact()}>{"\u{1F44F}"}</span>
+                </button>
+              </div>
               {commentInstance?.reactions.length}
             </div>
           </div>
