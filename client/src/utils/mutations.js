@@ -162,3 +162,21 @@ mutation AddReactionToComment($postId: ID!, $commentId: ID!, $applause: Boolean!
   }
 }
 `;
+
+export const DELETE_COMMENT = gql`
+  mutation deleteComment($postId: ID!, $commentId: ID!) {
+    deleteComment(postId: $postId, commentId: $commentId) {
+      _id
+      author {
+        _id
+        userName
+      }
+      comments {
+        _id
+        author {
+          userName
+        }
+      }
+    }
+  }
+`;

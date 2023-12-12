@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
 import Auth from "../utils/auth";
-import { EDIT_COMMENT, ADD_REACTION_TO_COMMENT } from "../utils/mutations";
+import { EDIT_COMMENT, ADD_REACTION_TO_COMMENT, DELETE_COMMENT } from "../utils/mutations";
 import moment from "moment";
 
 const Comments = (props) => {
@@ -26,6 +26,13 @@ const Comments = (props) => {
       applause: true,
     },
   });
+
+  // mutation to delete a post
+  // const [deleteComment, { error: deleteError, data: deleteData }] = useMutation(
+  const [deleteComment] = useMutation(DELETE_COMMENT);
+
+  //Tracks if user is deleting a post
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     // if (errorReaction) console.log("errorReaction:", errorReaction)
@@ -112,12 +119,35 @@ const Comments = (props) => {
     setIsEditing(false);
   };
 
+  // Delete a comment!
+  const handleDeleteClick = () => {
+    // Show a confirmation dialog (you can use a state variable for this)
+    setIsDeleting(true);
+  };
+
+  // execute the deletion and reset setisdeleted to false
+  const handleDelete = async () => {
+    try {
+      // Call the deleteComment mutation
+      await deleteComment({
+        variables: { postId: postInstance._id, commentId: commentInstance._id },
+      });
+
+
+    } catch (error) {
+      console.log("Error deleting a Comment!!", error);
+    } finally {
+      // Reset the deleting state
+      setIsDeleting(false);
+    }
+  };
+
   return (
     <div className="post-container container">
       <div className="card mb-3">
         <div className="card-body text-left">
           <div className="card-text row">
-            <div className="col-2">{commentInstance.author.userName}</div>
+            <div className="col-10">{commentInstance.author.userName}</div>
             <div className="col-2">
               {editDeleteEnabled ? (
                 <>
@@ -133,7 +163,15 @@ const Comments = (props) => {
                       {emojiCodePoint}
                     </a>
                   )}
-                  <Link>{deleteIcon}</Link>
+                  {isDeleting ? (
+                    <a className="link " onClick={handleCancelClick}>
+                      {"\u{2716}"}
+                    </a>
+                  ) : (
+                    <a className="link " onClick={handleDeleteClick}>
+                      {deleteIcon}
+                    </a>
+                  )}
                 </>
               ) : (
                 " "
@@ -184,6 +222,28 @@ const Comments = (props) => {
               {moment(`${commentInstance.createdAt}`).format("MMMM Do YYYY")}
             </small>
           </p>
+          {isDeleting ? (
+            <>
+              <div className="delete-post-mask">
+                <button
+                  type="button"
+                  onClick={handleDelete}
+                  className="btn btn-primary"
+                >
+                  Confirm Delete
+                </button>
+                <button
+                  type="button"
+                  onClick={handleCancelClick}
+                  className="btn btn-primary"
+                >
+                  Cancel
+                </button>
+              </div>
+            </>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </div>
