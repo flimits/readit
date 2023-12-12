@@ -1,16 +1,18 @@
 import PropTypes from "prop-types";
 import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useMutation, useLazyQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import Auth from "../utils/auth";
 import Tag from "./Tag";
 import { DELETE_POST, EDIT_POST, ADD_REACTION } from "../utils/mutations";
+import { GET_POSTS } from "../utils/queries";
 
 const Post = (props) => {
   const emojiCodePoint = "\u{1F4DD}";
   const deleteIcon = "\u{1F5D1}";
 
-  const [postInstance, setPostInstance] = useState(props?.post);
+  //const [postInstance, setPostInstance] = useState(props?.post);
+  let postInstance = props.post;
 
   const currentPage = useLocation().pathname;
   //Dont make title clickable, if they are already on view post page.
@@ -21,18 +23,34 @@ const Post = (props) => {
   const [editedTitle, setEditedTitle] = useState(postInstance?.title);
   const [editedText, setEditedText] = useState(postInstance?.postText);
 
+  // const [refreshFlag, setRefreshFlag] = useState(false);
+
+
   // mutation to edit a post
-  const [editPost] = useMutation(EDIT_POST);
-  const [toggleReaction] = useMutation(ADD_REACTION, {
-    variables: {
-      postId: postInstance._id,
-      applause: true
-    }
-  })
+  const [editPost, { error: editError, data: editData}] = useMutation(EDIT_POST);
+  const [toggleReaction, { error: reactionError, data: reactionData }] =
+    useMutation(ADD_REACTION, {
+      variables: {
+        postId: postInstance._id,
+        applause: true,
+      },
+    });
 
-
+    
   // mutation to Delete a post
-  const [deletePost] = useMutation(DELETE_POST);
+  const [deletePost, {error: deleteError, data: deleteData}] = useMutation(DELETE_POST, {
+    refetchQueries: [
+      GET_POSTS,
+      "getPosts"
+    ]
+  });
+
+  useEffect(() => {
+    if (reactionError) console.log("reactionError:", reactionError);
+    if (reactionData) console.log("reactionData:", reactionData);
+    if (reactionData) console.log("deleteData:", deleteData);
+  }, [reactionError, reactionData, editError, editData, deleteData, deleteError]);
+
 
   //Tracks if user is deleting a post
   const [isDeleting, setIsDeleting] = useState(false);
@@ -56,41 +74,41 @@ const Post = (props) => {
 
   // Checks if the user has reacted or not
   const didUserReact = () => {
-
     if (!Auth.loggedIn() || postInstance.reactions.length === 0) {
-      return "handclap-unclicked"
+      return "handclap-unclicked";
     }
     // See if the user has reacted to this post
-    const reaction = postInstance.reactions.filter((reaction) => reaction.author === Auth.getProfile()?.data?._id)
+    const reaction = postInstance.reactions.filter(
+      (reaction) => reaction.author === Auth.getProfile()?.data?._id
+    );
     // console.log("postInstance.reactions:", reaction);
 
     // If user has reacted, don't apply the class, otherwise apply the class
-    if (reaction[0]) return ""
-    return "handclap-unclicked" 
-  }
+    if (reaction[0]) return "";
+    return "handclap-unclicked";
+  };
 
   /**
    * Checks if the user has already reacted to that post and if so, updates the database.
    * If the user has NOT reacted, add the reaction to the post's subdoc of reactions.
    * IF the user HAS reacted, remove the reaction to the post's subdoc of reactions
-   * @param {Event} e 
+   * @param {Event} e
    */
   const handleOnClickReaction = async (e) => {
     e.preventDefault();
 
     if (!Auth.loggedIn()) {
       alert("You must be logged in to react to this post");
-      return
+      return;
     }
 
     try {
       await toggleReaction();
     } catch (error) {
-      console.log("couldn't handle reaction")
-      console.error(error)
+      console.log("couldn't handle reaction");
+      console.error(error);
     }
-
-  }
+  };
 
   const handleTitleChange = (e) => {
     // Update state as the user edits the input
@@ -115,15 +133,13 @@ const Post = (props) => {
     e.preventDefault();
 
     try {
-      let editedPost = await editPost({
+      await editPost({
         variables: {
           postId: postInstance._id,
           newTitle: editedTitle,
           newText: editedText,
         },
       });
-      // set the current post to the received edited post
-      setPostInstance(editedPost?.data?.editPost);
     } catch (error) {
       console.log("Error Editing: ", error);
     }
@@ -137,13 +153,9 @@ const Post = (props) => {
 
   const handleDelete = async () => {
     try {
-      const deletedPost = await deletePost({
+      await deletePost({
         variables: { postId: postInstance?._id },
       });
-      // if the postInstance was deleted, update state.
-      if (deletedPost?.data?.deletePost._id === postInstance?._id) {
-        setPostInstance(null);
-      }
     } catch (error) {
       console.log("Error deleting Post !!", error);
     }
@@ -182,11 +194,14 @@ const Post = (props) => {
               {editDeleteEnabled ? (
                 <>
                   {isEditing ? (
-                    <a href="#" onClick={handleCancelClick}>
+                    <a
+                      style={{ cursor: "pointer" }}
+                      onClick={handleCancelClick}
+                    >
                       {"\u{2716}"}
                     </a>
                   ) : (
-                    <a onClick={handleEditClick} href="#">
+                    <a style={{ cursor: "pointer" }} onClick={handleEditClick}>
                       {emojiCodePoint}
                     </a>
                   )}
@@ -245,14 +260,17 @@ const Post = (props) => {
               {"\u{1F4AC}"}
               {postInstance?.comments?.length}
             </div>
-            <div className="col-8 fs-5">Tags: {postInstance.tags.map((tag, index) => {
-              return <Tag key={index} tag={tag} />
-            })}
+            <div className="col-8 fs-5">
+              Tags:{" "}
+              {postInstance.tags.map((tag, index) => {
+                return <Tag key={index} tag={tag} />;
+              })}
             </div>
           </div>
           <p className="card-text">
             <small className="text-muted">
-              <b>{postInstance?.author.userName}</b> on: {postInstance?.createdAt}
+              <b>{postInstance?.author.userName}</b> on:{" "}
+              {postInstance?.createdAt}
             </small>
           </p>
           {isDeleting ? (

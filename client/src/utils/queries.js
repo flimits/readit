@@ -49,6 +49,8 @@ export const SINGLE_POST = gql`
         }
         text
         reactions {
+          _id
+          author
           applause
         }
         createdAt
@@ -126,4 +128,3 @@ export const GET_ME = gql`
     }
   }
 `;
-

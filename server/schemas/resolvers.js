@@ -198,9 +198,11 @@ const resolvers = {
         //   throw ErrorMustBeLoggedIn
         // }
 
-        return await Post.findByIdAndDelete(new ObjectId(postId), {
+        const deletedData = await Post.findByIdAndDelete(new ObjectId(postId), {
           new: true,
         });
+        console.log("deletedData ",deletedData);
+        return deletedData;
       } catch (error) {
         console.log("couldn't delete post");
         console.error(error);
@@ -225,12 +227,68 @@ const resolvers = {
         console.error(error);
       }
     },
+    editComment: async (parent, { postId, commentId, newText }, context) => {
+      try {
+        console.log("context.user:", context.user);
+        if (!context.user) {
+          throw ErrorMustBeLoggedIn;
+        }
+
+        const multipleIdFilter = {
+          _id: new ObjectId(postId),
+          "comments._id": new ObjectId(commentId),
+        };
+
+        const updatedPost = await Post.findOneAndUpdate(
+          multipleIdFilter,
+          {
+            $set: { "comments.$.text": newText },
+          },
+          { new: true }
+        );
+
+        console.log(updatedPost);
+
+        return updatedPost;
+
+        // const post = await Post.findById(postId);
+
+        // if (!post) {
+        //   console.log("post not found");
+        //   return null;
+        // }
+
+        // const commentIndex = post.comments.findIndex((comment) =>
+        //   comment._id.equals(commentId)
+        // );
+
+        // if (commentIndex === -1) {
+        //   console.log("Comment not found");
+        //   return null;
+        // }
+
+        // post.comments[commentIndex].text = newText;
+        // const updatedPost = await post.save({ new: true });
+
+        // console.log("Comment Updated Successfully");
+        // return updatedPost;
+
+        // return await Post.findByIdAndUpdate(
+        //   { _id: postId, "comments._id": commentId },
+        //   { $set: { "comments.$.text": newText } },
+        //   { new: true }
+        // );
+      } catch (error) {
+        console.log("couldn't edit comment");
+        console.log(error);
+      }
+    },
     addReactionToPost: async (parent, { postId, ...newReaction }, context) => {
       try {
         // console.log("context.user:", context.user);
         // Check if user is logged in
         if (!context.user) {
-          throw ErrorMustBeLoggedIn
+          throw ErrorMustBeLoggedIn;
         }
 
         const post = await Post.findById(new ObjectId(postId));
@@ -239,7 +297,9 @@ const resolvers = {
 
         if (reactions.length > 0) {
           // Find if the user has already reacted or not
-          const didUserReact = reactions.filter((reaction) => new ObjectId(context.user._id).equals(reaction.author));
+          const didUserReact = reactions.filter((reaction) =>
+            new ObjectId(context.user._id).equals(reaction.author)
+          );
           // console.log("did user already react?", didUserReact[0])
 
           let update;
@@ -252,17 +312,17 @@ const resolvers = {
               $pull: {
                 reactions: { author: new ObjectId(author) },
               },
-            }
+            };
           } else {
             // Add the userId to the newReaction object
-            newReaction.author = context.user._id
+            newReaction.author = context.user._id;
 
             // This will push the new reaction to the database
             update = {
               $push: {
                 reactions: newReaction,
               },
-            }
+            };
           }
 
           const updatedPost = await Post.findByIdAndUpdate(
