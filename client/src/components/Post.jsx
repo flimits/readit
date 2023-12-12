@@ -83,41 +83,41 @@ const Post = (props) => {
 
   // Checks if the user has reacted or not
   const didUserReact = () => {
+
     if (!Auth.loggedIn() || postInstance.reactions.length === 0) {
-      return "handclap-unclicked";
+      return "handclap-unclicked"
     }
     // See if the user has reacted to this post
-    const reaction = postInstance.reactions.filter(
-      (reaction) => reaction.author === Auth.getProfile()?.data?._id
-    );
+    const reaction = postInstance.reactions.filter((reaction) => reaction.author === Auth.getProfile()?.data?._id)
     // console.log("postInstance.reactions:", reaction);
 
     // If user has reacted, don't apply the class, otherwise apply the class
-    if (reaction[0]) return "";
-    return "handclap-unclicked";
-  };
+    if (reaction[0]) return ""
+    return "handclap-unclicked" 
+  }
 
   /**
    * Checks if the user has already reacted to that post and if so, updates the database.
    * If the user has NOT reacted, add the reaction to the post's subdoc of reactions.
    * IF the user HAS reacted, remove the reaction to the post's subdoc of reactions
-   * @param {Event} e
+   * @param {Event} e 
    */
   const handleOnClickReaction = async (e) => {
     e.preventDefault();
 
     if (!Auth.loggedIn()) {
       alert("You must be logged in to react to this post");
-      return;
+      return
     }
 
     try {
       await toggleReaction();
     } catch (error) {
-      console.log("couldn't handle reaction");
-      console.error(error);
+      console.log("couldn't handle reaction")
+      console.error(error)
     }
-  };
+
+  }
 
   const handleTitleChange = (e) => {
     // Update state as the user edits the input
@@ -142,13 +142,15 @@ const Post = (props) => {
     e.preventDefault();
 
     try {
-      await editPost({
+      let editedPost = await editPost({
         variables: {
           postId: postInstance._id,
           newTitle: editedTitle,
           newText: editedText,
         },
       });
+      // set the current post to the received edited post
+      // setPostInstance(editedPost?.data?.editPost);
     } catch (error) {
       console.log("Error Editing: ", error);
     }
@@ -203,14 +205,11 @@ const Post = (props) => {
               {editDeleteEnabled ? (
                 <>
                   {isEditing ? (
-                    <a
-                      style={{ cursor: "pointer" }}
-                      onClick={handleCancelClick}
-                    >
+                    <a href="#" onClick={handleCancelClick}>
                       {"\u{2716}"}
                     </a>
                   ) : (
-                    <a style={{ cursor: "pointer" }} onClick={handleEditClick}>
+                    <a onClick={handleEditClick} href="#">
                       {emojiCodePoint}
                     </a>
                   )}
@@ -269,11 +268,9 @@ const Post = (props) => {
               {"\u{1F4AC}"}
               {postInstance?.comments?.length}
             </div>
-            <div className="col-8 fs-5">
-              Tags:{" "}
-              {postInstance.tags.map((tag, index) => {
-                return <Tag key={index} tag={tag} />;
-              })}
+            <div className="col-8 fs-5">Tags: {postInstance.tags.map((tag, index) => {
+              return <Tag key={index} tag={tag} />
+            })}
             </div>
           </div>
           <p className="card-text">

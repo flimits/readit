@@ -350,17 +350,13 @@ const resolvers = {
         console.error(error);
       }
     },
-    addReactionToComment: async (
-      parent,
-      { postId, commentId, ...newReaction },
-      context
-    ) => {
+    addReactionToComment: async (parent, { postId, commentId, ...newReaction }, context) => {
       try {
         // console.log("context.user:", context.user);
         // Check if user is logged in
-        // if (!context.user) {
-        //   throw ErrorMustBeLoggedIn
-        // }
+        if (!context.user) {
+          throw ErrorMustBeLoggedIn
+        }
 
         // set variables to use the postId AND commentId in the query in one go.
         const multipleIdFilter = {
@@ -376,14 +372,14 @@ const resolvers = {
 
         if (reactions.length > 0) {
           // Find if the user has already reacted or not
-          const didUserReact = reactions.filter((reaction) =>
-            new ObjectId(newReaction.author).equals(reaction.author)
-          );
+          const didUserReact = reactions.filter((reaction) => new ObjectId(context.user._id).equals(reaction.author));
+
+          // console.log("didUserReact:", didUserReact);
 
           if (didUserReact[0]) {
+            // console.log("going to remove reaction")
             // Remove the user's reaction from the comment
             const author = didUserReact[0].author;
-
             return await Post.findOneAndUpdate(
               multipleIdFilter,
               {
@@ -392,20 +388,31 @@ const resolvers = {
                 },
               },
               { new: true }
-            );
+            )
+            .populate('author') // get the post author
+            .populate({ // Get the author of the comment
+              path: "comments.author",
+              select: "userName"
+            });
           }
-
-          return;
         }
 
         // Add reaction to comment
-        return await Post.findOneAndUpdate(
+        newReaction.author = context.user._id; // Add the user's id to the reaction object
+        const updatedPost = await Post.findOneAndUpdate(
           multipleIdFilter,
           {
             $push: { "comments.$.reactions": newReaction },
           },
           { new: true }
-        );
+        )
+        .populate('author') // get the post author
+        .populate({ // Get the author of the comment
+          path: "comments.author",
+          select: "userName"
+        });
+
+        return updatedPost;
       } catch (error) {
         console.log("Couldn't add reaction to comment");
         console.error(error);
