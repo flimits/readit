@@ -406,7 +406,6 @@ const resolvers = {
           select: "userName"
         });
 
-        console.log("udpatedPost:", updatedPost)
         return updatedPost;
       } catch (error) {
         console.log("Couldn't add reaction to comment");
