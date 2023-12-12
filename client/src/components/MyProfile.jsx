@@ -25,6 +25,7 @@ const MyProfile = () => {
   // and in ascending order
   return (
     <main className="container">
+      <h1>hi</h1>
       <div className="flex-row justify-center">
         <div className="col-12 mb-3">
           {sortedPosts.map((item) => (

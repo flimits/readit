@@ -42,9 +42,7 @@ export default function CreatePost() {
   useEffect(() => {
     if (data && isPostValid) {
       setSubmitted(true); // show the post was submitted
-      setTimeout(() => {
         window.location.href="/my-profile";
-      }, 1200);
     }
   }, [data])
 
@@ -121,11 +119,6 @@ export default function CreatePost() {
           >
             <div className="modal-dialog" role="document">
               <div className="modal-content">
-                {submitted ? (
-                  <div>
-                    <h2>Your post has been submitted!</h2>
-                  </div>
-                ) : (
                   <>
                     <div className="modal-header">
                       <h5 className="modal-title">Create Post</h5>
@@ -188,7 +181,6 @@ export default function CreatePost() {
                       </form>
               </div>
             </>
-            )}
             </div>
           </div>
           </div>
