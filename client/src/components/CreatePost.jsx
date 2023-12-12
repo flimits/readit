@@ -43,8 +43,8 @@ export default function CreatePost() {
     if (data && isPostValid) {
       setSubmitted(true); // show the post was submitted
       setTimeout(() => {
-        window.location.href = "/";
-      }, 5000);
+        window.location.reload();
+      }, 1200);
     }
   }, [data])
 
@@ -123,7 +123,7 @@ export default function CreatePost() {
               <div className="modal-content">
                 {submitted ? (
                   <div>
-                    <h2>Your post has been submitted! Redirecting back to home page...</h2>
+                    <h2>Your post has been submitted!</h2>
                   </div>
                 ) : (
                   <>
