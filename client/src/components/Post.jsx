@@ -106,41 +106,41 @@ const Post = (props) => {
 
   // Checks if the user has reacted or not
   const didUserReact = () => {
-
-    if (!Auth.loggedIn() || postInstance.reactions.length === 0) {
-      return "handclap-unclicked"
+    if (!Auth.loggedIn() || postInstance?.reactions?.length === 0) {
+      return "handclap-unclicked";
     }
     // See if the user has reacted to this post
-    const reaction = postInstance.reactions.filter((reaction) => reaction.author === Auth.getProfile()?.data?._id)
+    const reaction = postInstance?.reactions?.filter(
+      (reaction) => reaction.author === Auth.getProfile()?.data?._id
+    );
     // console.log("postInstance.reactions:", reaction);
 
     // If user has reacted, don't apply the class, otherwise apply the class
-    if (reaction[0]) return ""
-    return "handclap-unclicked"
-  }
+    if (reaction && reaction[0]) return "";
+    return "handclap-unclicked";
+  };
 
   /**
    * Checks if the user has already reacted to that post and if so, updates the database.
    * If the user has NOT reacted, add the reaction to the post's subdoc of reactions.
    * IF the user HAS reacted, remove the reaction to the post's subdoc of reactions
-   * @param {Event} e 
+   * @param {Event} e
    */
   const handleOnClickReaction = async (e) => {
     e.preventDefault();
 
     if (!Auth.loggedIn()) {
       alert("You must be logged in to react to this post");
-      return
+      return;
     }
 
     try {
       await toggleReaction();
     } catch (error) {
-      console.log("couldn't handle reaction")
-      console.error(error)
+      console.log("couldn't handle reaction");
+      console.error(error);
     }
-
-  }
+  };
 
   const handleTitleChange = (e) => {
     // Update state as the user edits the input
@@ -208,7 +208,7 @@ const Post = (props) => {
 
   return (
     <div className="post-container container">
-      <div className="card mb-3 custom-post-card">
+      <div className="card my-3 custom-post-card">
         <div className="card-body text-left">
           <div className="card-text row">
             <div className="col-10 fs-5">
@@ -305,13 +305,13 @@ const Post = (props) => {
               <div className="handclap-full me-2">
                 <button
                   id="button-post-reaction"
-                  className="border-0 bg-white button-post-reaction"
+                  className="border-0 button-post-reaction"
                   onClick={(e) => handleOnClickReaction(e)}
                 >
                   <span className={didUserReact()}>{"\u{1F44F}"}</span>
                 </button>
               </div>
-              {postInstance?.reactions.length}
+              {postInstance?.reactions?.length}
             </div>
             <div className="col-1 fs-5">
               {"\u{1F4AC}"}
@@ -328,8 +328,8 @@ const Post = (props) => {
           </div>
           <p className="card-text d-flex justify-content-end">
             <small className="text-muted">
-              <b>{postInstance.author.userName}</b> on:{" "}
-              {moment(`${postInstance.createdAt}`).format("MMMM Do YYYY")}
+              <b>{postInstance?.author?.userName}</b> on:{" "}
+              {moment(`${postInstance?.createdAt}`).format("MMMM Do YYYY")}
             </small>
           </p>
           {isDeleting ? (

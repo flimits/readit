@@ -19,18 +19,19 @@ const Comments = (props) => {
 
   // mutation to edit a post
   const [editComment] = useMutation(EDIT_COMMENT);
-  const [toggleReaction, { error: errorReaction, data: dataReaction }] = useMutation(ADD_REACTION_TO_COMMENT, {
-    variables: {
-      postId: postInstance._id,
-      commentId: commentInstance._id,
-      applause: true,
-    },
-  });
+  const [toggleReaction, { error: errorReaction, data: dataReaction }] =
+    useMutation(ADD_REACTION_TO_COMMENT, {
+      variables: {
+        postId: postInstance._id,
+        commentId: commentInstance._id,
+        applause: true,
+      },
+    });
 
   useEffect(() => {
     // if (errorReaction) console.log("errorReaction:", errorReaction)
     // if (dataReaction) console.log("dataReaction:", dataReaction)
-  }, [errorReaction, dataReaction])
+  }, [errorReaction, dataReaction]);
 
   if (!commentInstance) return "No Comments for this post yet";
 
@@ -114,7 +115,7 @@ const Comments = (props) => {
 
   return (
     <div className="post-container container">
-      <div className="card mb-3">
+      <div className="card mb-3 custom-comment-card">
         <div className="card-body text-left">
           <div className="card-text row">
             <div className="col-2">{commentInstance.author.userName}</div>
@@ -169,7 +170,7 @@ const Comments = (props) => {
               <div className="handclap-full me-2">
                 <button
                   id="button-comment-reaction"
-                  className="border-0 bg-white"
+                  className="border-0 "
                   onClick={(e) => handleOnClickReaction(e)}
                 >
                   <span className={didUserReact()}>{"\u{1F44F}"}</span>
