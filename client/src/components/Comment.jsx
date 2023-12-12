@@ -14,12 +14,11 @@ const Comments = (props) => {
 
   const [isEditing, setIsEditing] = useState(false);
   // const [updateComment, setUpdateComment] = useState({});
-  // const [editedText, setEditedText] = useState(commentInstance.text);
-  const [editedText, setEditedText] = useState('');
+  const [editedText, setEditedText] = useState(commentInstance.text);
 
   // mutation to edit a post
-  const [editComment, { data }] = useMutation(EDIT_COMMENT);
-  const [toggleReaction, { error: errorReaction, data: dataReaction}] = useMutation(ADD_REACTION_TO_COMMENT, {
+  const [editComment] = useMutation(EDIT_COMMENT);
+  const [toggleReaction, { error: errorReaction, data: dataReaction }] = useMutation(ADD_REACTION_TO_COMMENT, {
     variables: {
       postId: postInstance._id,
       commentId: commentInstance._id,
@@ -31,15 +30,6 @@ const Comments = (props) => {
     if (errorReaction) console.log("errorReaction:", errorReaction)
     if (dataReaction) console.log("dataReaction:", dataReaction)
   }, [errorReaction, dataReaction])
-
-  useEffect(() => {
-    if (data) console.log(data);
-    // console.log(updateComment);
-  }, [data]);
-
-  useEffect(() => {
-    if (isEditing) setEditedText(commentInstance?.text)
-  }, [isEditing])
 
   if (!commentInstance) return "No Comments for this post yet";
 
@@ -58,6 +48,7 @@ const Comments = (props) => {
   }
 
   const didUserReact = () => {
+    console.log("@didUserReact")
     if (!Auth.loggedIn() || commentInstance.reactions.length === 0) {
       return "handclap-unclicked";
     }
@@ -65,10 +56,12 @@ const Comments = (props) => {
     const reaction = commentInstance.reactions.filter(
       (reaction) => reaction.author === Auth.getProfile()?.data?._id
     );
-    // console.log("postInstance.reactions:", reaction);
+    // console.log("reactions:", reaction);
+    console.log("reaction[0]:", reaction[0]);
+    console.log(`reaction[0] ? "" : "handclap-unclicked":`, reaction[0] ? "clicked" : "unclicked")
 
     // If user has reacted, don't apply the class, otherwise apply the class
-    return reaction ? "" : "handclap-unclicked";
+    return reaction[0] ? "" : "handclap-unclicked";
   };
 
   const handleOnClickReaction = async (e) => {
@@ -176,11 +169,11 @@ const Comments = (props) => {
             </div>
           </div>
           <div className="card-text row">
-          <div className="d-inline-flex fs-5 col-1">
+            <div className="d-inline-flex fs-5 col-1">
               <div className="handclap-full me-2">
                 <button
-                  id="button-post-reaction"
-                  className="border-0 bg-white button-post-reaction"
+                  id="button-comment-reaction"
+                  className="border-0 bg-white"
                   onClick={(e) => handleOnClickReaction(e)}
                 >
                   <span className={didUserReact()}>{"\u{1F44F}"}</span>

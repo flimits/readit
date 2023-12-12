@@ -4,33 +4,47 @@ import { useState, useEffect } from "react";
 import { useMutation, useLazyQuery } from "@apollo/client";
 import Auth from "../utils/auth";
 import Tag from "./Tag";
-import { EDIT_POST, ADD_REACTION } from "../utils/mutations";
+import { DELETE_POST, EDIT_POST, ADD_REACTION } from "../utils/mutations";
 
 const Post = (props) => {
   const emojiCodePoint = "\u{1F4DD}";
   const deleteIcon = "\u{1F5D1}";
 
+  // const [postInstance, setPostInstance] = useState(props?.post);
   const postInstance = props.post;
-  // console.log("PostInsance: ", postInstance);
 
   const currentPage = useLocation().pathname;
   //Dont make title clickable, if they are already on view post page.
   const disableTitleLink = currentPage.includes("/view-post/");
 
+  //Tracks if user is editing a post
   const [isEditing, setIsEditing] = useState(false);
-  const [editedTitle, setEditedTitle] = useState(postInstance.title);
-  const [editedText, setEditedText] = useState(postInstance.postText);
+  const [editedTitle, setEditedTitle] = useState(postInstance?.title);
+  const [editedText, setEditedText] = useState(postInstance?.postText);
 
   // mutation to edit a post
   const [editPost] = useMutation(EDIT_POST);
-  const [toggleReaction] = useMutation(ADD_REACTION, {
+  const [toggleReaction, { error: reactionError, data: reactionData }] = useMutation(ADD_REACTION, {
     variables: {
       postId: postInstance._id,
-      applause: true,
-    },
-  });
+      applause: true
+    }
+  })
 
-  if (!postInstance?._id) return "No Post to view !!";
+  useEffect(() => {
+    if (reactionError) console.log("reactionError:", reactionError)
+    if (reactionData) console.log("reactionData:", reactionData)
+  }, [reactionError, reactionData])
+
+
+  // mutation to Delete a post
+  const [deletePost] = useMutation(DELETE_POST);
+
+  //Tracks if user is deleting a post
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  //if no post instance do nothing
+  if (!postInstance) return <></>;
 
   let editDeleteEnabled = false;
 
@@ -48,41 +62,41 @@ const Post = (props) => {
 
   // Checks if the user has reacted or not
   const didUserReact = () => {
+
     if (!Auth.loggedIn() || postInstance.reactions.length === 0) {
-      return "handclap-unclicked";
+      return "handclap-unclicked"
     }
     // See if the user has reacted to this post
-    const reaction = postInstance.reactions.filter(
-      (reaction) => reaction.author === Auth.getProfile()?.data?._id
-    );
+    const reaction = postInstance.reactions.filter((reaction) => reaction.author === Auth.getProfile()?.data?._id)
     // console.log("postInstance.reactions:", reaction);
 
     // If user has reacted, don't apply the class, otherwise apply the class
-    if (reaction[0]) return "";
-    return "handclap-unclicked";
-  };
+    if (reaction[0]) return ""
+    return "handclap-unclicked" 
+  }
 
   /**
    * Checks if the user has already reacted to that post and if so, updates the database.
    * If the user has NOT reacted, add the reaction to the post's subdoc of reactions.
    * IF the user HAS reacted, remove the reaction to the post's subdoc of reactions
-   * @param {Event} e
+   * @param {Event} e 
    */
   const handleOnClickReaction = async (e) => {
     e.preventDefault();
 
     if (!Auth.loggedIn()) {
       alert("You must be logged in to react to this post");
-      return;
+      return
     }
 
     try {
       await toggleReaction();
     } catch (error) {
-      console.log("couldn't handle reaction");
-      console.error(error);
+      console.log("couldn't handle reaction")
+      console.error(error)
     }
-  };
+
+  }
 
   const handleTitleChange = (e) => {
     // Update state as the user edits the input
@@ -94,10 +108,10 @@ const Post = (props) => {
   };
 
   const handleCancelClick = () => {
-    // Reset editedTitle and editedText
     setEditedTitle(postInstance.title);
     setEditedText(postInstance.postText);
     setIsEditing(false);
+    setIsDeleting(false);
   };
   const handleEditClick = () => {
     setIsEditing(true);
@@ -107,17 +121,39 @@ const Post = (props) => {
     e.preventDefault();
 
     try {
-      await editPost({
+      let editedPost = await editPost({
         variables: {
           postId: postInstance._id,
           newTitle: editedTitle,
           newText: editedText,
         },
       });
+      // set the current post to the received edited post
+      // setPostInstance(editedPost?.data?.editPost);
     } catch (error) {
       console.log("Error Editing: ", error);
     }
     setIsEditing(false);
+  };
+
+  //delete a post !!
+  const handleDeleteClick = () => {
+    setIsDeleting(true);
+  };
+
+  const handleDelete = async () => {
+    try {
+      const deletedPost = await deletePost({
+        variables: { postId: postInstance?._id },
+      });
+      // if the postInstance was deleted, update state.
+      if (deletedPost?.data?.deletePost._id === postInstance?._id) {
+        // setPostInstance(null);
+      }
+    } catch (error) {
+      console.log("Error deleting Post !!", error);
+    }
+    setIsDeleting(false);
   };
 
   return (
@@ -139,10 +175,10 @@ const Post = (props) => {
               ) : (
                 <>
                   {disableTitleLink ? (
-                    postInstance.title
+                    postInstance?.title
                   ) : (
-                    <Link to={`view-post/${postInstance._id}`}>
-                      {postInstance.title}
+                    <Link to={`view-post/${postInstance?._id}`}>
+                      {postInstance?.title}
                     </Link>
                   )}
                 </>
@@ -152,18 +188,23 @@ const Post = (props) => {
               {editDeleteEnabled ? (
                 <>
                   {isEditing ? (
-                    <a
-                      style={{ cursor: "pointer" }}
-                      onClick={handleCancelClick}
-                    >
+                    <a href="#" onClick={handleCancelClick}>
                       {"\u{2716}"}
                     </a>
                   ) : (
-                    <a style={{ cursor: "pointer" }} onClick={handleEditClick}>
+                    <a onClick={handleEditClick} href="#">
                       {emojiCodePoint}
                     </a>
                   )}
-                  <Link>{deleteIcon}</Link>
+                  {isDeleting ? (
+                    <a href="#" onClick={handleCancelClick}>
+                      {"\u{2716}"}
+                    </a>
+                  ) : (
+                    <a href="#" onClick={handleDeleteClick}>
+                      {deleteIcon}
+                    </a>
+                  )}
                 </>
               ) : (
                 " "
@@ -189,7 +230,7 @@ const Post = (props) => {
                   </button>
                 </>
               ) : (
-                <>{postInstance.postText}</>
+                <>{postInstance?.postText}</>
               )}
             </div>
           </div>
@@ -208,20 +249,40 @@ const Post = (props) => {
             </div>
             <div className="col-1 fs-5">
               {"\u{1F4AC}"}
-              {postInstance?.comments.length}
+              {postInstance?.comments?.length}
             </div>
-            <div className="col-8 fs-5">
-              Tags:{" "}
-              {postInstance.tags.map((tag, index) => {
-                return <Tag key={index} tag={tag} />;
-              })}
+            <div className="col-8 fs-5">Tags: {postInstance.tags.map((tag, index) => {
+              return <Tag key={index} tag={tag} />
+            })}
             </div>
           </div>
           <p className="card-text">
             <small className="text-muted">
-              <b>{postInstance.author.userName}</b> on: {postInstance.createdAt}
+              <b>{postInstance?.author.userName}</b> on: {postInstance?.createdAt}
             </small>
           </p>
+          {isDeleting ? (
+            <>
+              <div className="delete-post-mask">
+                <button
+                  type="button"
+                  onClick={handleDelete}
+                  className="btn btn-primary"
+                >
+                  Confirm Delete
+                </button>
+                <button
+                  type="button"
+                  onClick={handleCancelClick}
+                  className="btn btn-primary"
+                >
+                  Cancel
+                </button>
+              </div>
+            </>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </div>

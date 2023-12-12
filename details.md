@@ -1,3 +1,6 @@
+## Learning Points
+* Client side gql mutations have an effect on the `useMutation` hooks. If the mutation gql doesn't return the appropriate values that are updated, then the `useMutation` hook will not cause a component render.
+
 ## Coding Snippets
 
 Mutation of updating a nested subdoc's array.
