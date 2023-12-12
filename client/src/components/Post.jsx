@@ -23,10 +23,12 @@ const Post = (props) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(postInstance?.title);
   const [editedText, setEditedText] = useState(postInstance?.postText);
+  const [editedTags, setEditedTags] = useState('');
 
   // mutation to edit a post
   const [editPost, { error: editError, data: editData }] =
     useMutation(EDIT_POST);
+
   const [toggleReaction, { error: reactionError, data: reactionData }] =
     useMutation(ADD_REACTION, {
       variables: {
@@ -40,6 +42,13 @@ const Post = (props) => {
     if (reactionData) console.log("reactionData:", reactionData);
   }, [reactionError, reactionData]);
 
+  useEffect(() => {
+    if (isEditing) {
+      // Convert the array of tags to a string 
+      setEditedTags(postInstance?.tags.join(" "))
+    }
+  }, [isEditing])
+
   // mutation to Delete a post
   const [deletePost, { error: deleteError, data: deleteData }] = useMutation(
     DELETE_POST,
@@ -47,6 +56,9 @@ const Post = (props) => {
       refetchQueries: [GET_POSTS, "getPosts", GET_ME, "getMe"],
     }
   );
+
+  //Tracks if user is deleting a post
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     if (reactionError) console.log("reactionError:", reactionError);
@@ -60,9 +72,6 @@ const Post = (props) => {
     deleteData,
     deleteError,
   ]);
-
-  //Tracks if user is deleting a post
-  const [isDeleting, setIsDeleting] = useState(false);
 
   //if no post instance do nothing
   if (!postInstance) return <></>;
@@ -81,6 +90,20 @@ const Post = (props) => {
     console.log("Authorization error !!", error);
   }
 
+  
+  /**
+   * Takes the user's input and separates it by whitespace to create an array
+   * @returns An array of the split up tags or empty
+   */
+  const convertTagsToArray = () => {
+    if (editedTags) {
+      const split = editedTags.split(" ");
+      return split
+    } else {
+      return []
+    }
+  }
+
   // Checks if the user has reacted or not
   const didUserReact = () => {
 
@@ -93,7 +116,7 @@ const Post = (props) => {
 
     // If user has reacted, don't apply the class, otherwise apply the class
     if (reaction[0]) return ""
-    return "handclap-unclicked" 
+    return "handclap-unclicked"
   }
 
   /**
@@ -123,17 +146,24 @@ const Post = (props) => {
     // Update state as the user edits the input
     setEditedTitle(e.target.value);
   };
+
   const handlePostTextChange = (e) => {
     // Update state as the user edits the input
     setEditedText(e.target.value);
   };
 
+  const handleTagChange = (e) => {
+    setEditedTags(e.target.value);
+  }
+
   const handleCancelClick = () => {
-    setEditedTitle(postInstance.title);
-    setEditedText(postInstance.postText);
+    setEditedTitle(postInstance?.title);
+    setEditedText(postInstance?.postText);
+    setEditedTags(postInstance?.tags);
     setIsEditing(false);
     setIsDeleting(false);
   };
+
   const handleEditClick = () => {
     setIsEditing(true);
   };
@@ -141,12 +171,15 @@ const Post = (props) => {
   const handleSave = async (e) => {
     e.preventDefault();
 
+    const tagsArray = convertTagsToArray();
+
     try {
       await editPost({
         variables: {
           postId: postInstance._id,
           newTitle: editedTitle,
           newText: editedText,
+          newTags: tagsArray
         },
       });
       // set the current post to the received edited post
@@ -238,19 +271,35 @@ const Post = (props) => {
                     value={editedText}
                     onChange={handlePostTextChange}
                   />
-                  <button
-                    type="button"
-                    onClick={handleSave}
-                    className="btn btn-secondary w-100 my-1"
-                  >
-                    Save 💾
-                  </button>
                 </>
               ) : (
                 <>{postInstance?.postText}</>
               )}
             </div>
           </div>
+          <div className="col-12 fs-5">
+            {isEditing ? (
+              <>
+                <input
+                  type="text"
+                  name="title"
+                  className="form-control me-2"
+                  value={editedTags}
+                  onChange={handleTagChange}
+                />
+              </>
+            ) : null
+            }
+          </div>
+          {isEditing ?
+            <button
+              type="button"
+              onClick={handleSave}
+              className="btn btn-secondary w-100 my-1"
+            >
+              Save 💾
+            </button> : null
+          }
           <div className="card-text row">
             <div className="d-inline-flex fs-5 col-1">
               <div className="handclap-full me-2">
@@ -268,10 +317,14 @@ const Post = (props) => {
               {"\u{1F4AC}"}
               {postInstance?.comments?.length}
             </div>
-            <div className="col-8 fs-5">Tags: {postInstance.tags.map((tag, index) => {
-              return <Tag key={index} tag={tag} />
-            })}
-            </div>
+            {/* Hide tags when editing a post */}
+            {!isEditing ?
+              <div className="col-8 fs-5">Tags: {postInstance.tags.map((tag, index) => {
+                return <Tag key={index} tag={tag} />
+              })}
+              </div>
+              : null
+            }
           </div>
           <p className="card-text">
             <small className="text-muted">
