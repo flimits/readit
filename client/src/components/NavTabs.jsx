@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import Login from "./Login";
+import CreatePost from "./CreatePost"; // adding create-post as a button
 
 import Auth from "../utils/auth";
 
@@ -12,6 +13,7 @@ function NavTabs() {
 
   return (
     <>
+        <CreatePost />
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <Login />
         <div className="container-fluid">
@@ -67,16 +69,14 @@ function NavTabs() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link
-                  to="/create-post"
-                  className={
-                    currentPage === "/create-post"
-                      ? "nav-link custom-nav active"
-                      : "nav-link custom-nav"
-                  }
-                >
-                  Create A Post
-                </Link>
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#staticBackdropCreatePost"
+                  >
+                    Create A Post
+                  </button>
               </li>
               <li className="nav-item">
                 <Link
