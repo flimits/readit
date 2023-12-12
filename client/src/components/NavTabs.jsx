@@ -58,9 +58,8 @@ function NavTabs() {
                   Home
                 </Link>
               </li>
-              {Auth.loggedIn() && (
+              {Auth.loggedIn() && ( // dont show the my profile tab unless logged in
                 <>
-                  {/* Add the separator between Home and My Profile */}
                   <li className="nav-item separator"></li>
                   <li className="nav-item">
                     <Link
@@ -74,10 +73,10 @@ function NavTabs() {
                       My Profile
                     </Link>
                   </li>
-                  {/* Add the separator between My Profile and Create A Post */}
                   <li className="nav-item separator"></li>
                 </>
               )}
+              {Auth.loggedIn() && ( // do not show the create a post tab unless they are logged in
               <li className="nav-item">
                 <button
                   type="button"
@@ -88,7 +87,7 @@ function NavTabs() {
                   Create A Post
                 </button>
               </li>
-              {/* Add the separator between Create A Post and Search */}
+              )}
               <li className="nav-item separator"></li>
               <li className="nav-item">
                 <Link
