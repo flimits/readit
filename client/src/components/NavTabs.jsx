@@ -1,8 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
 import Login from "./Login";
-import CreatePost from "./CreatePost"; // adding create-post as a button
-
+import CreatePost from "./CreatePost";
 import Auth from "../utils/auth";
+import '../App.css'; // Import the App.css file
+
+// ... other imports
 
 function NavTabs() {
   const logout = (event) => {
@@ -13,7 +15,7 @@ function NavTabs() {
 
   return (
     <>
-        <CreatePost />
+      <CreatePost />
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <Login />
         <div className="container-fluid">
@@ -56,28 +58,37 @@ function NavTabs() {
                   Home
                 </Link>
               </li>
+              {Auth.loggedIn() && ( // dont show the my profile tab unless logged in
+                <>
+                  <li className="nav-item separator"></li>
+                  <li className="nav-item">
+                    <Link
+                      to="/my-profile"
+                      className={
+                        currentPage === "/my-profile"
+                          ? "nav-link custom-nav active"
+                          : "nav-link custom-nav"
+                      }
+                    >
+                      My Profile
+                    </Link>
+                  </li>
+                  <li className="nav-item separator"></li>
+                </>
+              )}
+              {Auth.loggedIn() && ( // do not show the create a post tab unless they are logged in
               <li className="nav-item">
-                <Link
-                  to="/my-profile"
-                  className={
-                    currentPage === "/my-profile"
-                      ? "nav-link custom-nav active"
-                      : "nav-link custom-nav"
-                  }
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#staticBackdropCreatePost"
                 >
-                  My Profile
-                </Link>
+                  Create A Post
+                </button>
               </li>
-              <li className="nav-item">
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    data-bs-toggle="modal"
-                    data-bs-target="#staticBackdropCreatePost"
-                  >
-                    Create A Post
-                  </button>
-              </li>
+              )}
+              <li className="nav-item separator"></li>
               <li className="nav-item">
                 <Link
                   to="/search"
@@ -90,6 +101,8 @@ function NavTabs() {
                   Search
                 </Link>
               </li>
+              {/* Add the separator between Search and Login/Logout */}
+              <li className="nav-item separator"></li>
               <li className="nav-item">
                 {Auth.loggedIn() ? (
                   <button

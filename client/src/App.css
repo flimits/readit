@@ -33,3 +33,10 @@ textarea {
 .handclap-unclicked {
   filter: saturate(0);
 }
+
+.navbar-nav .separator {
+  height: 40px; /* Adjust the height of the separator as needed */
+  width: 2px; /* Width of the vertical line */
+  background-color: black; /* Color of the vertical line */
+  margin: 0 10px; /* Adjust the margin to control spacing between tabs and lines */
+}

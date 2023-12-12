@@ -132,7 +132,7 @@ export default function CreatePost() {
                       <button
                         type="button"
                         className="close"
-                        data-dismiss="modal"
+                        data-bs-dismiss="modal"
                         aria-label="Close"
                         onClick={() => setShowModal(false)}
                       >
