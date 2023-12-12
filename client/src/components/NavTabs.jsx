@@ -13,9 +13,9 @@ function NavTabs() {
 
   return (
     <>
+        <CreatePost />
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <Login />
-        <CreatePost />
         <div className="container-fluid">
           <Link
             to="/"

@@ -44,7 +44,7 @@ export default function CreatePost() {
       setSubmitted(true); // show the post was submitted
       setTimeout(() => {
         window.location.href = "/";
-      }, 1200);
+      }, 5000);
     }
   }, [data])
 
@@ -112,23 +112,21 @@ export default function CreatePost() {
   const renderPostForm = () => {
     return (
 
-      <div className='createpost-form'>
-        <div className='createpost-boxinform'>
-          {submitted ? (
-            <div>
-              <h2>Your post has been submitted! Redirecting back to home page...</h2>
-            </div>
-          ) : (
-            <>
-              <div
-                id="staticBackdropCreatePost"
-                className={`modal ${showModal ? 'show' : ''}`}
-                tabIndex="-1"
-                role="dialog"
-                style={{ display: showModal ? 'block' : 'none' }}
-              >
-                <div className="modal-dialog" role="document">
-                  <div className="modal-content">
+          <div
+            id="staticBackdropCreatePost"
+            className={`modal ${showModal ? 'show' : ''}`}
+            tabIndex="-1"
+            role="dialog"
+            style={{ display: showModal ? 'block' : 'none' }}
+          >
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                {submitted ? (
+                  <div>
+                    <h2>Your post has been submitted! Redirecting back to home page...</h2>
+                  </div>
+                ) : (
+                  <>
                     <div className="modal-header">
                       <h5 className="modal-title">Create Post</h5>
                       <button
@@ -188,14 +186,12 @@ export default function CreatePost() {
                         <br></br>
                         <button id='button-create-post' type="submit" className="btn btn-primary" disabled>Create Post</button>
                       </form>
-                    </div>
-                  </div>
-                </div>
               </div>
             </>
-          )}
-        </div>
-      </div>
+            )}
+            </div>
+          </div>
+          </div>
     )
   }
 
