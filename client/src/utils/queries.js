@@ -87,6 +87,7 @@ export const SEARCH_POSTS = gql`
       tags
       reactions {
         _id
+        author
         applause
       }
       comments {

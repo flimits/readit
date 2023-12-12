@@ -24,17 +24,13 @@ const Post = (props) => {
 
   // mutation to edit a post
   const [editPost] = useMutation(EDIT_POST);
-  const [toggleReaction, { reactionError, reactionData }] = useMutation(ADD_REACTION, {
+  const [toggleReaction] = useMutation(ADD_REACTION, {
     variables: {
       postId: postInstance._id,
       applause: true
     }
   })
 
-  useEffect(() => {
-    if (reactionError) console.log("reactionError:", reactionError)
-    if (reactionData) console.log("reactionData:", reactionData)
-  }, [reactionError, reactionData])
 
   if (!postInstance?._id) return "No Post to view !!";
 
