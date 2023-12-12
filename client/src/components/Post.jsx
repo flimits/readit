@@ -5,7 +5,7 @@ import { useMutation } from "@apollo/client";
 import Auth from "../utils/auth";
 import Tag from "./Tag";
 import { DELETE_POST, EDIT_POST, ADD_REACTION } from "../utils/mutations";
-import { GET_POSTS } from "../utils/queries";
+import { GET_POSTS, GET_ME } from "../utils/queries";
 import moment from "moment";
 
 const Post = (props) => {
@@ -25,35 +25,41 @@ const Post = (props) => {
   const [editedText, setEditedText] = useState(postInstance?.postText);
 
   // mutation to edit a post
-  const [editPost, { error: editError, data: editData}] = useMutation(EDIT_POST);
-  const [toggleReaction, { error: reactionError, data: reactionData }] = useMutation(ADD_REACTION, {
-    variables: {
-      postId: postInstance._id,
-      applause: true
-    }
-  })
+  const [editPost, { error: editError, data: editData }] =
+    useMutation(EDIT_POST);
+  const [toggleReaction, { error: reactionError, data: reactionData }] =
+    useMutation(ADD_REACTION, {
+      variables: {
+        postId: postInstance._id,
+        applause: true,
+      },
+    });
 
   useEffect(() => {
-    if (reactionError) console.log("reactionError:", reactionError)
-    if (reactionData) console.log("reactionData:", reactionData)
-  }, [reactionError, reactionData])
+    if (reactionError) console.log("reactionError:", reactionError);
+    if (reactionData) console.log("reactionData:", reactionData);
+  }, [reactionError, reactionData]);
 
-
-    
   // mutation to Delete a post
-  const [deletePost, {error: deleteError, data: deleteData}] = useMutation(DELETE_POST, {
-    refetchQueries: [
-      GET_POSTS,
-      "getPosts"
-    ]
-  });
+  const [deletePost, { error: deleteError, data: deleteData }] = useMutation(
+    DELETE_POST,
+    {
+      refetchQueries: [GET_POSTS, "getPosts", GET_ME, "getMe"],
+    }
+  );
 
   useEffect(() => {
     if (reactionError) console.log("reactionError:", reactionError);
     if (reactionData) console.log("reactionData:", reactionData);
     if (reactionData) console.log("deleteData:", deleteData);
-  }, [reactionError, reactionData, editError, editData, deleteData, deleteError]);
-
+  }, [
+    reactionError,
+    reactionData,
+    editError,
+    editData,
+    deleteData,
+    deleteError,
+  ]);
 
   //Tracks if user is deleting a post
   const [isDeleting, setIsDeleting] = useState(false);
