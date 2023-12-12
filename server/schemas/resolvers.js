@@ -229,34 +229,50 @@ const resolvers = {
       try {
         // console.log("context.user:", context.user);
         // Check if user is logged in
-        // if (!context.user) {
-        //   throw ErrorMustBeLoggedIn
-        // }
+        if (!context.user) {
+          throw ErrorMustBeLoggedIn
+        }
 
         const post = await Post.findById(new ObjectId(postId));
+        // console.log("found post:", post);
         const reactions = post.reactions;
 
         if (reactions.length > 0) {
           // Find if the user has already reacted or not
-          const didUserReact = reactions.filter((reaction) =>
-            new ObjectId(newReaction.author).equals(reaction.author)
-          );
+          const didUserReact = reactions.filter((reaction) => new ObjectId(context.user._id).equals(reaction.author));
+          // console.log("did user already react?", didUserReact[0])
 
+          let update;
           if (didUserReact[0]) {
-            // Remove the user's reaction
+            // Get the user's id
             const author = didUserReact[0].author;
-            return await Post.findByIdAndUpdate(
-              new ObjectId(postId),
-              {
-                $pull: {
-                  reactions: { author: new ObjectId(author) },
-                },
+
+            // This will remove the user's reaction
+            update = {
+              $pull: {
+                reactions: { author: new ObjectId(author) },
               },
-              { new: true }
-            );
+            }
+          } else {
+            // Add the userId to the newReaction object
+            newReaction.author = context.user._id
+
+            // This will push the new reaction to the database
+            update = {
+              $push: {
+                reactions: newReaction,
+              },
+            }
           }
 
-          return;
+          const updatedPost = await Post.findByIdAndUpdate(
+            new ObjectId(postId),
+            update,
+            { new: true }
+          );
+
+          // console.log("updatedPost:", updatedPost);
+          return updatedPost;
         }
 
         // Add reaction to post

@@ -23,6 +23,8 @@ addReactionToComment: async (parent, { postId, commentId, ...newReaction }) => {
 
 [Idea for react rendering with multiple conditions](https://dev.to/samba_code/nested-ternary-statements-in-react-jsx-35kp)
 
+[Idea for using `filter: saturate` for handclap emoji](https://stackoverflow.com/questions/58450687/how-to-style-a-unicode-character)
+
 ## Resources 
 
 [JWT docs](https://www.npmjs.com/package/jsonwebtoken)
