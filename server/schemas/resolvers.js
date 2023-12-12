@@ -214,10 +214,13 @@ const resolvers = {
           throw ErrorMustBeLoggedIn
         }
 
-        const deletedData = await Post.findByIdAndDelete(new ObjectId(postId), {
-          new: true,
-        });
-        console.log("deletedData ",deletedData);
+        const deletedData = await Post.findByIdAndDelete(new ObjectId(postId), 
+          { new: true, }
+        );
+        // console.log("deletedData ",deletedData);
+
+        // Change a piece of data to trigger React's hook render
+        deletedData._id = "";
         return deletedData;
       } catch (error) {
         console.log("couldn't delete post");
