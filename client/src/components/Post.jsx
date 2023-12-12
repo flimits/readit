@@ -11,8 +11,8 @@ const Post = (props) => {
   const emojiCodePoint = "\u{1F4DD}";
   const deleteIcon = "\u{1F5D1}";
 
-  //const [postInstance, setPostInstance] = useState(props?.post);
-  let postInstance = props.post;
+  // const [postInstance, setPostInstance] = useState(props?.post);
+  const postInstance = props.post;
 
   const currentPage = useLocation().pathname;
   //Dont make title clickable, if they are already on view post page.
@@ -28,13 +28,26 @@ const Post = (props) => {
 
   // mutation to edit a post
   const [editPost, { error: editError, data: editData}] = useMutation(EDIT_POST);
-  const [toggleReaction, { error: reactionError, data: reactionData }] =
-    useMutation(ADD_REACTION, {
-      variables: {
-        postId: postInstance._id,
-        applause: true,
-      },
-    });
+  // const [toggleReaction, { error: reactionError, data: reactionData }] =
+  //   useMutation(ADD_REACTION, {
+  //     variables: {
+  //       postId: postInstance._id,
+  //       applause: true,
+  //     },
+  //   });
+  // const [editPost] = useMutation(EDIT_POST);
+  const [toggleReaction, { error: reactionError, data: reactionData }] = useMutation(ADD_REACTION, {
+    variables: {
+      postId: postInstance._id,
+      applause: true
+    }
+  })
+
+  useEffect(() => {
+    if (reactionError) console.log("reactionError:", reactionError)
+    if (reactionData) console.log("reactionData:", reactionData)
+  }, [reactionError, reactionData])
+
 
     
   // mutation to Delete a post
