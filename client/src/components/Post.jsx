@@ -218,6 +218,7 @@ const Post = (props) => {
                     type="text"
                     name="title"
                     className="form-control me-2"
+                    placeholder="New Title"
                     value={editedTitle}
                     onChange={handleTitleChange}
                   />
@@ -268,6 +269,7 @@ const Post = (props) => {
                   <textarea
                     name="postText"
                     className="form-control my-1 mb-10"
+                    placeholder="Post Message"
                     value={editedText}
                     onChange={handlePostTextChange}
                   />
@@ -284,6 +286,7 @@ const Post = (props) => {
                   type="text"
                   name="title"
                   className="form-control me-2"
+                  placeholder="e.g. cooking football vacation"
                   value={editedTags}
                   onChange={handleTagChange}
                 />
