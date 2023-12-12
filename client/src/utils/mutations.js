@@ -114,15 +114,6 @@ export const EDIT_COMMENT = gql`
   }
 `;
 
-export const DELETE_POST = gql`
-  mutation deletePost($postId: ID!) {
-    deletePost(postId: $postId) {
-      _id
-    }
-  }
-
-`;
-
 export const ADD_REACTION = gql`
   mutation AddReactionToPost($postId: ID!, $applause: Boolean!) {
     addReactionToPost(postId: $postId, applause: $applause) {
