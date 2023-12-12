@@ -25,15 +25,33 @@ const resolvers = {
         console.error(error);
       }
     },
-    getMe: async (parent, args, context) => {
-      // TODO: Test with frontend
+getMe: async (parent, args, context) => {
+        // TODO: Test with frontend
       // If we know the logged in user is wanting to look at their account, use context
-      console.log("context.user:", context.user);
-      if (context.user) {
-        return User.findById(new ObjectId(context.user._id)).populate("posts");
-      }
-      throw ErrorAuthentication;
-    },
+  try {
+    console.log("context.user:", context.user);
+
+    if (context.user) {
+      const user = await User
+        .findById(new ObjectId(context.user._id))
+        .populate({
+          path: "posts",
+          populate: {
+            path: "author",
+            select: "userName",
+          },
+        });
+
+      console.log("user:", user);
+      return user;
+    }
+
+    throw ErrorAuthentication;
+  } catch (error) {
+    console.error("Error in getMe resolver:", error);
+  }
+},
+
     posts: async () => {
       try {
         const posts = await Post.find().populate({
