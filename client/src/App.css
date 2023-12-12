@@ -47,3 +47,6 @@ textarea {
   border-radius: 5px;
 }
 /*  */
+.handclap-unclicked {
+  filter: saturate(0);
+}
