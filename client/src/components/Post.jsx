@@ -6,6 +6,7 @@ import Auth from "../utils/auth";
 import Tag from "./Tag";
 import { DELETE_POST, EDIT_POST, ADD_REACTION } from "../utils/mutations";
 import { GET_POSTS } from "../utils/queries";
+import moment from "moment";
 
 const Post = (props) => {
   const emojiCodePoint = "\u{1F4DD}";
@@ -271,8 +272,8 @@ const Post = (props) => {
           </div>
           <p className="card-text">
             <small className="text-muted">
-              <b>{postInstance?.author.userName}</b> on:{" "}
-              {postInstance?.createdAt}
+              <b>{postInstance.author.userName}</b> on:{" "}
+              {moment(`${postInstance.createdAt}`).format("MMMM Do YYYY")}
             </small>
           </p>
           {isDeleting ? (
