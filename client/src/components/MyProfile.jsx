@@ -15,12 +15,21 @@ const MyProfile = () => {
 
   console.log("my data is:", data?.getMe?.posts);
 
+  // Sort the posts by createdAt in descending order
+  const sortedPosts = data?.getMe?.posts.slice().sort((a, b) => {
+    // Change '>' to '<' for ascending order
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  });
+
+  // we simply just need to return all posts.
+  // and in ascending order
   return (
     <main className="container">
       <div className="flex-row justify-center">
         <div className="col-12 mb-3">
-          {data?.getMe?.posts.map((item) => (
-            <Post post={item}
+          {sortedPosts.map((item) => (
+            <Post
+              post={item}
               key={item._id}
             />
           ))}

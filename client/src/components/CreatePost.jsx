@@ -43,7 +43,7 @@ export default function CreatePost() {
     if (data && isPostValid) {
       setSubmitted(true); // show the post was submitted
       setTimeout(() => {
-        window.location.reload();
+        window.location.href="/my-profile";
       }, 1200);
     }
   }, [data])
