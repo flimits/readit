@@ -12,7 +12,7 @@ const Footer = () => {
           >
             ❤️
           </span>{' '}
-          by the Tech Thoughts team.
+          by the Project 5 team.
         </h4>
       </div>
     </footer>

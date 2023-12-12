@@ -2,5 +2,58 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
+  /* text-align: center; */
+}
+
+textarea {
+  resize: none;
+}
+
+.loginForm,
+.signUpForm {
+  padding: 5px;
+}
+
+.createpost-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #f0f0f0;
+}
+
+.createpost-boxinform{
+  width: 50%;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Post component */
+.delete-post-mask {
+  position: absolute;
+  background-color: #000;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0.8;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  border-radius: 5px;
+}
+/*  */
+.handclap-unclicked {
+  filter: saturate(0);
+}
+
+.navbar-nav .separator {
+  height: 40px; /* Adjust the height of the separator as needed */
+  width: 2px; /* Width of the vertical line */
+  background-color: black; /* Color of the vertical line */
+  margin: 0 10px; /* Adjust the margin to control spacing between tabs and lines */
 }

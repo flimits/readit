@@ -1,4 +1,6 @@
 const typeDefs = `
+scalar Date
+
 type User {
     _id: ID
     userName: String
@@ -10,8 +12,9 @@ type User {
 type Post {
     _id: ID
     title: String
-    userId: ID
+    author: User
     postText: String
+    createdAt: Date
     comments: [Comment]
     tags: [String]
     reactions: [Reaction]
@@ -19,14 +22,15 @@ type Post {
 
 type Comment {
     _id: ID
-    userId: ID
+    author: User
     text: String
     reactions: [Reaction]
+    createdAt: Date
 }
 
 type Reaction {
     _id: ID
-    userId: ID
+    author: ID
     applause: Boolean
 }
 
@@ -42,19 +46,21 @@ type Query {
 
     posts: [Post]!
     getPost(postId: ID!): Post
+    searchPosts(query: String!, filterTitle: Boolean, filterContent: Boolean, filterTags: Boolean): [Post]
 }
 
 type Mutation {
     addUser(userName: String!, email: String!, password: String!): Auth
-    login(email: String!, password: String!): Auth
+    login(userName: String!, password: String!): Auth
 
-    addPost(userId: ID!, title: String!, postText: String!, tags: [String]): Post
+    addPost(title: String!, postText: String!, tags: [String]): Post
     editPost(postId: ID!, newTitle: String, newText: String): Post
     deletePost(postId: ID!): Post
 
-    addComment(postId: ID!, userId: ID!, text: String!): Comment
-    addReactionToPost(postId: ID!, userId: ID!, applause: Boolean!): Post
-    addReactionToComment(postId: ID!, commentId: ID!, userId: ID!, applause: Boolean!): Post
+    addComment(postId: ID!, text: String!): Post
+    editComment(postId: ID!, commentId: ID!, newText: String!): Post
+    addReactionToPost(postId: ID!, applause: Boolean!): Post
+    addReactionToComment(postId: ID!, commentId: ID!, applause: Boolean!): Post
 
     editTagsFromPost(postId: ID!, newTags: [String]!): Post
 }

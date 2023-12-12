@@ -1,9 +1,8 @@
-# React + Vite
+# ReadIt
 
  readit
-The only blog that you'll need to talk, chat, share
+The only blog that you'll need to post and comments.
 (A microblogging site.)
-# React + Vite
 
 ## MVP
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -176,3 +175,95 @@ Sharing...
 
 // landing page is all posts
 // have login 
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+## git workflow !!
+
+git pull origin main
+create a new branch feature/<feature-name>
+
+
+always do this before creating a PR
+
+commit your changes.  
+git add .
+git commit -m "message"
+git pull origin main  
+resolve any merge conflicts using Visual studio code
+
+git add . 
+git commit -m "message"
+git push origin feature/<feature-name>
+
+got to github and create a PR.
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+friday day 1
+
+
+login/signup :  backend, create UI and integrate
+
+Home: View posts
+
+Create and save a post.
+
+post component: for displaying !
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+whats left saturday
+
+intgrate saving post to backend.
+
+sign up - done
+
+Notifications inside the form login/signup
+login/logout is done.
+toggle signup and login
+
+
+Home page
+
+view a post - done [disable link to view-post once the user is on the view-post url !!]
+add comments 
+add reactions to a post
+
+My post page
+edit your posts/delete posts.
+
+Search display posts and the logic to search
+
+
+Tags !!
+
+STYLING !!
+
+
+>>>>>>>>>>>>
+
+More commits !!
+
+2 new technologies !!!
+
+1. Moment.js for formatting time stamps
+2. font awesome for icons
+
+3. ??
+
+### What is left.
+* Update applause (reactions)
+* Delete a post
+* Use at least 2 libraries
+  * fontawesome
+  * date formatter called DayJS
+  * momentjs
+* Styling
+* Diplaying Tags?
+* Custom alerting (modals)
+  * Create a post is a page, but could be more of a window that pops up (modal)
+* Edit Comments (user owned)
+* Delete comments (user owned)
+* Dashboard needs updating to have more than just my own posts

@@ -1,8 +1,7 @@
 const { Schema, model } = require("mongoose");
-const { ObjectId } = require("bson");
 
 const reactionSchema = new Schema({
-  userId: {
+  author: {
     type: Schema.Types.ObjectId,
     ref: "User",
     required: true,
@@ -10,84 +9,90 @@ const reactionSchema = new Schema({
   applause: {
     type: Boolean,
     default: false,
+  },
+});
+
+const commentSchema = new Schema(
+  {
+    author: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    text: {
+      type: String,
+      required: "please fill out text",
+    },
+    reactions: [reactionSchema],
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+  {
+    toJSON: {
+      virtuals: true,
+    },
+    toObject: {
+      virtuals: true,
+    },
+    id: true,
   }
+);
+
+commentSchema.virtual("applauseCount").get(function () {
+  return this.reactions.length;
 });
 
-const commentSchema = new Schema({
-  // commentId: {
-  //   type: Schema.Types.ObjectId,
-  //   default: new ObjectId(),
-  // },
-  userId: {
-    type: Schema.Types.ObjectId,
-    required: true,
+const postSchema = new Schema(
+  {
+    title: {
+      type: String,
+      required: "Please fill out title",
+    },
+    author: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    postText: {
+      type: String,
+      required: "Please fill out text",
+    },
+    reactions: [reactionSchema],
+    comments: [commentSchema],
+    tags: {
+      type: [String],
+      default: [],
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
-  text: {
-    type: String,
-    required: "please fill out text",
-  },
-  reactions: [reactionSchema],
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
-}, {
-  toJSON: {
-    virtuals: true
-  },
-  toObject: {
-    virtuals: true
-  },
-  id: true,
+  {
+    toJSON: {
+      virtuals: true,
+    },
+    toObject: {
+      virtuals: true,
+    },
+    id: true,
+  }
+);
+
+postSchema.virtual("applauseCount").get(function () {
+  return this.reactions.length;
 });
 
-commentSchema
-  .virtual('applauseCount')
-  .get(function () {
-    return this.reactions.length;
-  });
-
-const postSchema = new Schema({
-  title: {
-    type: String,
-    required: "Please fill out title",
-  },
-  userId: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
-  postText: {
-    type: String,
-    required: "Please fill out text",
-  },
-  reactions: [reactionSchema],
-  comments: [commentSchema],
-  tags: {
-    type: [String], // Declare an array of strings
-    default: [] // Set a default empty array if needed
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
-}, {
-  toJSON: {
-    virtuals: true
-  },
-  toObject: {
-    virtuals: true
-  },
-  id: true,
-
+// Create indexes for Mongo find $text
+postSchema.index({
+  title: "text",
+  postText: "text",
+  tags: "text",
 });
-
-
-postSchema
-  .virtual('applauseCount')
-  .get(function () {
-    return this.reactions.length;
-  });
 
 const Post = model("Post", postSchema);
+Post.createIndexes();
+
 module.exports = Post;

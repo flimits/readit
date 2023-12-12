@@ -1,31 +1,30 @@
-// Import the `useQuery()` hook from Apollo Client
-import { useQuery } from '@apollo/client';
+import Post from "../components/Post";
+import { GET_POSTS } from "../utils/queries";
 
-import ThoughtList from '../components/ThoughtList';
-
-// Import the query we are going to execute from its file
-import { QUERY_THOUGHTS } from '../utils/queries';
+import { useQuery } from "@apollo/client";
 
 const Home = () => {
-  // Execute the query on component load
-  const { loading, data } = useQuery(QUERY_THOUGHTS);
+  const { data, loading, error } = useQuery(GET_POSTS);
 
-  // Use optional chaining to check if data exists and if it has a thoughts property. If not, return an empty array to use.
-  const thoughts = data?.thoughts || [];
+  if (loading) return "Loading ...";
+  if (error) return `Error ! ${error.message}`;
+
+  // Lets sort the posts by createdAt in descending order
+  const sortedPosts = data?.posts.slice().sort((a, b) => {
+    // you can change the sort direction with '>' to '<' for ascending order
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  });
 
   return (
-    <main>
+    <main className="container">
       <div className="flex-row justify-center">
-        <div className="col-12 col-md-8 mb-3">
-          {/* If the data is still loading, render a loading message */}
-          {loading ? (
-            <div>Loading...</div>
-          ) : (
-            <ThoughtList
-              thoughts={thoughts}
-              title="Some Feed for Thought(s)..."
+        <div className="col-12 mb-3">
+          {sortedPosts.map((item) => (
+            <Post
+              post={item}
+              key={item._id}
             />
-          )}
+          ))}
         </div>
       </div>
     </main>
