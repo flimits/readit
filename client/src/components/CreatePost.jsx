@@ -10,6 +10,7 @@ import "../App.css";
 export default function CreatePost() {
   const [submitted, setSubmitted] = useState(false);
   const [isPostValid, setPostValid] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const [title, setTitle] = useState('');
   const [postText, setPostText] = useState('');
@@ -32,7 +33,7 @@ export default function CreatePost() {
     const buttonCreate = document.getElementById('button-create-post')
 
     // Check if the button is rendered before editing it
-    if (buttonCreate) { 
+    if (buttonCreate) {
       buttonCreate.disabled = !isPostValid
     }
   }, [isPostValid])
@@ -42,7 +43,7 @@ export default function CreatePost() {
     if (data && isPostValid) {
       setSubmitted(true); // show the post was submitted
       setTimeout(() => {
-        window.location.href = "/";
+        window.location.reload();
       }, 1200);
     }
   }, [data])
@@ -99,6 +100,9 @@ export default function CreatePost() {
         variables: { title, postText, tags: filteredTags }
       });
 
+      // this is to reset the modal state after submitting
+      setShowModal(false);
+
     } catch (err) {
       console.log(err);
     }
@@ -107,62 +111,87 @@ export default function CreatePost() {
 
   const renderPostForm = () => {
     return (
-      <div className='createpost-form'>
-        <div className='createpost-boxinform'>
-          {submitted ? (
-            <div>
-              <h2>Your post has been submitted! Redirecting back to home page...</h2>
+
+          <div
+            id="staticBackdropCreatePost"
+            className={`modal ${showModal ? 'show' : ''}`}
+            tabIndex="-1"
+            role="dialog"
+            style={{ display: showModal ? 'block' : 'none' }}
+          >
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                {submitted ? (
+                  <div>
+                    <h2>Your post has been submitted!</h2>
+                  </div>
+                ) : (
+                  <>
+                    <div className="modal-header">
+                      <h5 className="modal-title">Create Post</h5>
+                      <button
+                        type="button"
+                        className="close"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                        onClick={() => setShowModal(false)}
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div className="modal-body">
+                      <form onSubmit={handleFormSubmit}>
+                        <div className="form-group">
+                          <label htmlFor='title' className='fs-3 mb-1'>Title:</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="title"
+                            placeholder="Title"
+                            value={title}
+                            onChange={handleOnChangeTitle}
+                            name="title"
+                          />
+
+
+                        </div>
+                        <br></br>
+                        <div className="form-group">
+                          <label htmlFor='post-text' className='fs-3 mb-1'>Text:</label>
+                          <textarea
+                            className="form-control"
+                            id="post-text"
+                            rows="4"
+                            placeholder="Post Message"
+                            value={postText}
+                            onChange={handleOnChangePostText}
+                            name="postText"
+                          />
+
+                        </div>
+                        <br></br>
+                        <div className="form-group">
+                          <label htmlFor='new-tag' className='fs-3'>Tags (optional):</label>
+                          <p className='mb-2'>Separate tags with a space in between</p>
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="new-tag"
+                            placeholder="e.g. cooking football vacation"
+                            value={tagString}
+                            onChange={handleOnChangeTags}
+                            name="tagString"
+                          />
+                        </div>
+                        <br></br>
+                        <button id='button-create-post' type="submit" className="btn btn-primary" disabled>Create Post</button>
+                      </form>
+              </div>
+            </>
+            )}
             </div>
-          ) : (
-            <form onSubmit={handleFormSubmit}>
-              <div className="form-group">
-                <label htmlFor='title' className='fs-3 mb-1'>Title:</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="title"
-                  placeholder="Title"
-                  value={title}
-                  onChange={handleOnChangeTitle}
-                  name="title"
-                />
-
-
-              </div>
-              <br></br>
-              <div className="form-group">
-                <label htmlFor='post-text' className='fs-3 mb-1'>Text:</label>
-                <textarea
-                  className="form-control"
-                  id="post-text"
-                  rows="4"
-                  placeholder="Post Message"
-                  value={postText}
-                  onChange={handleOnChangePostText}
-                  name="postText"
-                />
-
-              </div>
-              <br></br>
-              <div className="form-group">
-                <label htmlFor='new-tag' className='fs-3'>Tags (optional):</label>
-                <p className='mb-2'>Separate tags with a space in between</p>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="new-tag"
-                  placeholder="e.g. cooking football vacation"
-                  value={tagString}
-                  onChange={handleOnChangeTags}
-                  name="tagString"
-                />
-              </div>
-              <br></br>
-              <button id='button-create-post' type="submit" className="btn btn-primary" disabled>Create Post</button>
-            </form>
-          )}
-        </div>
-      </div>
+          </div>
+          </div>
     )
   }
 
