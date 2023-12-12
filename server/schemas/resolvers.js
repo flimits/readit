@@ -213,9 +213,11 @@ const resolvers = {
         //   throw ErrorMustBeLoggedIn
         // }
 
-        return await Post.findByIdAndDelete(new ObjectId(postId), {
+        const deletedData = await Post.findByIdAndDelete(new ObjectId(postId), {
           new: true,
         });
+        console.log("deletedData ",deletedData);
+        return deletedData;
       } catch (error) {
         console.log("couldn't delete post");
         console.error(error);

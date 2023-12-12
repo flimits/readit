@@ -1,37 +1,65 @@
 import PropTypes from "prop-types";
 import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useMutation, useLazyQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import Auth from "../utils/auth";
 import Tag from "./Tag";
-import { EDIT_POST, ADD_REACTION } from "../utils/mutations";
+import { DELETE_POST, EDIT_POST, ADD_REACTION } from "../utils/mutations";
+import { GET_POSTS } from "../utils/queries";
 import moment from "moment";
 
 const Post = (props) => {
   const emojiCodePoint = "\u{1F4DD}";
   const deleteIcon = "\u{1F5D1}";
 
+  // const [postInstance, setPostInstance] = useState(props?.post);
   const postInstance = props.post;
-  // console.log("PostInsance: ", postInstance);
 
   const currentPage = useLocation().pathname;
   //Dont make title clickable, if they are already on view post page.
   const disableTitleLink = currentPage.includes("/view-post/");
 
+  //Tracks if user is editing a post
   const [isEditing, setIsEditing] = useState(false);
-  const [editedTitle, setEditedTitle] = useState(postInstance.title);
-  const [editedText, setEditedText] = useState(postInstance.postText);
+  const [editedTitle, setEditedTitle] = useState(postInstance?.title);
+  const [editedText, setEditedText] = useState(postInstance?.postText);
 
   // mutation to edit a post
-  const [editPost] = useMutation(EDIT_POST);
-  const [toggleReaction] = useMutation(ADD_REACTION, {
+  const [editPost, { error: editError, data: editData}] = useMutation(EDIT_POST);
+  const [toggleReaction, { error: reactionError, data: reactionData }] = useMutation(ADD_REACTION, {
     variables: {
       postId: postInstance._id,
-      applause: true,
-    },
+      applause: true
+    }
+  })
+
+  useEffect(() => {
+    if (reactionError) console.log("reactionError:", reactionError)
+    if (reactionData) console.log("reactionData:", reactionData)
+  }, [reactionError, reactionData])
+
+
+    
+  // mutation to Delete a post
+  const [deletePost, {error: deleteError, data: deleteData}] = useMutation(DELETE_POST, {
+    refetchQueries: [
+      GET_POSTS,
+      "getPosts"
+    ]
   });
 
-  if (!postInstance?._id) return "No Post to view !!";
+  useEffect(() => {
+    if (reactionError) console.log("reactionError:", reactionError);
+    if (reactionData) console.log("reactionData:", reactionData);
+    if (reactionData) console.log("deleteData:", deleteData);
+  }, [reactionError, reactionData, editError, editData, deleteData, deleteError]);
+
+
+  //Tracks if user is deleting a post
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  //if no post instance do nothing
+  if (!postInstance) return <></>;
 
   let editDeleteEnabled = false;
 
@@ -95,10 +123,10 @@ const Post = (props) => {
   };
 
   const handleCancelClick = () => {
-    // Reset editedTitle and editedText
     setEditedTitle(postInstance.title);
     setEditedText(postInstance.postText);
     setIsEditing(false);
+    setIsDeleting(false);
   };
   const handleEditClick = () => {
     setIsEditing(true);
@@ -121,6 +149,22 @@ const Post = (props) => {
     setIsEditing(false);
   };
 
+  //delete a post !!
+  const handleDeleteClick = () => {
+    setIsDeleting(true);
+  };
+
+  const handleDelete = async () => {
+    try {
+      await deletePost({
+        variables: { postId: postInstance?._id },
+      });
+    } catch (error) {
+      console.log("Error deleting Post !!", error);
+    }
+    setIsDeleting(false);
+  };
+
   return (
     <div className="post-container container">
       <div className="card mb-3">
@@ -140,10 +184,10 @@ const Post = (props) => {
               ) : (
                 <>
                   {disableTitleLink ? (
-                    postInstance.title
+                    postInstance?.title
                   ) : (
-                    <Link to={`view-post/${postInstance._id}`}>
-                      {postInstance.title}
+                    <Link to={`view-post/${postInstance?._id}`}>
+                      {postInstance?.title}
                     </Link>
                   )}
                 </>
@@ -164,7 +208,15 @@ const Post = (props) => {
                       {emojiCodePoint}
                     </a>
                   )}
-                  <Link>{deleteIcon}</Link>
+                  {isDeleting ? (
+                    <a href="#" onClick={handleCancelClick}>
+                      {"\u{2716}"}
+                    </a>
+                  ) : (
+                    <a href="#" onClick={handleDeleteClick}>
+                      {deleteIcon}
+                    </a>
+                  )}
                 </>
               ) : (
                 " "
@@ -190,7 +242,7 @@ const Post = (props) => {
                   </button>
                 </>
               ) : (
-                <>{postInstance.postText}</>
+                <>{postInstance?.postText}</>
               )}
             </div>
           </div>
@@ -209,7 +261,7 @@ const Post = (props) => {
             </div>
             <div className="col-1 fs-5">
               {"\u{1F4AC}"}
-              {postInstance?.comments.length}
+              {postInstance?.comments?.length}
             </div>
             <div className="col-8 fs-5">
               Tags:{" "}
@@ -224,6 +276,28 @@ const Post = (props) => {
               {moment(`${postInstance.createdAt}`).format("MMMM Do YYYY")}
             </small>
           </p>
+          {isDeleting ? (
+            <>
+              <div className="delete-post-mask">
+                <button
+                  type="button"
+                  onClick={handleDelete}
+                  className="btn btn-primary"
+                >
+                  Confirm Delete
+                </button>
+                <button
+                  type="button"
+                  onClick={handleCancelClick}
+                  className="btn btn-primary"
+                >
+                  Cancel
+                </button>
+              </div>
+            </>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </div>

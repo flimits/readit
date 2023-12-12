@@ -38,6 +38,10 @@ const router = createBrowserRouter([
         element: <ViewPost />,
       },
       {
+        path: "view-post/:postId",
+        element: <ViewPost />
+      },
+      {
         path: "search/view-post/:postId",
         element: <ViewPost />,
       },
