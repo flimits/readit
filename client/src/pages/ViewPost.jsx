@@ -135,8 +135,8 @@ const ViewPost = () => {
         </div>
       </div>
       <div>
-        {post?.comments.length === 0 && "No Comments on this post yet"}
-        {post?.comments.map((comments) => (
+        {post?.comments?.length === 0 && "No Comments on this post yet"}
+        {post?.comments?.map((comments) => (
           <Comment key={comments._id} post={post} comment={comments} />
         ))}
       </div>
