@@ -217,7 +217,13 @@ const resolvers = {
         const deletedData = await Post.findByIdAndDelete(new ObjectId(postId), {
           new: true,
         });
+
         console.log("deletedData ",deletedData);
+
+        await User.findByIdAndUpdate(new ObjectId(context.user._id), {
+          $pull: { posts: new ObjectId(postId) },
+        });
+
         return deletedData;
       } catch (error) {
         console.log("couldn't delete post");
