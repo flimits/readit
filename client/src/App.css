@@ -1,14 +1,13 @@
 :root {
-  --lightest-color: #d8f3dc;
+  --comment-background: #d8f3dc;
   --text-color: #081c15;
+  --post-background: #52b788;
 }
 
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-  --lightest-color: #d8f3dc;
-  --text-color: #081c15;
   /* text-align: center; */
 }
 
@@ -58,6 +57,14 @@ textarea {
   filter: saturate(0);
 }
 
+#button-post-reaction {
+  background-color: var(--post-background);
+}
+
+#button-comment-reaction {
+  background-color: var(--comment-background);
+}
+
 .navbar-nav .separator {
   height: 40px; /* Adjust the height of the separator as needed */
   width: 2px; /* Width of the vertical line */
@@ -67,8 +74,13 @@ textarea {
 
 /* Jorge Started Here */
 .custom-post-card {
-  background-color: var(--lightest-color);
+  background-color: var(--post-background);
 }
+
+.custom-comment-card {
+  background-color: var(--comment-background);
+}
+/* Jorge Ended Here */
 /** edit/delete/cancel links **/
 .link {
   cursor: pointer;
