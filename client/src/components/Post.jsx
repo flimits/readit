@@ -23,19 +23,8 @@ const Post = (props) => {
   const [editedTitle, setEditedTitle] = useState(postInstance?.title);
   const [editedText, setEditedText] = useState(postInstance?.postText);
 
-  // const [refreshFlag, setRefreshFlag] = useState(false);
-
-
   // mutation to edit a post
   const [editPost, { error: editError, data: editData}] = useMutation(EDIT_POST);
-  // const [toggleReaction, { error: reactionError, data: reactionData }] =
-  //   useMutation(ADD_REACTION, {
-  //     variables: {
-  //       postId: postInstance._id,
-  //       applause: true,
-  //     },
-  //   });
-  // const [editPost] = useMutation(EDIT_POST);
   const [toggleReaction, { error: reactionError, data: reactionData }] = useMutation(ADD_REACTION, {
     variables: {
       postId: postInstance._id,
