@@ -28,7 +28,7 @@ const resolvers = {
     getMe: async (parent, args, context) => {
       // If we know the logged in user is wanting to look at their account, use context
       try {
-        console.log("context.user:", context.user);
+        // console.log("context.user:", context.user);
 
         if (context.user) {
           const user = await User
@@ -309,53 +309,45 @@ const resolvers = {
         const post = await Post.findById(new ObjectId(postId));
         // console.log("found post:", post);
         const reactions = post.reactions;
+        const userId = context.user._id
 
+        // Add the userId to the newReaction object
+        newReaction.author = userId;
+
+        // Assume we're adding a new reaction. So, this will push the new reaction to the database
+        let update = {
+          $push: {
+            reactions: newReaction,
+          },
+        };
+
+        // Check if there are any reactions
         if (reactions.length > 0) {
           // Find if the user has already reacted or not
           const didUserReact = reactions.filter((reaction) =>
-            new ObjectId(context.user._id).equals(reaction.author)
+            new ObjectId(userId).equals(reaction.author)
           );
-          // console.log("did user already react?", didUserReact[0])
+          // console.log("did user already react?", didUserReact[0]
 
-          let update;
           if (didUserReact[0]) {
-            // Get the user's id
-            const author = didUserReact[0].author;
-
-            // This will remove the user's reaction
+            // Change the `update` object to remove the user's reaction
             update = {
               $pull: {
-                reactions: { author: new ObjectId(author) },
-              },
-            };
-          } else {
-            // Add the userId to the newReaction object
-            newReaction.author = context.user._id;
-
-            // This will push the new reaction to the database
-            update = {
-              $push: {
-                reactions: newReaction,
+                reactions: { author: new ObjectId(userId) },
               },
             };
           }
-
-          const updatedPost = await Post.findByIdAndUpdate(
-            new ObjectId(postId),
-            update,
-            { new: true }
-          );
-
-          // console.log("updatedPost:", updatedPost);
-          return updatedPost;
         }
 
         // Add reaction to post
-        return await Post.findByIdAndUpdate(
+        const updatedPost = await Post.findByIdAndUpdate(
           new ObjectId(postId),
-          { $push: { reactions: newReaction } },
+          update,
           { new: true }
         );
+
+        // console.log("updatedPost:", updatedPost);
+        return updatedPost;
       } catch (error) {
         console.log("Couldn't add reaction to post");
         console.error(error);
