@@ -41,14 +41,14 @@ export const ADD_POST = gql`
 
 export const EDIT_POST = gql`
   mutation editPost($postId: ID!, $newTitle: String, $newText: String) {
-    editPost(postId: $postId, newTitle: $newTitle, newText: $newText ) {
+    editPost(postId: $postId, newTitle: $newTitle, newText: $newText) {
       _id
       title
       author {
         _id
         userName
       }
-      postText      
+      postText
     }
   }
 `;
@@ -61,11 +61,35 @@ export const ADD_COMMENT = gql`
         _id
         userName
       }
-      text
+      comments {
+        _id
+        author {
+          userName
+        }
+        text
+      }
     }
   }
 `;
 
+export const EDIT_COMMENT = gql`
+  mutation editComment($postId: ID!, $commentId: ID!, $newText: String!) {
+    editComment(postId: $postId, commentId: $commentId, newText: $newText) {
+      _id
+      author {
+        _id
+        userName
+      }
+      comments {
+        _id
+        author {
+          userName
+        }
+        text
+      }
+    }
+  }
+`;
 
 export const ADD_REACTION = gql`
   mutation AddReactionToPost($postId: ID!, $applause: Boolean!) {

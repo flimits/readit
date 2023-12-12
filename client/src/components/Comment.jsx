@@ -1,29 +1,117 @@
 import PropTypes from "prop-types";
-import Auth from "../utils/auth";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useMutation } from "@apollo/client";
+import Auth from "../utils/auth";
+import { EDIT_COMMENT, ADD_REACTION } from "../utils/mutations";
 
 const Comments = (props) => {
-  console.log(props);
-  const commentInstance = props.comment;
+  const emojiCodePoint = "\u{1F4DD}";
+  const deleteIcon = "\u{1F5D1}";
 
-  console.log(commentInstance);
+  const commentInstance = props.comment;
+  const postInstance = props.post;
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [updateComment, setUpdateComment] = useState({});
+  const [editedText, setEditedText] = useState(commentInstance.text);
+
+  // mutation to edit a post
+  const [editComment, { data }] = useMutation(EDIT_COMMENT);
+  const [toggleReaction] = useMutation(ADD_REACTION, {
+    variables: {
+      postId: commentInstance._id,
+      applause: true,
+    },
+  });
+
+  useEffect(() => {
+    console.log(data);
+    console.log(updateComment);
+  }, [data, updateComment]);
+
+  if (!commentInstance) return "No Comments for this post yet";
 
   let editDeleteEnabled = false;
 
   try {
-    const loggedUser = Auth.getProfile();
+    if (Auth.loggedIn()) {
+      const loggedUser = Auth.getProfile();
 
-    if (loggedUser?.data?._id === commentInstance?.author?._id) {
-      editDeleteEnabled = true;
+      if (loggedUser?.data?._id === commentInstance?.author?._id) {
+        editDeleteEnabled = true;
+      }
     }
   } catch (error) {
     console.log("Authorization error !!", error);
   }
 
-  const emojiCodePoint = "\u{1F4DD}";
-  const deleteIcon = "\u{1F5D1}";
+  const didUserReact = () => {
+    if (!Auth.loggedIn() || commentInstance.reactions.length === 0) {
+      return "handclap-unclicked";
+    }
+    // See if the user has reacted to this post
+    const reaction = commentInstance.reactions.filter(
+      (reaction) => reaction.author === Auth.getProfile()?.data?._id
+    );
+    // console.log("postInstance.reactions:", reaction);
 
-  if (!commentInstance) return "No Comments for this post yet";
+    // If user has reacted, don't apply the class, otherwise apply the class
+    if (reaction[0]) return "";
+    return "handclap-unclicked";
+  };
+
+  const handleOnClickReaction = async (e) => {
+    e.preventDefault();
+
+    if (!Auth.loggedIn()) {
+      alert("You must be logged in to react to this post");
+      return;
+    }
+
+    try {
+      await toggleReaction();
+    } catch (error) {
+      console.log("couldn't handle reaction");
+      console.error(error);
+    }
+  };
+
+  const handleCommentTextChange = (e) => {
+    // Update state as the user edits the input
+    setEditedText(e.target.value);
+  };
+
+  const handleCancelClick = () => {
+    setEditedText(commentInstance.text);
+    setIsEditing(false);
+  };
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+
+    console.log(commentInstance, postInstance._id);
+
+    try {
+      const updatedComment = await editComment({
+        variables: {
+          postId: postInstance._id,
+          commentId: commentInstance._id,
+          newText: editedText,
+        },
+      });
+      // window.location.reload();
+      console.log(updatedComment);
+      setUpdateComment(updatedComment);
+    } catch (error) {
+      console.log("Error Editing: ", error);
+    }
+    setIsEditing(false);
+  };
 
   return (
     <div className="post-container container">
@@ -34,7 +122,15 @@ const Comments = (props) => {
             <div className="col-2">
               {editDeleteEnabled ? (
                 <>
-                  <Link>{emojiCodePoint}</Link>
+                  {isEditing ? (
+                    <a href="#" onClick={handleCancelClick}>
+                      {"\u{2716}"}
+                    </a>
+                  ) : (
+                    <a onClick={handleEditClick} href="#">
+                      {emojiCodePoint}
+                    </a>
+                  )}
                   <Link>{deleteIcon}</Link>
                 </>
               ) : (
@@ -43,7 +139,28 @@ const Comments = (props) => {
             </div>
           </div>
           <div className="card-text">
-            <div className="col-8">{commentInstance.text}</div>
+            <div className="col-8">
+              {" "}
+              {isEditing ? (
+                <>
+                  <textarea
+                    name="postText"
+                    className="form-control my-1 mb-10"
+                    value={editedText}
+                    onChange={handleCommentTextChange}
+                  />
+                  <button
+                    type="button"
+                    onClick={handleSave}
+                    className="btn btn-secondary w-100 my-1"
+                  >
+                    Save 💾
+                  </button>
+                </>
+              ) : (
+                <>{commentInstance.text}</>
+              )}
+            </div>
           </div>
           <div className="card-text row">
             <div className="col-1">
