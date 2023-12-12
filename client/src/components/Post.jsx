@@ -7,7 +7,6 @@ import Tag from "./Tag";
 import { EDIT_POST, ADD_REACTION } from "../utils/mutations";
 
 const Post = (props) => {
-
   const emojiCodePoint = "\u{1F4DD}";
   const deleteIcon = "\u{1F5D1}";
 
@@ -27,64 +26,63 @@ const Post = (props) => {
   const [toggleReaction] = useMutation(ADD_REACTION, {
     variables: {
       postId: postInstance._id,
-      applause: true
-    }
-  })
-
+      applause: true,
+    },
+  });
 
   if (!postInstance?._id) return "No Post to view !!";
 
   let editDeleteEnabled = false;
 
   try {
-    if (Auth.loggedIn()) { // Only try this if the user is logged in
+    if (Auth.loggedIn()) {
+      // Only try this if the user is logged in
       const loggedUser = Auth.getProfile();
       if (loggedUser?.data?._id === postInstance?.author?._id) {
         editDeleteEnabled = true;
       }
     }
-
   } catch (error) {
     console.log("Authorization error !!", error);
   }
 
   // Checks if the user has reacted or not
   const didUserReact = () => {
-
     if (!Auth.loggedIn() || postInstance.reactions.length === 0) {
-      return "handclap-unclicked"
+      return "handclap-unclicked";
     }
     // See if the user has reacted to this post
-    const reaction = postInstance.reactions.filter((reaction) => reaction.author === Auth.getProfile()?.data?._id)
+    const reaction = postInstance.reactions.filter(
+      (reaction) => reaction.author === Auth.getProfile()?.data?._id
+    );
     // console.log("postInstance.reactions:", reaction);
 
     // If user has reacted, don't apply the class, otherwise apply the class
-    if (reaction[0]) return ""
-    return "handclap-unclicked" 
-  }
+    if (reaction[0]) return "";
+    return "handclap-unclicked";
+  };
 
   /**
    * Checks if the user has already reacted to that post and if so, updates the database.
    * If the user has NOT reacted, add the reaction to the post's subdoc of reactions.
    * IF the user HAS reacted, remove the reaction to the post's subdoc of reactions
-   * @param {Event} e 
+   * @param {Event} e
    */
   const handleOnClickReaction = async (e) => {
     e.preventDefault();
 
     if (!Auth.loggedIn()) {
       alert("You must be logged in to react to this post");
-      return
+      return;
     }
 
     try {
       await toggleReaction();
     } catch (error) {
-      console.log("couldn't handle reaction")
-      console.error(error)
+      console.log("couldn't handle reaction");
+      console.error(error);
     }
-
-  }
+  };
 
   const handleTitleChange = (e) => {
     // Update state as the user edits the input
@@ -154,7 +152,7 @@ const Post = (props) => {
               {editDeleteEnabled ? (
                 <>
                   {isEditing ? (
-                    <a href="#"  onClick={handleCancelClick}>
+                    <a href="#" onClick={handleCancelClick}>
                       {"\u{2716}"}
                     </a>
                   ) : (
@@ -179,8 +177,12 @@ const Post = (props) => {
                     value={editedText}
                     onChange={handlePostTextChange}
                   />
-                  <button type="button" onClick={handleSave} className="btn btn-secondary w-100 my-1">
-                    Save  💾
+                  <button
+                    type="button"
+                    onClick={handleSave}
+                    className="btn btn-secondary w-100 my-1"
+                  >
+                    Save 💾
                   </button>
                 </>
               ) : (
@@ -205,9 +207,11 @@ const Post = (props) => {
               {"\u{1F4AC}"}
               {postInstance?.comments.length}
             </div>
-            <div className="col-8 fs-5">Tags: {postInstance.tags.map((tag, index) => {
-              return <Tag key={index} tag={tag} />
-            })}
+            <div className="col-8 fs-5">
+              Tags:{" "}
+              {postInstance.tags.map((tag, index) => {
+                return <Tag key={index} tag={tag} />;
+              })}
             </div>
           </div>
           <p className="card-text">

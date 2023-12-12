@@ -27,32 +27,36 @@ const router = createBrowserRouter([
       },
       {
         path: "my-profile",
-        element: <MyProfile />
+        element: <MyProfile />,
       },
       {
         path: "my-profile/view-post/:postId", // this enables the authenticated user to view a single post
-        element: <ViewPost />
+        element: <ViewPost />,
+      },
+      {
+        path: "view-post/:postId",
+        element: <ViewPost />,
       },
       {
         path: "search/view-post/:postId",
-        element: <ViewPost />
+        element: <ViewPost />,
       },
       {
         path: "/edit-post/:postId",
-        element: <EditPost/>
+        element: <EditPost />,
       },
       {
         path: "view-post/:postId/edit-post/:postId", //TODO check if we can avoid view-post/:postId prefix !!
-        element: <EditPost/>
+        element: <EditPost />,
       },
       {
         path: "/search/view-post/:postId/edit-post/:postId", //TODO check if we can avoid view-post/:postId prefix !!
-        element: <EditPost/>
+        element: <EditPost />,
       },
       {
         path: "/search/edit-post/:postId", //TODO check if we can avoid view-post/:postId prefix !!
-        element: <EditPost/>
-      }
+        element: <EditPost />,
+      },
     ],
   },
 ]);
@@ -60,4 +64,3 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <RouterProvider router={router} />
 );
-

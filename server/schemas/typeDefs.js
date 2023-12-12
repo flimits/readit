@@ -58,6 +58,7 @@ type Mutation {
     deletePost(postId: ID!): Post
 
     addComment(postId: ID!, text: String!): Comment
+    editComment(commentId: ID!, newText: String!): Comment
     addReactionToPost(postId: ID!, applause: Boolean!): Post
     addReactionToComment(postId: ID!, commentId: ID!, applause: Boolean!): Post
 
