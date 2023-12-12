@@ -15,29 +15,29 @@ const MyProfile = () => {
 
   console.log("my data is:", data?.getMe?.posts);
 
-    // Sort the posts by createdAt in descending order
-    const sortedPosts = data?.getMe?.posts.slice().sort((a, b) => {
-      // Change '>' to '<' for ascending order
-      return new Date(b.createdAt) - new Date(a.createdAt);
-    });
+  // Sort the posts by createdAt in descending order
+  const sortedPosts = data?.getMe?.posts.slice().sort((a, b) => {
+    // Change '>' to '<' for ascending order
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  });
 
-    // we simply just need to return all posts.
-    // and in ascending order
-    return (
-      <main className="container">
-        <div className="flex-row justify-center">
-          <div className="col-12 mb-3">
-            {sortedPosts.map((item) => (
-              <Post
-                post={item}
-                key={item._id}
-                username={item?.author?.userName}
-              />
-            ))}
-          </div>
+  // we simply just need to return all posts.
+  // and in ascending order
+  return (
+    <main className="container">
+      <div className="flex-row justify-center">
+        <div className="col-12 mb-3">
+          {sortedPosts.map((item) => (
+            <Post
+              post={item}
+              key={item._id}
+              username={item?.author?.userName}
+            />
+          ))}
         </div>
-      </main>
-    );
+      </div>
+    </main>
+  );
 };
 
 export default MyProfile;
