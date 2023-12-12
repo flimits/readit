@@ -17,7 +17,7 @@ const Comments = (props) => {
   // const [updateComment, setUpdateComment] = useState({});
   const [editedText, setEditedText] = useState(commentInstance.text);
 
-  // mutation to edit a post
+  // mutation to edit a comment for a post
   const [editComment] = useMutation(EDIT_COMMENT);
   const [toggleReaction, { error: errorReaction, data: dataReaction }] = useMutation(ADD_REACTION_TO_COMMENT, {
     variables: {
@@ -27,11 +27,10 @@ const Comments = (props) => {
     },
   });
 
-  // mutation to delete a post
-  // const [deleteComment, { error: deleteError, data: deleteData }] = useMutation(
+  // mutation to delete a comment
   const [deleteComment] = useMutation(DELETE_COMMENT);
 
-  //Tracks if user is deleting a post
+  //Tracks if user is deleting a comment
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
@@ -59,7 +58,7 @@ const Comments = (props) => {
     if (!Auth.loggedIn() || commentInstance.reactions.length === 0) {
       return "handclap-unclicked";
     }
-    // See if the user has reacted to this post
+    // See if the user has reacted to this comment
     const reaction = commentInstance.reactions.filter(
       (reaction) => reaction.author === Auth.getProfile()?.data?._id
     );
@@ -73,7 +72,7 @@ const Comments = (props) => {
     e.preventDefault();
 
     if (!Auth.loggedIn()) {
-      alert("You must be logged in to react to this post");
+      alert("You must be logged in to react for this comment");
       return;
     }
 
@@ -121,7 +120,6 @@ const Comments = (props) => {
 
   // Delete a comment!
   const handleDeleteClick = () => {
-    // Show a confirmation dialog (you can use a state variable for this)
     setIsDeleting(true);
   };
 
