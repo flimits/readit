@@ -208,7 +208,7 @@ const Post = (props) => {
 
   return (
     <div className="post-container container">
-      <div className="card mb-3">
+      <div className="card mb-3 custom-post-card">
         <div className="card-body text-left">
           <div className="card-text row">
             <div className="col-10 fs-5">
@@ -326,7 +326,7 @@ const Post = (props) => {
               : null
             }
           </div>
-          <p className="card-text">
+          <p className="card-text d-flex justify-content-end">
             <small className="text-muted">
               <b>{postInstance.author.userName}</b> on:{" "}
               {moment(`${postInstance.createdAt}`).format("MMMM Do YYYY")}
