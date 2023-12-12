@@ -27,8 +27,8 @@ const Comments = (props) => {
   });
 
   useEffect(() => {
-    if (errorReaction) console.log("errorReaction:", errorReaction)
-    if (dataReaction) console.log("dataReaction:", dataReaction)
+    // if (errorReaction) console.log("errorReaction:", errorReaction)
+    // if (dataReaction) console.log("dataReaction:", dataReaction)
   }, [errorReaction, dataReaction])
 
   if (!commentInstance) return "No Comments for this post yet";
@@ -48,7 +48,6 @@ const Comments = (props) => {
   }
 
   const didUserReact = () => {
-    console.log("@didUserReact")
     if (!Auth.loggedIn() || commentInstance.reactions.length === 0) {
       return "handclap-unclicked";
     }
@@ -57,8 +56,6 @@ const Comments = (props) => {
       (reaction) => reaction.author === Auth.getProfile()?.data?._id
     );
     // console.log("reactions:", reaction);
-    console.log("reaction[0]:", reaction[0]);
-    console.log(`reaction[0] ? "" : "handclap-unclicked":`, reaction[0] ? "clicked" : "unclicked")
 
     // If user has reacted, don't apply the class, otherwise apply the class
     return reaction[0] ? "" : "handclap-unclicked";

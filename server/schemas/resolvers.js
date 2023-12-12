@@ -382,20 +382,32 @@ const resolvers = {
                 },
               },
               { new: true }
-            );
+            )
+            .populate('author') // get the post author
+            .populate({ // Get the author of the comment
+              path: "comments.author",
+              select: "userName"
+            });
           }
         }
 
         // Add reaction to comment
-        // console.log("going to add reaction")
         newReaction.author = context.user._id; // Add the user's id to the reaction object
-        return await Post.findOneAndUpdate(
+        const updatedPost = await Post.findOneAndUpdate(
           multipleIdFilter,
           {
             $push: { "comments.$.reactions": newReaction },
           },
           { new: true }
-        );
+        )
+        .populate('author') // get the post author
+        .populate({ // Get the author of the comment
+          path: "comments.author",
+          select: "userName"
+        });
+
+        console.log("udpatedPost:", updatedPost)
+        return updatedPost;
       } catch (error) {
         console.log("Couldn't add reaction to comment");
         console.error(error);
