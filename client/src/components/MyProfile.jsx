@@ -20,10 +20,7 @@ const MyProfile = () => {
       <div className="flex-row justify-center">
         <div className="col-12 mb-3">
           {data?.getMe?.posts.map((item) => (
-            <Post post={item}
-              key={item._id}
-              username={item?.author?.userName}
-            />
+            <Post post={item} key={item._id} />
           ))}
         </div>
       </div>
