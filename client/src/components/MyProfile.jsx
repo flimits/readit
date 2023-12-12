@@ -31,7 +31,6 @@ const MyProfile = () => {
             <Post
               post={item}
               key={item._id}
-              username={item?.author?.userName}
             />
           ))}
         </div>
