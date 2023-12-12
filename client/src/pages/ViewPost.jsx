@@ -31,6 +31,7 @@ const ViewPost = () => {
   });
 
   const [addedComment, setAddedComment] = useState({});
+  const [toggleCommentBtn, setToggleCommentBtn] = useState(false);
   const [addComment, { error, commentData }] = useMutation(ADD_COMMENT);
 
   const handleChange = (event) => {
@@ -39,6 +40,14 @@ const ViewPost = () => {
     setFormState({
       ...formState,
       [name]: value,
+    });
+  };
+
+  const changeBtn = (value) => {
+    setToggleCommentBtn(!value);
+    setFormState({
+      postId: postId,
+      text: "",
     });
   };
 
@@ -83,10 +92,12 @@ const ViewPost = () => {
             className="btn btn-light mb-3"
             data-bs-toggle="collapse"
             data-bs-target="#collapsAddComment"
-            aria-expanded="false"
+            onClick={() => changeBtn(toggleCommentBtn)}
+            aria-expanded={toggleCommentBtn}
             aria-controls="collapsAddComment"
           >
-            Add A Comment
+            {!toggleCommentBtn && <>Add A Comment</>}
+            {toggleCommentBtn && <>Cancel</>}
           </button>
         )}
       </div>
