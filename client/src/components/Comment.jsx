@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
 import Auth from "../utils/auth";
 import { EDIT_COMMENT, ADD_REACTION } from "../utils/mutations";
@@ -10,18 +10,25 @@ const Comments = (props) => {
   const deleteIcon = "\u{1F5D1}";
 
   const commentInstance = props.comment;
+  const postInstance = props.post;
 
   const [isEditing, setIsEditing] = useState(false);
+  const [updateComment, setUpdateComment] = useState({});
   const [editedText, setEditedText] = useState(commentInstance.text);
 
   // mutation to edit a post
-  const [editComment] = useMutation(EDIT_COMMENT);
+  const [editComment, { data }] = useMutation(EDIT_COMMENT);
   const [toggleReaction] = useMutation(ADD_REACTION, {
     variables: {
       postId: commentInstance._id,
       applause: true,
     },
   });
+
+  useEffect(() => {
+    console.log(data);
+    console.log(updateComment);
+  }, [data, updateComment]);
 
   if (!commentInstance) return "No Comments for this post yet";
 
@@ -87,15 +94,19 @@ const Comments = (props) => {
   const handleSave = async (e) => {
     e.preventDefault();
 
-    console.log(commentInstance._id);
+    console.log(commentInstance, postInstance._id);
 
     try {
-      await editComment({
+      const updatedComment = await editComment({
         variables: {
+          postId: postInstance._id,
           commentId: commentInstance._id,
           newText: editedText,
         },
       });
+      // window.location.reload();
+      console.log(updatedComment);
+      setUpdateComment(updatedComment);
     } catch (error) {
       console.log("Error Editing: ", error);
     }

@@ -61,20 +61,32 @@ export const ADD_COMMENT = gql`
         _id
         userName
       }
-      text
+      comments {
+        _id
+        author {
+          userName
+        }
+        text
+      }
     }
   }
 `;
 
 export const EDIT_COMMENT = gql`
-  mutation editComment($commentId: ID!, $newText: String!) {
-    editComment(commentId: $commentId, newText: $newText) {
+  mutation editComment($postId: ID!, $commentId: ID!, $newText: String!) {
+    editComment(postId: $postId, commentId: $commentId, newText: $newText) {
       _id
       author {
         _id
         userName
       }
-      text
+      comments {
+        _id
+        author {
+          userName
+        }
+        text
+      }
     }
   }
 `;

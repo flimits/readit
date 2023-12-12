@@ -1,5 +1,5 @@
 // Import the `useParams()` hook
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation } from "@apollo/client";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
@@ -15,7 +15,8 @@ const ViewPost = () => {
   const { postId } = useParams();
 
   try {
-    if (Auth.loggedIn()) { // Only try this if the user is logged in
+    if (Auth.loggedIn()) {
+      // Only try this if the user is logged in
       const loggedUser = Auth.getProfile();
       // console.log(loggedUser);
     }
@@ -28,6 +29,8 @@ const ViewPost = () => {
     postId: postId,
     text: "",
   });
+
+  const [addedComment, setAddedComment] = useState({});
   const [addComment, { error, commentData }] = useMutation(ADD_COMMENT);
 
   const handleChange = (event) => {
@@ -39,6 +42,10 @@ const ViewPost = () => {
     });
   };
 
+  useEffect(() => {
+    console.log(addedComment);
+  }, [addedComment]);
+
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -46,7 +53,12 @@ const ViewPost = () => {
         variables: { ...formState },
       });
       // console.log(data);
-      window.location.reload();
+      // window.location.reload();
+      setAddedComment(data);
+      setFormState({
+        postId: postId,
+        text: "",
+      });
     } catch (err) {
       console.log(err);
     }
@@ -66,6 +78,7 @@ const ViewPost = () => {
       <div>
         {Auth.loggedIn() && (
           <button
+            id="add-comment-btn"
             type="button"
             className="btn btn-light mb-3"
             data-bs-toggle="collapse"
@@ -93,7 +106,12 @@ const ViewPost = () => {
                 onChange={handleChange}
                 rows="3"
               ></textarea>
-              <button type="submit" className="btn btn-primary mt-3">
+              <button
+                type="submit"
+                className="btn btn-primary mt-3"
+                data-bs-toggle={formState.text ? "collapse" : ""}
+                data-bs-target="#collapsAddComment"
+              >
                 Submit
               </button>
             </div>
@@ -103,7 +121,7 @@ const ViewPost = () => {
       <div>
         {post?.comments.length === 0 && "No Comments on this post yet"}
         {post?.comments.map((comments) => (
-          <Comment key={comments._id} comment={comments} />
+          <Comment key={comments._id} post={post} comment={comments} />
         ))}
       </div>
     </div>
