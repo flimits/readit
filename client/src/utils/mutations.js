@@ -49,6 +49,19 @@ export const EDIT_POST = gql`
         userName
       }
       postText
+      reactions {
+        _id
+        author
+        applause
+      }
+      createdAt
+      comments {
+        _id
+        author {
+          userName
+        }
+        text
+      }
     }
   }
 `;
@@ -68,6 +81,16 @@ export const ADD_COMMENT = gql`
         }
         text
       }
+    }
+  }
+`;
+
+export const DELETE_POST = gql`
+  mutation deletePost($postId: ID!) {
+    deletePost(postId: $postId) {
+      _id
+      title
+      postText
     }
   }
 `;

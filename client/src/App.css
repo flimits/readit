@@ -30,6 +30,23 @@ textarea {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Post component */
+.delete-post-mask {
+  position: absolute;
+  background-color: #000;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0.8;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  border-radius: 5px;
+}
+/*  */
 .handclap-unclicked {
   filter: saturate(0);
 }
