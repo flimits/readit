@@ -57,3 +57,9 @@ textarea {
   background-color: black; /* Color of the vertical line */
   margin: 0 10px; /* Adjust the margin to control spacing between tabs and lines */
 }
+
+/** edit/delete/cancel links **/
+.link {
+  cursor: pointer;
+  text-decoration:  none;
+}
