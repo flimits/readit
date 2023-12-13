@@ -8,6 +8,7 @@ import Auth from "../utils/auth";
 import "../App.css";
 
 export default function CreatePost() {
+  // Use state to perform hot updates of updating state, starting with resetting state to a default.
   const [submitted, setSubmitted] = useState(false);
   const [isPostValid, setPostValid] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -16,7 +17,7 @@ export default function CreatePost() {
   const [postText, setPostText] = useState("");
   const [tags, setTags] = useState([]);
   const [tagString, setTagString] = useState("");
-
+  // The meat of the app,
   const [addPost, { error, data }] = useMutation(ADD_POST);
 
   // Checks if the title and postText are filled out to see if Create Post button is enabled or not
@@ -79,11 +80,11 @@ export default function CreatePost() {
     setTagString(event.target.value);
   };
 
+  // This is the submission of the post, making sure all fields are set and then executing the addPost mutation.
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      // console.log("FormState U R Posting: ", { title, postText, tags })
 
       // Prevent the user from adding a post if no title or text
       if (!title || !postText) {
@@ -93,7 +94,6 @@ export default function CreatePost() {
 
       // Filter out any empty spaces in tags array
       const filteredTags = tags.filter((tag) => tag.length > 0);
-      // console.log("filteredTags:", filteredTags)
 
       await addPost({
         variables: { title, postText, tags: filteredTags },
@@ -105,7 +105,7 @@ export default function CreatePost() {
       console.log(err);
     }
   };
-
+  // This renderPostForm will only get executed if a user is logged in (authenticated), as seen at the bottom of this page.
   const renderPostForm = () => {
     return (
       <div
@@ -115,14 +115,17 @@ export default function CreatePost() {
         role="dialog"
         style={{ display: showModal ? "block" : "none" }}
       >
+        {/* this modal is a popup instead of a page, but only after authentication */}
         <div className="modal-dialog" role="document">
           <div className="modal-content">
             {submitted ? (
               <div>
-                <h2 className="text-center p-3">Submitting post</h2>
+                {/* execute the submission of the page and popup a times notification */}
+                <h2 className="text-center p-3">Submitting post</h2>  
               </div>
             ) : (
               <>
+              {/* After each section for title, message and tags, run the "handleOnXXXX" to render the page using useState */}
                 <div className="modal-header">
                   <h5 className="modal-title">Create Post</h5>
                   <i
@@ -200,6 +203,6 @@ export default function CreatePost() {
       </div>
     );
   };
-
+// You are either logged in and can post or not
   return <>{Auth.loggedIn() ? renderPostForm() : null}</>;
 }
