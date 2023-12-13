@@ -84,8 +84,15 @@
     border-color: var(--text-color);
     color: var(--color-1);
 }
+
 .tag-container .btn:hover {
     background-color: var(--color-4);
     border-color: var(--text-color);
+}
 
+/* labels when a post is being edited*/
+.edit-label {
+    display: block;
+    color: var(--text-color);
+    font-size: 16px;
 }
