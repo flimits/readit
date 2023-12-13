@@ -4,6 +4,8 @@
   --post-background: #52b788;
   --alert-background: #464646;
   --bootstrap-bg-light: #f8f9fa;
+  --dark-theme-background: #212121;
+
 }
 
 #root {
@@ -137,17 +139,17 @@ header {
 
 @media screen and (prefers-color-scheme: dark) {
   body {
-    background-color: black;
+    background-color: var(--dark-theme-background);
   }
 
   header, .modal-content {
-    background-color: black;
+    background-color: var(--dark-theme-background);
     border: 1px solid white;
     border-radius: 10px;
   }
 
   .dropdown-menu {
-    background-color: black;
+    background-color: var(--dark-theme-background);
     border: 1px solid white;
   }
 
