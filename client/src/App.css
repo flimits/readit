@@ -73,6 +73,10 @@ textarea {
   margin: 0 10px; /* Adjust the margin to control spacing between tabs and lines */
 }
 
+.navbar-nav hr  {
+  display: none;
+}
+
 /* Jorge Started Here */
 .custom-post-card {
   background-color: var(--post-background);
@@ -100,4 +104,14 @@ textarea {
 
 #alertModal .modal-content {
   background-color: var(--alert-background);
+}
+
+@media screen and (max-width: 992px) {
+  .navbar-nav .separator {
+    display: none;
+  }
+
+  .navbar-nav hr  {
+    display: block;
+  }
 }

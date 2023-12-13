@@ -1,4 +1,4 @@
-import { Modal } from "bootstrap";
+import { Modal } from "bootstrap/dist/js/bootstrap.min.js";
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../utils/mutations";
@@ -41,9 +41,6 @@ const LoginForm = () => {
         const alertModal = modalDiv.querySelector("#alertModal")
         const bootstrapModal = new Modal(alertModal);
         bootstrapModal.show();
-        // const alertModal = document.querySelector("#alertModal")
-        // const bootstrapModal = new Modal(alertModal);
-        // bootstrapModal.show();
         return;
       }
 

@@ -3,6 +3,8 @@ import { GET_POSTS } from "../utils/queries";
 
 import { useQuery } from "@apollo/client";
 
+import Alert from "../components/Alert";
+
 const Home = () => {
   const { data, loading, error } = useQuery(GET_POSTS);
 
