@@ -28,7 +28,6 @@ const resolvers = {
     getMe: async (parent, args, context) => {
       // If we know the logged in user is wanting to look at their account, use context
       try {
-        // console.log("context.user:", context.user);
 
         if (context.user) {
           const user = await User
@@ -41,7 +40,6 @@ const resolvers = {
               },
             });
 
-          // console.log("user:", user);
           return user;
         }
 
@@ -50,7 +48,7 @@ const resolvers = {
         console.error("Error in getMe resolver:", error);
       }
     },
-
+// get all posts and return author and username as well.
     posts: async () => {
       try {
         const posts = await Post.find().populate({
@@ -64,6 +62,7 @@ const resolvers = {
         console.error(error);
       }
     },
+    // Just like it says, go get a post by its postId
     getPost: async (parent, { postId }) => {
       try {
         return await Post.findById(new ObjectId(postId))
@@ -110,15 +109,11 @@ const resolvers = {
           };
         }
 
-        // console.log("queryList:", queryList)
-        // console.log("full query:", findQuery)
-
         const posts = await Post.find(findQuery).populate({
           path: "author",
           select: "userName",
         });
 
-        // console.log("posts:", posts);
         return posts;
       } catch (error) {
         console.log(`Couldn't find posts with search: "${query}"`);
@@ -139,6 +134,7 @@ const resolvers = {
         console.error(error);
       }
     },
+    // got get user information and check password in order to authenticate. send back token and user if good.
     login: async (parent, { userName, password }) => {
       try {
         const user = await User.findOne({ userName });
@@ -155,7 +151,6 @@ const resolvers = {
         }
 
         const token = signToken(user);
-        // console.log(token);
         return { token, user };
       } catch (error) {
         console.log("couldn't login");
@@ -165,9 +160,9 @@ const resolvers = {
     addPost: async (parent, args, context) => {
       try {
         // Check if user is logged in
-        // if (!context.user) {
-        //   throw ErrorMustBeLoggedIn
-        // }
+        if (!context.user) {
+          throw ErrorMustBeLoggedIn
+        }
         args.author = context.user._id;
         const newPost = await Post.create(args);
 
@@ -182,9 +177,9 @@ const resolvers = {
         console.error(error);
       }
     },
+    // Update users post with "title, posttext, and/or options tags if included"
     editPost: async (parent, { postId, newTitle, newText, newTags }, context) => {
       try {
-        // console.log("context.user:", context.user);
         //Check if user is logged in
         if (!context.user) {
           throw ErrorMustBeLoggedIn;
@@ -206,9 +201,9 @@ const resolvers = {
         console.error(error);
       }
     },
+    // Delete a post by postId and refresh send back newly updated data without that deleted post
     deletePost: async (parent, { postId }, context) => {
       try {
-        // console.log("context.user:", context.user);
         // Check if user is logged in
         if (!context.user) {
           throw ErrorMustBeLoggedIn
@@ -218,15 +213,12 @@ const resolvers = {
           new: true,
         });
 
-        // console.log("deletedData ", deletedData);
 
         const updatedUser = await User.findByIdAndUpdate(
           new ObjectId(context.user._id),
           { $pull: { posts: new ObjectId(postId) }, },
           { new: true }
         );
-
-        // console.log("updatedUser:", updatedUser);
 
         return deletedData;
       } catch (error) {
