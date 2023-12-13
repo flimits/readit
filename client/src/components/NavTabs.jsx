@@ -27,7 +27,7 @@ function NavTabs() {
                 : "nav-link custom-nav navbar-brand"
             }
           >
-            <img src="/READIT_LOGO-01.svg" className="me-3"/>
+            <img src="/READIT_LOGO-01.svg" className="me-3" />
             ReadIt
           </Link>
           <button
@@ -78,16 +78,16 @@ function NavTabs() {
                 </>
               )}
               {Auth.loggedIn() && ( // do not show the create a post tab unless they are logged in
-              <li className="nav-item">
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#staticBackdropCreatePost"
-                >
-                  Create A Post
-                </button>
-              </li>
+                <li className="nav-item">
+                  <Link
+                    to="#"
+                    className="nav-link custom-nav"
+                    data-bs-toggle="modal"
+                    data-bs-target="#staticBackdropCreatePost"
+                  >
+                    Create A Post
+                  </Link>
+                </li>
               )}
               <li className="nav-item separator"></li>
               <li className="nav-item">
@@ -106,22 +106,18 @@ function NavTabs() {
               <li className="nav-item separator"></li>
               <li className="nav-item">
                 {Auth.loggedIn() ? (
-                  <button
-                    type="button"
-                    className="btn btn-success"
-                    onClick={logout}
-                  >
+                  <Link to="/" className="nav-link custom-nav" onClick={logout}>
                     Logout
-                  </button>
+                  </Link>
                 ) : (
-                  <button
-                    type="button"
-                    className="btn btn-primary"
+                  <Link
+                    to="#"
+                    className="nav-link custom-nav"
                     data-bs-toggle="modal"
                     data-bs-target="#staticBackdrop"
                   >
                     Login
-                  </button>
+                  </Link>
                 )}
               </li>
             </ul>
