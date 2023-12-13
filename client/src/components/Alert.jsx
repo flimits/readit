@@ -2,14 +2,15 @@ import PropTypes from "prop-types";
 
 export default function Alert(props) {
 
+  
 
   return (
-    <div  style={{zIndex: 9999}}>
+    <div className="modal-dialog modal-dialog-centered">
       <div className="modal fade" id="alertModal" tabIndex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
-        <div className="modal-dialog modal-dialog-centered">
+        <div className={`${props.centered ? "modal-dialog modal-dialog-centered" : "modal-dialog"}`}>
           <div className="modal-content bg-danger">
             <div className="modal-body">
-              <h1 className="modal-title fs-5 text-white" id="exampleModalLabel">
+              <h1 className="modal-title text-white fs-5" id="exampleModalLabel">
                 {props.alert}
               </h1>
             </div>
@@ -24,5 +25,6 @@ export default function Alert(props) {
 }
 
 Alert.propTypes = {
-  alert: PropTypes.string
+  alert: PropTypes.string,
+  centered: PropTypes.bool,
 };

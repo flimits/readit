@@ -81,6 +81,10 @@ const Comments = (props) => {
       const alertModal = modalDiv.querySelector("#alertModal")
       const bootstrapModal = new Modal(alertModal);
       bootstrapModal.show();
+      // const alertModal = document.querySelector("#alertModal")
+      // console.log("alertModal:", alertModal)
+      // const bootstrapModal = new Modal(alertModal);
+      // bootstrapModal.show();
       return;
     }
 
@@ -150,7 +154,8 @@ const Comments = (props) => {
 
   return (
     <div className="post-container container">
-      <div className="modal-dialog modal-dialog-centered alert-modal" style={{zIndex: 9999}}><Alert alert={"You must be logged in to react for this comment"}/></div>
+      <div className="alert-modal"><Alert alert={ALERT_TEXT} centered={true} /></div>
+
       <div className="card mb-3 custom-comment-card">
         <div className="card-body text-left">
           <div className="card-text row">
