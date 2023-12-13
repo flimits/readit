@@ -109,7 +109,7 @@ const ViewPost = () => {
     return post._id ? (
       <div>
         <Post post={post} />
-        <div className="d-flex justify-content-end mx-3">
+        <div className="d-flex justify-content-end">
           {Auth.loggedIn() && (
             <button
               id="add-comment-btn"
@@ -130,7 +130,7 @@ const ViewPost = () => {
           className="collapse mb-3 custom-comment-collapse"
           id="collapsAddComment"
         >
-          <div className="card card-body custom-comment-card-body mx-5">
+          <div className="card card-body custom-comment-card-body">
             <form className="comment-form" onSubmit={handleFormSubmit}>
               <div className="mb-3">
                 <label htmlFor="new-comment" className="form-label">

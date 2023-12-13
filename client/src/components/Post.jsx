@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Modal } from "bootstrap/dist/js/bootstrap.min.js"
+import { Modal } from "bootstrap/dist/js/bootstrap.min.js";
 import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
@@ -9,7 +9,7 @@ import { DELETE_POST, EDIT_POST, ADD_REACTION } from "../utils/mutations";
 import { GET_POSTS, GET_ME, SEARCH_POSTS, SINGLE_POST } from "../utils/queries";
 import moment from "moment";
 import Alert from "./Alert";
-import "./Post.css"
+import "./Post.css";
 
 const Post = (props) => {
   const ALERT_TEXT = "You must be logged in to react to this post";
@@ -23,7 +23,7 @@ const Post = (props) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(postInstance?.title);
   const [editedText, setEditedText] = useState(postInstance?.postText);
-  const [editedTags, setEditedTags] = useState('');
+  const [editedTags, setEditedTags] = useState("");
 
   // mutation to edit a post
   const [editPost, { error: editError, data: editData }] =
@@ -44,20 +44,24 @@ const Post = (props) => {
 
   useEffect(() => {
     if (isEditing) {
-      // Convert the array of tags to a string 
-      setEditedTags(postInstance?.tags.join(" "))
+      // Convert the array of tags to a string
+      setEditedTags(postInstance?.tags.join(" "));
     }
-  }, [isEditing])
+  }, [isEditing]);
 
   // mutation to Delete a post
   const [deletePost, { error: deleteError, data: deleteData }] = useMutation(
     DELETE_POST,
     {
       refetchQueries: [
-        GET_POSTS, "getPosts",
-        GET_ME, "getMe",
-        SEARCH_POSTS, "SearchPosts",
-        SINGLE_POST, "getSinglePost"
+        GET_POSTS,
+        "getPosts",
+        GET_ME,
+        "getMe",
+        SEARCH_POSTS,
+        "SearchPosts",
+        SINGLE_POST,
+        "getSinglePost",
       ],
     }
   );
@@ -95,7 +99,6 @@ const Post = (props) => {
     console.log("Authorization error !!", error);
   }
 
-
   /**
    * Takes the user's input and separates it by whitespace to create an array
    * @returns An array of the split up tags or empty
@@ -103,11 +106,11 @@ const Post = (props) => {
   const convertTagsToArray = () => {
     if (editedTags) {
       const split = editedTags.split(" ");
-      return split
+      return split;
     } else {
-      return []
+      return [];
     }
-  }
+  };
 
   // Checks if the user has reacted or not
   const didUserReact = () => {
@@ -137,7 +140,7 @@ const Post = (props) => {
     if (!Auth.loggedIn()) {
       const modalDiv = document.querySelector(".alert-modal-post");
       // console.log("modal:", modalDiv);
-      const alertModal = modalDiv.querySelector("#alertModal")
+      const alertModal = modalDiv.querySelector("#alertModal");
       const bootstrapModal = new Modal(alertModal);
       bootstrapModal.show();
       return;
@@ -163,7 +166,7 @@ const Post = (props) => {
 
   const handleTagChange = (e) => {
     setEditedTags(e.target.value);
-  }
+  };
 
   const handleCancelClick = () => {
     setEditedTitle(postInstance?.title);
@@ -188,7 +191,7 @@ const Post = (props) => {
           postId: postInstance._id,
           newTitle: editedTitle,
           newText: editedText,
-          newTags: tagsArray
+          newTags: tagsArray,
         },
       });
       // set the current post to the received edited post
@@ -216,8 +219,10 @@ const Post = (props) => {
   };
 
   return (
-    <div className="post-container container">
-      <div className="alert-modal-post" style={{zIndex: 9999}}><Alert alert={ALERT_TEXT} centered={true} /></div>
+    <div className="post-container">
+      <div className="alert-modal-post" style={{ zIndex: 9999 }}>
+        <Alert alert={ALERT_TEXT} centered={true} />
+      </div>
       <div className="card my-3 custom-post-card">
         <div className="card-body text-left">
           <div className="card-text row">
@@ -254,7 +259,7 @@ const Post = (props) => {
                     </a>
                   ) : (
                     <a onClick={handleEditClick} className="link edit-icon">
-                      <i className="fa-regular fa-pen-to-square"></i>
+                      <i className="fa-solid fa-pen"></i>
                     </a>
                   )}
                   {isDeleting ? (
@@ -301,21 +306,20 @@ const Post = (props) => {
                   onChange={handleTagChange}
                 />
               </>
-            ) : null
-            }
+            ) : null}
           </div>
-          {isEditing ?
+          {isEditing ? (
             <button
               type="button"
               onClick={handleSave}
               className="btn btn-secondary w-100 my-1"
             >
               Save <i className="fa-solid fa-floppy-disk"></i>
-            </button> : null
-          }
+            </button>
+          ) : null}
           <div className="card-text row">
-            <div className="d-inline-flex fs-5 col-1">
-              <div className="handclap-full me-2">
+            <div className="d-inline-flex fs-5 col-2 nowrap">
+              <div className="handclap-full">
                 <button
                   id="button-post-reaction"
                   className="border-0 button-post-reaction"
@@ -326,22 +330,23 @@ const Post = (props) => {
               </div>
               {postInstance?.reactions?.length}
             </div>
-            <div className="col-1 fs-5 comment-icon nowrap ">
-            <i className="fa-regular fa-message"></i>
+            <div className="col-2 fs-5 comment-icon nowrap">
+              <i className="fa-regular fa-message"></i>
               <span>{postInstance?.comments?.length}</span>
             </div>
             {/* Hide tags when editing a post */}
-            {!isEditing ?
-              <div className="col-8 fs-5">Tags: {postInstance.tags.map((tag, index) => {
-                return <Tag key={index} tag={tag} />
-              })}
+            {!isEditing ? (
+              <div className="col-8 fs-5 tag-container">
+                Tags:{" "}
+                {postInstance.tags.map((tag, index) => {
+                  return <Tag key={index} tag={tag} />;
+                })}
               </div>
-              : null
-            }
+            ) : null}
           </div>
           <p className="card-text d-flex justify-content-end">
             <small className="text-muted">
-              <b>{postInstance?.author?.userName}</b> on:{" "}
+              {postInstance?.author?.userName} posted on:{" "}
               {moment(`${postInstance?.createdAt}`).format("MMMM Do YYYY")}
             </small>
           </p>
