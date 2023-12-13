@@ -8,7 +8,7 @@ import { useEffect } from "react";
 // that will be seen here).
 
 const MyProfile = () => {
-
+// use this apollo client hook for GraphQL queries to pull the data necessary from mongodb.
   const { data, loading, error } = useQuery(GET_ME);
 
   useEffect(() => {
