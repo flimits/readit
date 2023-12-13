@@ -120,3 +120,25 @@ textarea {
     display: block;
   }
 }
+
+@media screen and (prefers-color-scheme: dark) {
+  body {
+    background-color: black;
+  }
+
+  header {
+    background-color: black;
+  }
+
+  .nav-link {
+    color: white;
+  }
+
+  .navbar .active {
+    background-color: green;
+  }
+
+  .navbar-nav .separator {
+    background-color: white;
+  }
+}
