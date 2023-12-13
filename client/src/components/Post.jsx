@@ -138,12 +138,11 @@ const Post = (props) => {
     e.preventDefault();
 
     if (!Auth.loggedIn()) {
-      const modalDiv = document.querySelector(".alert-modal");
+      const modalDiv = document.querySelector(".alert-modal-post");
       // console.log("modal:", modalDiv);
       const alertModal = modalDiv.querySelector("#alertModal")
       const bootstrapModal = new Modal(alertModal);
       bootstrapModal.show();
-      // alert("You must be logged in to react to this post");
       return;
     }
 
@@ -221,7 +220,7 @@ const Post = (props) => {
 
   return (
     <div className="post-container container">
-      <div className="alert-modal"><Alert alert={ALERT_TEXT} centered={true} /></div>
+      <div className="alert-modal-post"><Alert alert={ALERT_TEXT} centered={true} /></div>
 
       <div className="card my-3 custom-post-card">
         <div className="card-body text-left">

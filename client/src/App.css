@@ -96,3 +96,7 @@ textarea {
   cursor: pointer;
   text-decoration: none;
 }
+
+#alertModal {
+  filter: opacity(1)
+}

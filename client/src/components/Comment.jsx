@@ -76,7 +76,7 @@ const Comments = (props) => {
 
     if (!Auth.loggedIn()) {
 
-      const modalDiv = document.querySelector(".alert-modal");
+      const modalDiv = document.querySelector(".alert-modal-comment");
       // console.log("modal:", modalDiv);
       const alertModal = modalDiv.querySelector("#alertModal")
       const bootstrapModal = new Modal(alertModal);
@@ -154,7 +154,7 @@ const Comments = (props) => {
 
   return (
     <div className="post-container container">
-      <div className="alert-modal"><Alert alert={ALERT_TEXT} centered={true} /></div>
+      <div className="alert-modal-comment"><Alert alert={ALERT_TEXT} centered={true} /></div>
 
       <div className="card mb-3 custom-comment-card">
         <div className="card-body text-left">

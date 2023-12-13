@@ -36,9 +36,14 @@ const LoginForm = () => {
           password: "",
         });
 
-        const alertModal = document.querySelector("#alertModal")
+        const modalDiv = document.querySelector(".alert-modal-login");
+        // console.log("modal:", modalDiv);
+        const alertModal = modalDiv.querySelector("#alertModal")
         const bootstrapModal = new Modal(alertModal);
         bootstrapModal.show();
+        // const alertModal = document.querySelector("#alertModal")
+        // const bootstrapModal = new Modal(alertModal);
+        // bootstrapModal.show();
         return;
       }
 
@@ -56,8 +61,7 @@ const LoginForm = () => {
 
   return (
     <>
-      {/* <div className="alert-modal" ><Alert alert={ALERT_TEXT}/></div> */}
-      <Alert alert={ALERT_TEXT}/>
+      <div className="alert-modal-login" ><Alert alert={ALERT_TEXT} centered={true} /></div>
       <form className="loginForm" onSubmit={handleFormSubmit}>
         <div className="mb-5">
           <label htmlFor="lUsername" className="form-label mb-3">
