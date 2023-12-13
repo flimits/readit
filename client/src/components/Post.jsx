@@ -53,7 +53,12 @@ const Post = (props) => {
   const [deletePost, { error: deleteError, data: deleteData }] = useMutation(
     DELETE_POST,
     {
-      refetchQueries: [GET_POSTS, "getPosts", GET_ME, "getMe", SEARCH_POSTS, "SearchPosts", SINGLE_POST, "getSinglePost"],
+      refetchQueries: [
+        GET_POSTS, "getPosts", 
+        GET_ME, "getMe", 
+        SEARCH_POSTS, "SearchPosts", 
+        SINGLE_POST, "getSinglePost"
+      ],
     }
   );
 
