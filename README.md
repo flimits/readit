@@ -61,26 +61,6 @@ Now you are able to log in here, or even sign-up if you want to post or comment.
 
 ![img](./public/readme_images/readit_signup.png)
 ---
-### Login
-lsk
-![img](./public/readme_images/readit_notloggedin_noicons.png)
----
-###
-lsk
-![img](./public/readme_images/readit_notloggedin_noicons.png)
----
-###
-lsk
-![img](./public/readme_images/readit_notloggedin_noicons.png)
----
-###
-lsk
-![img](./public/readme_images/readit_notloggedin_noicons.png)
----
-###
-lsk
-![img](./public/readme_images/readit_notloggedin_noicons.png)
----
 
 So, get moving and start posting! [Click Here](https://project-readit-ae03b3828bf5.herokuapp.com/) for the deployed link for ReadIt.
 
