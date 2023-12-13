@@ -27,7 +27,7 @@ const MyProfile = () => {
     <main className="container">
       <div className="flex-row justify-center">
         <div className="col-12 mb-3">
-          {sortedPosts.length > 0 ? 
+          {sortedPosts?.length > 0 ? 
           sortedPosts?.map((item) => (
             <Post
               post={item}
