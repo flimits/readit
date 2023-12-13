@@ -13,12 +13,15 @@ import Alert from "./Alert";
 
 import "./Post.css";
 
+//Defining Comment functions with props passed in
 const Comments = (props) => {
+  // Bring up alert to notify user must be logged in to react to a comment
   const ALERT_TEXT = "You must be logged in to react to this comment";
 
   const commentInstance = props.comment;
   const postInstance = props.post;
 
+  // Set stateful values that will be used for editing a comment
   const [isEditing, setIsEditing] = useState(false);
   // const [updateComment, setUpdateComment] = useState({});
   const [editedText, setEditedText] = useState(commentInstance.text);
@@ -40,15 +43,15 @@ const Comments = (props) => {
   //Tracks if user is deleting a comment
   const [isDeleting, setIsDeleting] = useState(false);
 
-  useEffect(() => {
-    // if (errorReaction) console.log("errorReaction:", errorReaction)
-    // if (dataReaction) console.log("dataReaction:", dataReaction)
-  }, [errorReaction, dataReaction]);
+  // using use effect to rerender component when statefull values change
+  useEffect(() => {}, [errorReaction, dataReaction]);
 
   if (!commentInstance) return "No Comments for this post yet";
 
+  // setting value to delete comment to false
   let editDeleteEnabled = false;
 
+  // Checking to see if user is logged in
   try {
     if (Auth.loggedIn()) {
       const loggedUser = Auth.getProfile();
@@ -61,6 +64,7 @@ const Comments = (props) => {
     console.log("Authorization error !!", error);
   }
 
+  // Checks to see if user has reacted
   const didUserReact = () => {
     if (!Auth.loggedIn() || commentInstance.reactions.length === 0) {
       return "handclap-unclicked";
@@ -75,18 +79,20 @@ const Comments = (props) => {
     return reaction[0] ? "" : "handclap-unclicked";
   };
 
+  // This handles the logic for when a user clicks the reaction icon
   const handleOnClickReaction = async (e) => {
     e.preventDefault();
 
+    // User must be logged in to react
     if (!Auth.loggedIn()) {
       const modalDiv = document.querySelector(".alert-modal-comment");
-      // console.log("modal:", modalDiv);
       const alertModal = modalDiv.querySelector("#alertModal");
       const bootstrapModal = new Modal(alertModal);
       bootstrapModal.show();
       return;
     }
 
+    // If user is authenticated we call the toggle reaction
     try {
       await toggleReaction();
     } catch (error) {
@@ -100,19 +106,23 @@ const Comments = (props) => {
     setEditedText(e.target.value);
   };
 
+  // when a user cancels editing or deleting a post values reset to previous state
   const handleCancelClick = () => {
     setEditedText(commentInstance.text);
     setIsEditing(false);
     setIsDeleting(false);
   };
 
+  // Toggle the isEditing value
   const handleEditClick = () => {
     setIsEditing(true);
   };
 
+  // Once user submits changes this will handle the changes
   const handleSave = async (e) => {
     e.preventDefault();
 
+    // Use editComment mutation to update the comment
     try {
       const updatedComment = await editComment({
         variables: {
@@ -121,9 +131,6 @@ const Comments = (props) => {
           newText: editedText,
         },
       });
-      // window.location.reload();
-      // console.log(updatedComment);
-      // setUpdateComment(updatedComment);
     } catch (error) {
       console.log("Error Editing: ", error);
     }
@@ -161,6 +168,7 @@ const Comments = (props) => {
           <div className="card-text row">
             <div className="col-10">
               {" "}
+              {/*if isEditing a true then we show the text area otherwise we show the text*/}
               {isEditing ? (
                 <>
                   <textarea
@@ -263,6 +271,7 @@ const Comments = (props) => {
   );
 };
 
+// setting prop validation
 Comments.propTypes = {
   comment: PropTypes.shape({
     _id: PropTypes.string,
