@@ -5,7 +5,7 @@ import { useMutation } from "@apollo/client";
 import Auth from "../utils/auth";
 import Tag from "./Tag";
 import { DELETE_POST, EDIT_POST, ADD_REACTION } from "../utils/mutations";
-import { GET_POSTS, GET_ME, SEARCH_POSTS } from "../utils/queries";
+import { GET_POSTS, GET_ME, SEARCH_POSTS, SINGLE_POST } from "../utils/queries";
 import moment from "moment";
 
 const Post = (props) => {
@@ -53,7 +53,12 @@ const Post = (props) => {
   const [deletePost, { error: deleteError, data: deleteData }] = useMutation(
     DELETE_POST,
     {
-      refetchQueries: [GET_POSTS, "getPosts", GET_ME, "getMe", SEARCH_POSTS, "SearchPosts" ],
+      refetchQueries: [
+        GET_POSTS, "getPosts", 
+        GET_ME, "getMe", 
+        SEARCH_POSTS, "SearchPosts", 
+        SINGLE_POST, "getSinglePost"
+      ],
     }
   );
 
