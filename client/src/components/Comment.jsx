@@ -1,10 +1,12 @@
 import PropTypes from "prop-types";
+import { Modal } from "bootstrap";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
 import Auth from "../utils/auth";
 import { EDIT_COMMENT, ADD_REACTION_TO_COMMENT, DELETE_COMMENT } from "../utils/mutations";
 import moment from "moment";
+import Alert from "./Alert";
 
 const Comments = (props) => {
   const emojiCodePoint = "\u{1F4DD}";
@@ -73,7 +75,12 @@ const Comments = (props) => {
     e.preventDefault();
 
     if (!Auth.loggedIn()) {
-      alert("You must be logged in to react for this comment");
+      
+      const modalDiv = document.querySelector(".alert-modal");
+      // console.log("modal:", modalDiv);
+      const alertModal = modalDiv.querySelector("#alertModal")
+      const bootstrapModal = new Modal(alertModal);
+      bootstrapModal.show();
       return;
     }
 
@@ -143,6 +150,7 @@ const Comments = (props) => {
 
   return (
     <div className="post-container container">
+      <div className="modal-dialog modal-dialog-centered alert-modal"><Alert alert={"You must be logged in to react for this comment"} /></div>
       <div className="card mb-3 custom-comment-card">
         <div className="card-body text-left">
           <div className="card-text row">
