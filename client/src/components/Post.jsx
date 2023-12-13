@@ -321,7 +321,7 @@ const Post = (props) => {
             </button>
           ) : null}
           <div className="card-text row">
-            <div className="d-inline-flex fs-5 col-2 nowrap">
+            <div className="d-inline-flex fs-5 col-sm-2 nowrap p-0">
               <div className="handclap-full">
                 <button
                   id="button-post-reaction"
