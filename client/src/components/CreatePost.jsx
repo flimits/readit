@@ -84,7 +84,7 @@ export default function CreatePost() {
     event.preventDefault();
 
     try {
-      console.log("FormState U R Posting: ", { title, postText, tags })
+      // console.log("FormState U R Posting: ", { title, postText, tags })
 
       // Prevent the user from adding a post if no title or text
       if (!title || !postText) {
@@ -94,7 +94,7 @@ export default function CreatePost() {
 
       // Filter out any empty spaces in tags array
       const filteredTags = tags.filter((tag) => tag.length > 0)
-      console.log("filteredTags:", filteredTags)
+      // console.log("filteredTags:", filteredTags)
 
       await addPost({
         variables: { title, postText, tags: filteredTags }
@@ -123,7 +123,7 @@ export default function CreatePost() {
               <div className="modal-content">
                 {submitted ? (
                   <div>
-                    <h2>Your post has been submitted!</h2>
+                    <h2 className='text-center p-3'>Submitting post</h2>
                   </div>
                 ) : (
                   <>

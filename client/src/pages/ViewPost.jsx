@@ -33,18 +33,34 @@ const ViewPost = () => {
   const [addedComment, setAddedComment] = useState({});
   const [toggleCommentBtn, setToggleCommentBtn] = useState(false);
   const [addComment, { error, data: commentData }] = useMutation(ADD_COMMENT);
+  const [isRedirecting, setIsRedirecting] = useState(false)
 
   const { loading, data: postData } = useQuery(SINGLE_POST, {
     //pass url params
     variables: { postId: postId },
   });
 
-  useEffect(() => { }, [addedComment]);
+
+  useEffect(() => { }, [addedComment])
 
   useEffect(() => {
     // console.log("commentData:", commentData);
-    console.log("postData:", postData);
-  }, [commentData, postData])
+  }, [commentData]);
+
+  useEffect(() => {
+    // console.log("postData:", postData);
+    if (postData && postData.getPost === null) setIsRedirecting(true)
+  }, [postData])
+
+  useEffect(() => {
+    if (isRedirecting) {
+      // console.log("going to redirect")
+      // Redirect to the /my-profile page to force a refresh of the user's posts
+      setInterval(() => {
+        window.location.href = '/my-profile'
+      }, 1200)
+    }
+  }, [isRedirecting])
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -90,10 +106,9 @@ const ViewPost = () => {
   if (loading) return "Loading...";
   const post = postData?.getPost || {};
 
-  return (
-    <div>
-      {/* Viewing single post !! */}
-      {post._id ?
+  const renderPost = () => {
+    return (
+      post._id ?
         <div>
           <Post post={post} />
           <div>
@@ -150,11 +165,22 @@ const ViewPost = () => {
           </div>
         </div>
 
-        : 
+        :
         <div className="text-center m-3">
           <h2>This post doesn't exist</h2>
           <Link to={"/"}><span><h3>Go back Home</h3></span></Link>
         </div>
+
+    )
+  }
+
+  return (
+    <div>
+
+      {/* Viewing single post !! */}
+      {!isRedirecting ?
+        renderPost() :
+        <h2 className="text-center m-3">Post deleted, redirecting to your profile.</h2>
       }
     </div>
   );
