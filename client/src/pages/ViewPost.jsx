@@ -161,7 +161,9 @@ const ViewPost = () => {
           </div>
         </div>
         <div>
+          {/* This checks to see if there are any comments */}
           {post?.comments?.length === 0 && "No Comments on this post yet"}
+          {/* if there is comments then call the comment component and pass in the props*/}
           {post?.comments?.map((comments) => (
             <Comment key={comments._id} post={post} comment={comments} />
           ))}
