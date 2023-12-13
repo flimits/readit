@@ -8,9 +8,9 @@ export default function Alert(props) {
     <div className="modal-dialog modal-dialog-centered">
       <div className="modal fade" id="alertModal" tabIndex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
         <div className={`${props.centered ? "modal-dialog modal-dialog-centered" : "modal-dialog"}`}>
-          <div className="modal-content bg-danger">
-            <div className="modal-body">
-              <h1 className="modal-title text-white fs-5" id="exampleModalLabel">
+          <div className="modal-content">
+            <div className="modal-body custom-modal-body">
+              <h1 className="modal-title text-white text-center fs-5" id="exampleModalLabel">
                 {props.alert}
               </h1>
             </div>
