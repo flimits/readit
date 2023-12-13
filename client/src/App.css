@@ -3,6 +3,9 @@
   --text-color: #081c15;
   --post-background: #52b788;
   --alert-background: #464646;
+  --bootstrap-bg-light: #f8f9fa;
+  --dark-theme-background: #212121;
+
 }
 
 #root {
@@ -14,6 +17,10 @@
 
 textarea {
   resize: none;
+}
+
+header {
+  background-color: var(--bootstrap-bg-light);
 }
 
 .loginForm,
@@ -35,6 +42,11 @@ textarea {
   background: white;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.button-submit {
+  background-color: var(--post-background) !important;
+  border: 1px solid var(--post-background) !important;
 }
 
 /* Post component */
@@ -75,6 +87,10 @@ textarea {
 
 .navbar-nav hr {
   display: none;
+}
+
+.navbar-toggler {
+  border: none;
 }
 
 /* Jorge Started Here */
@@ -118,5 +134,43 @@ textarea {
 
   .navbar-nav hr {
     display: block;
+  }
+}
+
+@media screen and (prefers-color-scheme: dark) {
+  body {
+    background-color: var(--dark-theme-background);
+  }
+
+  header, .modal-content {
+    background-color: var(--dark-theme-background);
+    border: 1px solid white;
+    border-radius: 10px;
+  }
+
+  .dropdown-menu {
+    background-color: var(--dark-theme-background);
+    border: 1px solid white;
+  }
+
+  .nav-link, h1, h2, h5, p, label, .custom-nav, .fa-square-xmark {
+    color: white !important;
+  }
+
+  .navbar .active {
+    color: white !important;
+    text-decoration: underline;
+  }
+
+  .navbar button {
+    color: white !important;
+  }
+
+  .nav-link:hover {
+    color: white !important;
+  }
+
+  .navbar-nav .separator {
+    background-color: white;
   }
 }

@@ -1,9 +1,14 @@
+import Alert from "./Alert";
 import LoginForm from "./LoginForm";
 import SignUpForm from "./SignUpForm";
 
 export default function Login() {
+  const ALERT_TEXT_LOGIN = "Invalid Credentials";
+  const ALERT_TEXT_SIGNUP = "Make sure all fields are filled out properly";
   return (
     <>
+    <div className="alert-modal-login" style={{zIndex: 9999}}><Alert alert={ALERT_TEXT_LOGIN} centered={true} /></div>
+    <div className="alert-modal-signup" style={{zIndex: 9999}}><Alert alert={ALERT_TEXT_SIGNUP} centered={true} /></div>
       <div
         className="modal fade"
         id="staticBackdrop"
@@ -41,7 +46,7 @@ export default function Login() {
                 <LoginForm />
               </div>
               <button
-                className="btn btn-secondary"
+                className="btn btn-secondary mb-3"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#signUpCollapse"

@@ -133,7 +133,7 @@ const ViewPost = () => {
           <div className="card card-body custom-comment-card-body">
             <form className="comment-form" onSubmit={handleFormSubmit}>
               <div className="mb-3">
-                <label htmlFor="new-comment" className="form-label">
+                <label htmlFor="new-comment" className="form-label text-black">
                   Write Comment
                 </label>
                 <textarea
@@ -148,7 +148,7 @@ const ViewPost = () => {
                 <div className="d-flex justify-content-end">
                   <button
                     type="submit"
-                    className="btn btn-primary mt-3"
+                    className="btn btn-primary button-submit mt-3"
                     data-bs-toggle={formState.text ? "collapse" : ""}
                     onClick={() => changeBtnOnSubmit(toggleCommentBtn)}
                     data-bs-target="#collapsAddComment"

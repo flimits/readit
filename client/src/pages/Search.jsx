@@ -204,7 +204,7 @@ export default function Search() {
 
 
             <div className=" col-lg-1 p-0">
-              <button className="btn btn-outline-success col-12 mt-2" type="submit">Search</button>
+              <button className="btn btn-success col-12 mt-2" type="submit">Search</button>
 
             </div>
           </div>

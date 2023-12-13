@@ -16,7 +16,7 @@ function NavTabs() {
   return (
     <>
       <CreatePost />
-      <nav className="navbar navbar-expand-lg bg-body-tertiary">
+      <nav className="navbar navbar-expand-lg ">
         <Login />
         <div className="container-fluid">
           <Link
@@ -27,8 +27,10 @@ function NavTabs() {
                 : "nav-link custom-nav navbar-brand"
             }
           >
-            <img src="/READIT_LOGO-01.svg" className="me-3" />
-            ReadIt
+            <div>
+              <img src="/READIT_LOGO-01.svg" width={50} className="me-3" />
+              ReadIt
+            </div>
           </Link>
           <button
             className="navbar-toggler"
@@ -39,13 +41,13 @@ function NavTabs() {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span className="navbar-toggler-icon"></span>
+            <i className="fas fa-bars fs-2"></i>
           </button>
           <div
             className="collapse navbar-collapse justify-content-end"
             id="navbarNav"
           >
-            <ul className="navbar-nav">
+            <ul className="navbar-nav text-center">
               <li className="nav-item">
                 <Link
                   to="/"

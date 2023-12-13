@@ -356,14 +356,14 @@ const Post = (props) => {
                 <button
                   type="button"
                   onClick={handleDelete}
-                  className="btn btn-primary"
+                  className="btn btn-danger"
                 >
                   Confirm Delete
                 </button>
                 <button
                   type="button"
                   onClick={handleCancelClick}
-                  className="btn btn-primary"
+                  className="btn btn-secondary"
                 >
                   Cancel
                 </button>
