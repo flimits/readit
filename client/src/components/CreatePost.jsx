@@ -128,7 +128,7 @@ export default function CreatePost() {
                 ) : (
                   <>
                     <div className="modal-header">
-                      <h5 className="modal-title">Create Post</h5>
+                      <h2 className="modal-title">Create Post</h2>
                       <button
                         type="button"
                         className="close"
@@ -184,7 +184,7 @@ export default function CreatePost() {
                           />
                         </div>
                         <br></br>
-                        <button id='button-create-post' type="submit" className="btn btn-primary" disabled>Create Post</button>
+                        <button id='button-create-post' type="submit" className="btn btn-primary button-submit" disabled>Create Post</button>
                       </form>
               </div>
             </>

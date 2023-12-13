@@ -4,11 +4,8 @@ import { useMutation } from "@apollo/client";
 import { ADD_USER } from "../utils/mutations";
 
 import Auth from "../utils/auth";
-import Alert from "./Alert";
 
 const SignUpForm = () => {
-  const ALERT_TEXT = "Make sure all fields are filled out properly";
-
   const [formState, setFormState] = useState({
     userName: "",
     email: "",
@@ -65,7 +62,6 @@ const SignUpForm = () => {
   return (
     <>
       <form className="signUpForm" onSubmit={handleFormSubmit}>
-        <div className="alert-modal-signup" ><Alert alert={ALERT_TEXT} centered={true} /></div>
         <div className="mb-3">
           <label htmlFor="sUsername" className="form-label mb-3">
             Username
@@ -108,7 +104,7 @@ const SignUpForm = () => {
           <button
             id="sbtn"
             type="submit"
-            className="btn btn-primary"
+            className="btn btn-primary button-submit"
             style={{ cursor: "pointer" }}
           >
 

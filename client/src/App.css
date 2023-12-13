@@ -3,6 +3,7 @@
   --text-color: #081c15;
   --post-background: #52b788;
   --alert-background: #464646;
+  --bootstrap-bg-light: #f8f9fa;
 }
 
 #root {
@@ -14,6 +15,10 @@
 
 textarea {
   resize: none;
+}
+
+header {
+  background-color: var(--bootstrap-bg-light);
 }
 
 .loginForm,
@@ -35,6 +40,11 @@ textarea {
   background: white;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.button-submit {
+  background-color: var(--post-background) !important;
+  border: 1px solid var(--post-background) !important;
 }
 
 /* Post component */
@@ -126,16 +136,33 @@ textarea {
     background-color: black;
   }
 
-  header {
+  header, .modal-content {
     background-color: black;
+    border: 1px solid white;
+    border-radius: 10px;
   }
 
-  .nav-link {
-    color: white;
+  .dropdown-menu {
+    background-color: black;
+    border: 1px solid white;
+  }
+
+  .nav-link, h1, h2, p, label, .custom-nav {
+    color: white !important;
   }
 
   .navbar .active {
-    background-color: green;
+    color: white !important;
+    text-decoration: underline;
+  }
+
+  .navbar button {
+    color: white !important;
+  }
+
+  .nav-link:hover {
+    color: white !important;
+    /* font-weight: bold; */
   }
 
   .navbar-nav .separator {

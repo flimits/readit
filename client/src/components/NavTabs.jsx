@@ -27,8 +27,10 @@ function NavTabs() {
                 : "nav-link custom-nav navbar-brand"
             }
           >
-            <img src="/READIT_LOGO-01.svg" className="me-3" />
-            ReadIt
+            <div>
+              <img src="/READIT_LOGO-01.svg" width={50} className="me-3" />
+              ReadIt
+            </div>
           </Link>
           <button
             className="navbar-toggler"

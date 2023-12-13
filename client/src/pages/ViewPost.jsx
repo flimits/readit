@@ -133,7 +133,7 @@ const ViewPost = () => {
           <div className="card card-body custom-comment-card-body mx-5">
             <form className="comment-form" onSubmit={handleFormSubmit}>
               <div className="mb-3">
-                <label htmlFor="new-comment" className="form-label">
+                <label htmlFor="new-comment" className="form-label text-black">
                   Write Comment
                 </label>
                 <textarea

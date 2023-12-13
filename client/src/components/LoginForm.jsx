@@ -4,10 +4,8 @@ import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../utils/mutations";
 
 import Auth from "../utils/auth";
-import Alert from "./Alert";
 
 const LoginForm = () => {
-  const ALERT_TEXT = "Invalid Credentials";
   const [formState, setFormState] = useState({ userName: "", password: "" });
   const [login, { error, data }] = useMutation(LOGIN_USER);
 
@@ -58,7 +56,6 @@ const LoginForm = () => {
 
   return (
     <>
-      <div className="alert-modal-login" ><Alert alert={ALERT_TEXT} centered={true} /></div>
       <form className="loginForm" onSubmit={handleFormSubmit}>
         <div className="mb-5">
           <label htmlFor="lUsername" className="form-label mb-3">
@@ -88,7 +85,7 @@ const LoginForm = () => {
           <button
             id="lbtn"
             type="submit"
-            className="btn btn-primary"
+            className="btn btn-primary button-submit"
             style={{ cursor: "pointer" }}
           >
             Login
