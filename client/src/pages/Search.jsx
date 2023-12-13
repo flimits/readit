@@ -77,7 +77,7 @@ export default function Search() {
 
   /** 
    * Update the value `searchQuery` to reflect what the user is typing in the search bar 
-   */ 
+   */
   const handleOnChangeSearch = (event) => {
     setSearch(event.target.value);
   }
@@ -143,26 +143,29 @@ export default function Search() {
 
   return (
     <section>
-      <div className="d-flex  justify-content-center mt-3">
-        <form className="w-75" role="search" onSubmit={handleOnSubmit}>
+      <div className="d-flex row justify-content-center mt-3">
+        <div className="text-center">
           <label htmlFor="searchInput" className="form-label fs-3">What do you want to search for?</label>
           <p>(Separate keywords by spaces)</p>
-          <div className="input-group">
-            <input
-              id="searchInput"
-              className="form-control me-2"
-              value={searchQuery}
-              onChange={handleOnChangeSearch}
-              type="search"
-              placeholder="e.g. baking golf programming"
-              aria-label="Search"
-            />
-
-            <div className="dropdown me-2">
-              <button type="button" className="btn btn-primary dropdown-toggle rounded-0" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+        </div>
+        <form className="container-fluid" role="search" onSubmit={handleOnSubmit}>
+          <div className="row justify-content-center">
+            <div className="col-lg-10 p-0 mt-2">
+              <input
+                id="searchInput"
+                className="form-control"
+                value={searchQuery}
+                onChange={handleOnChangeSearch}
+                type="search"
+                placeholder="e.g. baking golf programming"
+                aria-label="Search"
+              />
+            </div>
+            <div className="col-lg-1 p-0 m-0">
+              <button type="button" className="btn btn-primary dropdown-toggle col-12 me-2 mt-2" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                 Filters
               </button>
-              <div className="dropdown-menu p-2">
+              <div className="dropdown-menu dropdown-menu-end p-2">
                 <div className="form-check">
                   <input
                     type="checkbox"
@@ -170,7 +173,7 @@ export default function Search() {
                     id={`${CHECKBOX_IDS.TITLE}`}
                     onChange={(e) => handleOnChangeFilter(e)}
                   />
-                  <label className="form-check-label" htmlFor={`${CHECKBOX_IDS.TITLE}`}>
+                  <label className="form-check-label fs-lg-3" htmlFor={`${CHECKBOX_IDS.TITLE}`}>
                     Titles
                   </label>
                 </div>
@@ -199,7 +202,11 @@ export default function Search() {
               </div>
             </div>
 
-            <button className="btn btn-outline-success" type="submit">Search</button>
+
+            <div className=" col-lg-1 p-0">
+              <button className="btn btn-outline-success col-12 mt-2" type="submit">Search</button>
+
+            </div>
           </div>
         </form>
       </div>
