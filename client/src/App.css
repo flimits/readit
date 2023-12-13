@@ -127,6 +127,10 @@ header {
   background-color: #0041a3;
 }
 
+.readit-logo {
+  font-size: 30px
+}
+
 @media screen and (max-width: 992px) {
   .navbar-nav .separator {
     display: none;

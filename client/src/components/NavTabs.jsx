@@ -4,8 +4,6 @@ import CreatePost from "./CreatePost";
 import Auth from "../utils/auth";
 import '../App.css'; // Import the App.css file
 
-// ... other imports
-
 function NavTabs() {
   const logout = (event) => {
     event.preventDefault();
@@ -20,14 +18,8 @@ function NavTabs() {
         <Login />
         <div className="container-fluid">
           <Link
-            to="/"
-            className={
-              currentPage === "/"
-                ? "nav-link custom-nav navbar-brand active"
-                : "nav-link custom-nav navbar-brand"
-            }
-          >
-            <div>
+            to="/" className="nav-link custom-nav navbar-brand">
+            <div className="readit-logo">
               <img src="/READIT_LOGO-01.svg" width={50} className="me-3" />
               ReadIt
             </div>
