@@ -41,13 +41,13 @@ function NavTabs() {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span className="navbar-toggler-icon"></span>
+            <i className="fas fa-bars fs-2"></i>
           </button>
           <div
             className="collapse navbar-collapse justify-content-end"
             id="navbarNav"
           >
-            <ul className="navbar-nav">
+            <ul className="navbar-nav text-center">
               <li className="nav-item">
                 <Link
                   to="/"

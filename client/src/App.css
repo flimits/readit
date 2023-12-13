@@ -87,6 +87,10 @@ header {
   display: none;
 }
 
+.navbar-toggler {
+  border: none;
+}
+
 /* Jorge Started Here */
 .custom-post-card {
   background-color: var(--post-background);
