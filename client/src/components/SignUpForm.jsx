@@ -1,4 +1,4 @@
-import { Modal } from "bootstrap";
+import { Modal } from "bootstrap/dist/js/bootstrap.min.js";
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { ADD_USER } from "../utils/mutations";
@@ -7,7 +7,7 @@ import Auth from "../utils/auth";
 import Alert from "./Alert";
 
 const SignUpForm = () => {
-  const ALERT_TEXT = "Make sure all feilds are filled out properly";
+  const ALERT_TEXT = "Make sure all fields are filled out properly";
 
   const [formState, setFormState] = useState({
     userName: "",

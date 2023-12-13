@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Modal } from 'bootstrap'
+import { Modal } from "bootstrap/dist/js/bootstrap.min.js"
 import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
@@ -217,8 +217,7 @@ const Post = (props) => {
 
   return (
     <div className="post-container container">
-      <div className="alert-modal-post"><Alert alert={ALERT_TEXT} centered={true} /></div>
-
+      <div className="alert-modal-post" style={{zIndex: 9999}}><Alert alert={ALERT_TEXT} centered={true} /></div>
       <div className="card my-3 custom-post-card">
         <div className="card-body text-left">
           <div className="card-text row">

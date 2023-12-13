@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Modal } from "bootstrap";
+import { Modal } from "bootstrap/dist/js/bootstrap.min.js";
 import { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
 import Auth from "../utils/auth";
@@ -81,10 +81,6 @@ const Comments = (props) => {
       const alertModal = modalDiv.querySelector("#alertModal")
       const bootstrapModal = new Modal(alertModal);
       bootstrapModal.show();
-      // const alertModal = document.querySelector("#alertModal")
-      // console.log("alertModal:", alertModal)
-      // const bootstrapModal = new Modal(alertModal);
-      // bootstrapModal.show();
       return;
     }
 
