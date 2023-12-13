@@ -1,11 +1,52 @@
 # ReadIt
 
- readit
 The only blog that you'll need to post and comments.
 (A microblogging site.)
 
+## Table of Contents
+
+* [Description](#description)
+* [How to use ReadIt](#how-to-use-it)
+* [Screenshots of Application](screenshots-of-application)
+* [Defining our Working MVP](#mvp)
+* [Learning Points](#learning-points)
+* [Code Snippets](#code-snippets)
+* [Contact Info](#contact-info)
+* [Psuedo Code](#psuedo-code-for-this-project)
+
+## Description
+
+The ReadIt Application is a great way for users to Create posts on their favorite topics. They can comment on their posts and they can also comment on other peoples posts. 
+We've made it so that users can also give an 'applause' (or like) to someone's post.
+
+Other cools features are editing abilities for the user that is logged in, they can edit their own posts (but not others), edit their own comments (to their own comments), and Delete their own posts or comments.
+---
+## How to use it
+
+When you as a user get to the landing page, you are presented with all of the posts within the application that all of the users have created. You are also able to read them and use the search bar to find a post you are looking for. However, you cannot add a reaction or create a post/comment unless you have a login.
+
+### So, what do you have to do to fully use this app??
+
+You will have to sign up first and then you can 
+* create posts
+* add comments
+* edit your own stuff and 
+* add reactions to any post.
+
+Further features you will find here are after logging in: 
+* You can check out your profile page will show you 
+  * all of your own posts, in ascending order so you can see the latest things you've created.
+* Edit abilities and creating comments
+
+So, get moving and start posting! [Click Here](https://somerandome.heroku.site.com) for the deployed link for ReadIt
+
+---
+
 ## MVP
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+
+The following is a bar minimum of what we thought to create for a working MVP. It was actually quite a bit. Read through it if you wish to know our thought process and how we managed what we were working on throughout the duration of the project.
+
+__This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.__
 
 This is going to be a Blogging application
 Posts
