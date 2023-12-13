@@ -214,13 +214,16 @@ const resolvers = {
           throw ErrorMustBeLoggedIn
         }
 
-        const deletedData = await Post.findByIdAndDelete(new ObjectId(postId), 
-          { new: true, }
-        );
-        // console.log("deletedData ",deletedData);
+        const deletedData = await Post.findByIdAndDelete(new ObjectId(postId), {
+          new: true,
+        });
 
-        // Change a piece of data to trigger React's hook render
-        deletedData._id = "";
+        console.log("deletedData ",deletedData);
+
+        await User.findByIdAndUpdate(new ObjectId(context.user._id), {
+          $pull: { posts: new ObjectId(postId) },
+        });
+
         return deletedData;
       } catch (error) {
         console.log("couldn't delete post");
@@ -246,6 +249,41 @@ const resolvers = {
         console.error(error);
       }
     },
+    deleteComment: async (parent, { postId, commentId }, context) => {
+      try {
+        // Check if user is logged in
+        if (!context.user) {
+          throw ErrorMustBeLoggedIn;
+        }
+    
+        const multipleIdFilter = {
+          _id: new ObjectId(postId),
+          "comments._id": new ObjectId(commentId),
+        };
+    
+        const deletedComment = await Post.findOneAndUpdate(
+          multipleIdFilter,
+          {
+            $pull: {
+              comments: { _id: new ObjectId(commentId) },
+            },
+          },
+          { new: true }
+        )
+          .populate('author') // get the post author
+          .populate({ // Get the author of the comment
+            path: "comments.author",
+            select: "userName",
+          });
+    
+        console.log("deletedComment ", deletedComment);
+    
+        return deletedComment;
+      } catch (error) {
+        console.log("Couldn't delete Comment");
+        console.error(error);
+      }
+    },    
     editComment: async (parent, { postId, commentId, newText }, context) => {
       try {
         if (!context.user) {
