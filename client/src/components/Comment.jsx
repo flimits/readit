@@ -8,7 +8,7 @@ import moment from "moment";
 import Alert from "./Alert";
 
 const Comments = (props) => {
-  const ALERT_TEXT = "You must be logged in to react for this comment";
+  const ALERT_TEXT = "You must be logged in to react to this comment";
   const emojiCodePoint = "\u{1F4DD}";
   const deleteIcon = "\u{1F5D1}";
 
