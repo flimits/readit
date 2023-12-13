@@ -62,6 +62,7 @@ function NavTabs() {
               {Auth.loggedIn() && ( // dont show the my profile tab unless logged in
                 <>
                   <li className="nav-item separator"></li>
+                  <hr />
                   <li className="nav-item">
                     <Link
                       to="/my-profile"
@@ -75,6 +76,7 @@ function NavTabs() {
                     </Link>
                   </li>
                   <li className="nav-item separator"></li>
+                  <hr />
                 </>
               )}
               {Auth.loggedIn() && ( // do not show the create a post tab unless they are logged in
@@ -90,6 +92,7 @@ function NavTabs() {
                 </li>
               )}
               <li className="nav-item separator"></li>
+              <hr />
               <li className="nav-item">
                 <Link
                   to="/search"
@@ -104,6 +107,7 @@ function NavTabs() {
               </li>
               {/* Add the separator between Search and Login/Logout */}
               <li className="nav-item separator"></li>
+              <hr />
               <li className="nav-item">
                 {Auth.loggedIn() ? (
                   <Link to="/" className="nav-link custom-nav" onClick={logout}>
