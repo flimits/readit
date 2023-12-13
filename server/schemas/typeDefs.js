@@ -54,11 +54,13 @@ type Mutation {
     login(userName: String!, password: String!): Auth
 
     addPost(title: String!, postText: String!, tags: [String]): Post
-    editPost(postId: ID!, newTitle: String, newText: String): Post
+    editPost(postId: ID!, newTitle: String, newText: String, newTags: [String]): Post
     deletePost(postId: ID!): Post
 
     addComment(postId: ID!, text: String!): Post
+    deleteComment(postId: ID!, commentId: ID!): Post
     editComment(postId: ID!, commentId: ID!, newText: String!): Post
+    
     addReactionToPost(postId: ID!, applause: Boolean!): Post
     addReactionToComment(postId: ID!, commentId: ID!, applause: Boolean!): Post
 

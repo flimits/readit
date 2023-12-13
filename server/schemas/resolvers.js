@@ -182,9 +182,9 @@ const resolvers = {
         console.error(error);
       }
     },
-    editPost: async (parent, { postId, newTitle, newText }, context) => {
+    editPost: async (parent, { postId, newTitle, newText, newTags }, context) => {
       try {
-        console.log("context.user:", context.user);
+        // console.log("context.user:", context.user);
         //Check if user is logged in
         if (!context.user) {
           throw ErrorMustBeLoggedIn;
@@ -196,6 +196,7 @@ const resolvers = {
             $set: {
               title: newTitle,
               postText: newText,
+              tags: newTags
             },
           },
           { new: true } // Return the updated post
@@ -209,14 +210,24 @@ const resolvers = {
       try {
         // console.log("context.user:", context.user);
         // Check if user is logged in
-        // if (!context.user) {
-        //   throw ErrorMustBeLoggedIn
-        // }
+        if (!context.user) {
+          throw ErrorMustBeLoggedIn
+        }
 
         const deletedData = await Post.findByIdAndDelete(new ObjectId(postId), {
           new: true,
         });
-        console.log("deletedData ",deletedData);
+
+        // console.log("deletedData ", deletedData);
+
+        const updatedUser = await User.findByIdAndUpdate(
+          new ObjectId(context.user._id),
+          { $pull: { posts: new ObjectId(postId) }, },
+          { new: true }
+        );
+
+        // console.log("updatedUser:", updatedUser);
+
         return deletedData;
       } catch (error) {
         console.log("couldn't delete post");
@@ -242,6 +253,41 @@ const resolvers = {
         console.error(error);
       }
     },
+    deleteComment: async (parent, { postId, commentId }, context) => {
+      try {
+        // Check if user is logged in
+        if (!context.user) {
+          throw ErrorMustBeLoggedIn;
+        }
+
+        const multipleIdFilter = {
+          _id: new ObjectId(postId),
+          "comments._id": new ObjectId(commentId),
+        };
+
+        const deletedComment = await Post.findOneAndUpdate(
+          multipleIdFilter,
+          {
+            $pull: {
+              comments: { _id: new ObjectId(commentId) },
+            },
+          },
+          { new: true }
+        )
+          .populate('author') // get the post author
+          .populate({ // Get the author of the comment
+            path: "comments.author",
+            select: "userName",
+          });
+
+        console.log("deletedComment ", deletedComment);
+
+        return deletedComment;
+      } catch (error) {
+        console.log("Couldn't delete Comment");
+        console.error(error);
+      }
+    },
     editComment: async (parent, { postId, commentId, newText }, context) => {
       try {
         if (!context.user) {
@@ -262,34 +308,6 @@ const resolvers = {
         );
 
         return updatedPost;
-
-        // const post = await Post.findById(postId);
-
-        // if (!post) {
-        //   console.log("post not found");
-        //   return null;
-        // }
-
-        // const commentIndex = post.comments.findIndex((comment) =>
-        //   comment._id.equals(commentId)
-        // );
-
-        // if (commentIndex === -1) {
-        //   console.log("Comment not found");
-        //   return null;
-        // }
-
-        // post.comments[commentIndex].text = newText;
-        // const updatedPost = await post.save({ new: true });
-
-        // console.log("Comment Updated Successfully");
-        // return updatedPost;
-
-        // return await Post.findByIdAndUpdate(
-        //   { _id: postId, "comments._id": commentId },
-        //   { $set: { "comments.$.text": newText } },
-        //   { new: true }
-        // );
       } catch (error) {
         console.log("couldn't edit comment");
         console.log(error);
@@ -389,11 +407,11 @@ const resolvers = {
               },
               { new: true }
             )
-            .populate('author') // get the post author
-            .populate({ // Get the author of the comment
-              path: "comments.author",
-              select: "userName"
-            });
+              .populate('author') // get the post author
+              .populate({ // Get the author of the comment
+                path: "comments.author",
+                select: "userName"
+              });
           }
         }
 
@@ -406,11 +424,11 @@ const resolvers = {
           },
           { new: true }
         )
-        .populate('author') // get the post author
-        .populate({ // Get the author of the comment
-          path: "comments.author",
-          select: "userName"
-        });
+          .populate('author') // get the post author
+          .populate({ // Get the author of the comment
+            path: "comments.author",
+            select: "userName"
+          });
 
         return updatedPost;
       } catch (error) {
