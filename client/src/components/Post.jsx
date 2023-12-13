@@ -9,13 +9,10 @@ import { DELETE_POST, EDIT_POST, ADD_REACTION } from "../utils/mutations";
 import { GET_POSTS, GET_ME, SEARCH_POSTS, SINGLE_POST } from "../utils/queries";
 import moment from "moment";
 import Alert from "./Alert";
+import "./Post.css"
 
 const Post = (props) => {
   const ALERT_TEXT = "You must be logged in to react to this post";
-  const emojiCodePoint = "\u{1F4DD}";
-  const deleteIcon = "\u{1F5D1}";
-
-  // const [postInstance, setPostInstance] = useState(props?.post);
   const postInstance = props.post;
 
   const currentPage = useLocation().pathname;
@@ -225,7 +222,7 @@ const Post = (props) => {
       <div className="card my-3 custom-post-card">
         <div className="card-body text-left">
           <div className="card-text row">
-            <div className="col-10 fs-5">
+            <div className="col-10 fs-5 main-title">
               {isEditing ? (
                 <>
                   <input
@@ -249,25 +246,25 @@ const Post = (props) => {
                 </>
               )}
             </div>
-            <div className="col-2 fs-4">
+            <div className="col-2 fs-4 d-flex justify-content-end">
               {editDeleteEnabled ? (
                 <>
                   {isEditing ? (
                     <a className="link " onClick={handleCancelClick}>
-                      {"\u{2716}"}
+                      <i className="fa-regular fa-rectangle-xmark"></i>
                     </a>
                   ) : (
-                    <a onClick={handleEditClick} className="link ">
-                      {emojiCodePoint}
+                    <a onClick={handleEditClick} className="link edit-icon">
+                      <i className="fa-regular fa-pen-to-square"></i>
                     </a>
                   )}
                   {isDeleting ? (
                     <a className="link " onClick={handleCancelClick}>
-                      {"\u{2716}"}
+                      <i className="fa-regular fa-rectangle-xmark"></i>
                     </a>
                   ) : (
                     <a className="link " onClick={handleDeleteClick}>
-                      {deleteIcon}
+                      <i className="fa-solid fa-trash-can"></i>
                     </a>
                   )}
                 </>
@@ -277,7 +274,7 @@ const Post = (props) => {
             </div>
           </div>
           <div className="card-text">
-            <div className="col-12">
+            <div className="col-12 main-text">
               {isEditing ? (
                 <>
                   <textarea
@@ -314,7 +311,7 @@ const Post = (props) => {
               onClick={handleSave}
               className="btn btn-secondary w-100 my-1"
             >
-              Save 💾
+              Save <i className="fa-solid fa-floppy-disk"></i>
             </button> : null
           }
           <div className="card-text row">
@@ -330,9 +327,9 @@ const Post = (props) => {
               </div>
               {postInstance?.reactions?.length}
             </div>
-            <div className="col-1 fs-5">
-              {"\u{1F4AC}"}
-              {postInstance?.comments?.length}
+            <div className="col-1 fs-5 comment-icon nowrap ">
+            <i className="fa-regular fa-message"></i>
+              <span>{postInstance?.comments?.length}</span>
             </div>
             {/* Hide tags when editing a post */}
             {!isEditing ?
