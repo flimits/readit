@@ -148,7 +148,7 @@ const ViewPost = () => {
                 <div className="d-flex justify-content-end">
                   <button
                     type="submit"
-                    className="btn btn-primary mt-3"
+                    className="btn btn-primary button-submit mt-3"
                     data-bs-toggle={formState.text ? "collapse" : ""}
                     onClick={() => changeBtnOnSubmit(toggleCommentBtn)}
                     data-bs-target="#collapsAddComment"
