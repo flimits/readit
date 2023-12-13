@@ -88,7 +88,7 @@ const ViewPost = () => {
     <div>
       {/* Viewing single post !! */}
       <Post post={post} />
-      <div>
+      <div className="d-flex justify-content-center mx-3">
         {Auth.loggedIn() && (
           <button
             id="add-comment-btn"
@@ -105,8 +105,11 @@ const ViewPost = () => {
           </button>
         )}
       </div>
-      <div className="collapse mb-3" id="collapsAddComment">
-        <div className="card card-body">
+      <div
+        className="collapse mb-3 custom-comment-collapse"
+        id="collapsAddComment"
+      >
+        <div className="card card-body custom-comment-card-body mx-5">
           <form className="comment-form" onSubmit={handleFormSubmit}>
             <div className="mb-3">
               <label htmlFor="new-comment" className="form-label">
@@ -121,15 +124,17 @@ const ViewPost = () => {
                 onChange={handleChange}
                 rows="3"
               ></textarea>
-              <button
-                type="submit"
-                className="btn btn-primary mt-3"
-                data-bs-toggle={formState.text ? "collapse" : ""}
-                onClick={() => changeBtnOnSubmit(toggleCommentBtn)}
-                data-bs-target="#collapsAddComment"
-              >
-                Submit
-              </button>
+              <div className="d-flex justify-content-end">
+                <button
+                  type="submit"
+                  className="btn btn-primary mt-3"
+                  data-bs-toggle={formState.text ? "collapse" : ""}
+                  onClick={() => changeBtnOnSubmit(toggleCommentBtn)}
+                  data-bs-target="#collapsAddComment"
+                >
+                  Submit
+                </button>
+              </div>
             </div>
           </form>
         </div>
