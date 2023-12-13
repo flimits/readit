@@ -123,6 +123,10 @@ header {
   background-color: var(--alert-background);
 }
 
+#button-search-filter:hover {
+  background-color: #0041a3;
+}
+
 @media screen and (max-width: 992px) {
   .navbar-nav .separator {
     display: none;
