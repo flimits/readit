@@ -3,7 +3,11 @@ import { Modal } from "bootstrap/dist/js/bootstrap.min.js";
 import { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
 import Auth from "../utils/auth";
-import { EDIT_COMMENT, ADD_REACTION_TO_COMMENT, DELETE_COMMENT } from "../utils/mutations";
+import {
+  EDIT_COMMENT,
+  ADD_REACTION_TO_COMMENT,
+  DELETE_COMMENT,
+} from "../utils/mutations";
 import moment from "moment";
 import Alert from "./Alert";
 
@@ -75,10 +79,9 @@ const Comments = (props) => {
     e.preventDefault();
 
     if (!Auth.loggedIn()) {
-
       const modalDiv = document.querySelector(".alert-modal-comment");
       // console.log("modal:", modalDiv);
-      const alertModal = modalDiv.querySelector("#alertModal")
+      const alertModal = modalDiv.querySelector("#alertModal");
       const bootstrapModal = new Modal(alertModal);
       bootstrapModal.show();
       return;
@@ -100,6 +103,7 @@ const Comments = (props) => {
   const handleCancelClick = () => {
     setEditedText(commentInstance.text);
     setIsEditing(false);
+    setIsDeleting(false);
   };
 
   const handleEditClick = () => {
@@ -138,8 +142,6 @@ const Comments = (props) => {
       await deleteComment({
         variables: { postId: postInstance._id, commentId: commentInstance._id },
       });
-
-
     } catch (error) {
       console.log("Error deleting a Comment!!", error);
     } finally {
@@ -150,13 +152,15 @@ const Comments = (props) => {
 
   return (
     <div className="post-container container">
-      <div className="alert-modal-comment"><Alert alert={ALERT_TEXT} centered={true} /></div>
+      <div className="alert-modal-comment">
+        <Alert alert={ALERT_TEXT} centered={true} />
+      </div>
 
       <div className="card mb-3 custom-comment-card">
         <div className="card-body text-left">
           <div className="card-text row">
             <div className="col-10">{commentInstance.author.userName}</div>
-            <div className="col-2">
+            <div className="col-2 comment-icons">
               {editDeleteEnabled ? (
                 <>
                   {isEditing ? (
@@ -164,11 +168,11 @@ const Comments = (props) => {
                       style={{ cursor: "pointer" }}
                       onClick={handleCancelClick}
                     >
-                      {"\u{2716}"}
+                      <i className="fa-regular fa-rectangle-xmark"></i>
                     </a>
                   ) : (
                     <a style={{ cursor: "pointer" }} onClick={handleEditClick}>
-                      {emojiCodePoint}
+                      <i className="fa-solid fa-pen"></i>
                     </a>
                   )}
                   {isDeleting ? (
@@ -177,7 +181,7 @@ const Comments = (props) => {
                     </a>
                   ) : (
                     <a className="link " onClick={handleDeleteClick}>
-                      {deleteIcon}
+                      <i className="fa-solid fa-trash-can"></i>
                     </a>
                   )}
                 </>

@@ -73,7 +73,7 @@ textarea {
   margin: 0 10px; /* Adjust the margin to control spacing between tabs and lines */
 }
 
-.navbar-nav hr  {
+.navbar-nav hr {
   display: none;
 }
 
@@ -95,6 +95,12 @@ textarea {
   background-color: var(--comment-background);
   padding: 10px;
 }
+
+.comment-icons i {
+  color: #000;
+  font-size: 25px;
+  margin-right: 10px;
+}
 /* Jorge Ended Here */
 /** edit/delete/cancel links **/
 .link {
@@ -111,7 +117,7 @@ textarea {
     display: none;
   }
 
-  .navbar-nav hr  {
+  .navbar-nav hr {
     display: block;
   }
 }
