@@ -1,10 +1,13 @@
+import { Modal } from "bootstrap";
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../utils/mutations";
 
 import Auth from "../utils/auth";
+import Alert from "./Alert";
 
 const LoginForm = () => {
+  const ALERT_TEXT = "Invalid Credentials";
   const [formState, setFormState] = useState({ userName: "", password: "" });
   const [login, { error, data }] = useMutation(LOGIN_USER);
 
@@ -32,7 +35,12 @@ const LoginForm = () => {
           userName: "",
           password: "",
         });
-        alert("Invalid Credentials");
+
+        const modalDiv = document.querySelector(".alert-modal");
+        // console.log("modal:", modalDiv);
+        const alertModal = modalDiv.querySelector("#alertModal")
+        const bootstrapModal = new Modal(alertModal);
+        bootstrapModal.show();
         return;
       }
 
@@ -50,6 +58,7 @@ const LoginForm = () => {
 
   return (
     <>
+      <div className="alert-modal d-flex align-items-center" ><Alert alert={ALERT_TEXT} /></div>
       <form className="loginForm" onSubmit={handleFormSubmit}>
         <div className="mb-5">
           <label htmlFor="lUsername" className="form-label mb-3">

@@ -4,12 +4,12 @@ export default function Alert(props) {
 
 
   return (
-    <div className="modal-dialog modal-dialog-centered">
+    <div  style={{zIndex: 9999}}>
       <div className="modal fade" id="alertModal" tabIndex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
-        <div className="modal-dialog">
-          <div className="modal-content">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content bg-danger">
             <div className="modal-body">
-              <h1 className="modal-title fs-5" id="exampleModalLabel">
+              <h1 className="modal-title fs-5 text-white" id="exampleModalLabel">
                 {props.alert}
               </h1>
             </div>
