@@ -66,7 +66,7 @@ textarea {
   background-color: var(--comment-background);
 }
 
-.navbar-nav .separator {
+.navbar-nav .separator123 {
   height: 40px; /* Adjust the height of the separator as needed */
   width: 2px; /* Width of the vertical line */
   background-color: black; /* Color of the vertical line */

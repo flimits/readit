@@ -19,13 +19,19 @@
     box-shadow: 0 0 10px 5px rgba(50, 50, 50, 0.2);
 }
 
+.main-title {
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 125%;
+
+}
 .main-title a{
     color: var(--text-color);
     text-decoration: none;
-
 }
 .main-title a:hover {
-    color: #000;
+    color: var(--color-4);
+    text-decoration: underline;
 }
 .main-text {
     margin: 5px 0 20px 0;
@@ -37,10 +43,17 @@
     margin-right: 15px;
 }
 
-.comment-icon  i {
+.comment-icon   {
+    min-width: 100px;
+    text-wrap: nowrap;
+}
+.comment-icon   i{
     margin-right: 5px;
 }
 
+.tag-container .rounded{
+margin-bottom: 5px;
+}
 
 #button-post-reaction {
     background-color: transparent;
