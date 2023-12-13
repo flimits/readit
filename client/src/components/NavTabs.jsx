@@ -5,9 +5,11 @@ import Auth from "../utils/auth";
 import '../App.css'; // Import the App.css file
 
 function NavTabs() {
+  // Once a user logs out, we need to redirect to home so we dont get auth errors
   const logout = (event) => {
     event.preventDefault();
     Auth.logout();
+    window.location.href = "/";
   };
   const currentPage = useLocation().pathname;
 
