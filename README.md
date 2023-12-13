@@ -38,6 +38,30 @@ Further features you will find here are after logging in:
   * all of your own posts, in ascending order so you can see the latest things you've created.
 * Edit abilities and creating comments
 
+So, get moving and start posting! [Click Here](https://project-readit-ae03b3828bf5.herokuapp.com/) for the deployed link for ReadIt
+
+---
+## Here's what it looks like
+Below is a description of what it a few parts are and what they look like
+
+### This is the landing page
+So, this is your landing page. You can see all posts, but you are not allowed to add comments or edit anything. Notice you are not logged in! you only see home, search and login. <br>
+
+![img](./public/readme_images/readit_theread_landing_page.png)
+---
+### You should log in
+Now you are able to log in here, or even sign-up if you want to post or comment. It is easy!
+<br> 
+
+*Signin:*
+
+![img](./public/readme_images/readit_signin.png) <br>
+
+*Signup:*
+
+![img](./public/readme_images/readit_signup.png)
+---
+
 So, get moving and start posting! [Click Here](https://project-readit-ae03b3828bf5.herokuapp.com/) for the deployed link for ReadIt.
 
 ## Image
