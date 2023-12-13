@@ -215,7 +215,7 @@ const Comments = (props) => {
               {commentInstance?.reactions.length}
             </div>
           </div>
-          <p className="card-text">
+          <p className="card-text d-flex justify-content-end">
             <small className="text-muted">
               Created on:{" "}
               {moment(`${commentInstance.createdAt}`).format("MMMM Do YYYY")}
