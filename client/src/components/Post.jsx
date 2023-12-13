@@ -9,7 +9,7 @@ import { GET_POSTS, GET_ME, SEARCH_POSTS, SINGLE_POST } from "../utils/queries";
 import moment from "moment";
 
 const Post = (props) => {
-  const emojiCodePoint = "\u{1F4DD}";
+  // const emojiCodePoint = "\u{1F4DD}";
   const deleteIcon = "\u{1F5D1}";
 
   // const [postInstance, setPostInstance] = useState(props?.post);
@@ -248,8 +248,8 @@ const Post = (props) => {
                       {"\u{2716}"}
                     </a>
                   ) : (
-                    <a onClick={handleEditClick} className="link ">
-                      {emojiCodePoint}
+                    <a onClick={handleEditClick} className="link edit-icon">
+                      <i className="fa-regular fa-pen-to-square"></i>
                     </a>
                   )}
                   {isDeleting ? (
