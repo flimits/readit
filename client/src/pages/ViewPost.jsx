@@ -33,15 +33,14 @@ const ViewPost = () => {
   const [addedComment, setAddedComment] = useState({});
   const [toggleCommentBtn, setToggleCommentBtn] = useState(false);
   const [addComment, { error, data: commentData }] = useMutation(ADD_COMMENT);
-  const [isRedirecting, setIsRedirecting] = useState(false)
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
   const { loading, data: postData } = useQuery(SINGLE_POST, {
     //pass url params
     variables: { postId: postId },
   });
 
-
-  useEffect(() => { }, [addedComment])
+  useEffect(() => {}, [addedComment]);
 
   useEffect(() => {
     // console.log("commentData:", commentData);
@@ -49,18 +48,18 @@ const ViewPost = () => {
 
   useEffect(() => {
     // console.log("postData:", postData);
-    if (postData && postData.getPost === null) setIsRedirecting(true)
-  }, [postData])
+    if (postData && postData.getPost === null) setIsRedirecting(true);
+  }, [postData]);
 
   useEffect(() => {
     if (isRedirecting) {
       // console.log("going to redirect")
       // Redirect to the /my-profile page to force a refresh of the user's posts
       setInterval(() => {
-        window.location.href = '/my-profile'
-      }, 1200)
+        window.location.href = "/my-profile";
+      }, 1200);
     }
-  }, [isRedirecting])
+  }, [isRedirecting]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -107,90 +106,89 @@ const ViewPost = () => {
   const post = postData?.getPost || {};
 
   const renderPost = () => {
-    return (
-      post._id ?
-        <div>
-          <Post post={post} />
-          <div className="d-flex justify-content-center mx-3">
-            {Auth.loggedIn() && (
-              <button
-                id="add-comment-btn"
-                type="button"
-                className="btn btn-light mb-3"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapsAddComment"
-                onClick={() => changeBtn(toggleCommentBtn)}
-                aria-expanded={toggleCommentBtn}
-                aria-controls="collapsAddComment"
-              >
-                {!toggleCommentBtn && <>Add A Comment</>}
-                {toggleCommentBtn && <>Cancel</>}
-              </button>
-            )}
-          </div>
-          <div
-            className="collapse mb-3 custom-comment-collapse"
-            id="collapsAddComment"
-          >
-            <div className="card card-body custom-comment-card-body mx-5">
-              <form className="comment-form" onSubmit={handleFormSubmit}>
-                <div className="mb-3">
-                  <label htmlFor="new-comment" className="form-label">
-                    Write Comment
-                  </label>
-                  <textarea
-                    id="new-comment"
-                    className="form-control"
-                    required
-                    name="text"
-                    value={formState.text}
-                    onChange={handleChange}
-                    rows="3"
-                  ></textarea>
-                  <div className="d-flex justify-content-end">
-                    <button
-                      type="submit"
-                      className="btn btn-primary mt-3"
-                      data-bs-toggle={formState.text ? "collapse" : ""}
-                      onClick={() => changeBtnOnSubmit(toggleCommentBtn)}
-                      data-bs-target="#collapsAddComment"
-                    >
-                      Submit
-                    </button>
-                  </div>
+    return post._id ? (
+      <div>
+        <Post post={post} />
+        <div className="d-flex justify-content-end mx-3">
+          {Auth.loggedIn() && (
+            <button
+              id="add-comment-btn"
+              type="button"
+              className="btn btn-light mb-3 border-black"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapsAddComment"
+              onClick={() => changeBtn(toggleCommentBtn)}
+              aria-expanded={toggleCommentBtn}
+              aria-controls="collapsAddComment"
+            >
+              {!toggleCommentBtn && <>Add A Comment</>}
+              {toggleCommentBtn && <>Cancel</>}
+            </button>
+          )}
+        </div>
+        <div
+          className="collapse mb-3 custom-comment-collapse"
+          id="collapsAddComment"
+        >
+          <div className="card card-body custom-comment-card-body mx-5">
+            <form className="comment-form" onSubmit={handleFormSubmit}>
+              <div className="mb-3">
+                <label htmlFor="new-comment" className="form-label">
+                  Write Comment
+                </label>
+                <textarea
+                  id="new-comment"
+                  className="form-control"
+                  required
+                  name="text"
+                  value={formState.text}
+                  onChange={handleChange}
+                  rows="3"
+                ></textarea>
+                <div className="d-flex justify-content-end">
+                  <button
+                    type="submit"
+                    className="btn btn-primary mt-3"
+                    data-bs-toggle={formState.text ? "collapse" : ""}
+                    onClick={() => changeBtnOnSubmit(toggleCommentBtn)}
+                    data-bs-target="#collapsAddComment"
+                  >
+                    Submit
+                  </button>
                 </div>
-              </form>
-            </div>
-          </div>
-          <div>
-            {post?.comments?.length === 0 && "No Comments on this post yet"}
-            {post?.comments?.map((comments) => (
-              <Comment key={comments._id} post={post} comment={comments} />
-            ))}
+              </div>
+            </form>
           </div>
         </div>
-
-        :
-        <div className="text-center m-3">
-          <h2>This post doesnt exist</h2>
-          <Link to={"/"}>
-            <span>
-              <h3>Go back Home</h3>
-            </span>
-          </Link>
+        <div>
+          {post?.comments?.length === 0 && "No Comments on this post yet"}
+          {post?.comments?.map((comments) => (
+            <Comment key={comments._id} post={post} comment={comments} />
+          ))}
         </div>
-
-    )
-  }
+      </div>
+    ) : (
+      <div className="text-center m-3">
+        <h2>This post doesnt exist</h2>
+        <Link to={"/"}>
+          <span>
+            <h3>Go back Home</h3>
+          </span>
+        </Link>
+      </div>
+    );
+  };
 
   return (
     <div>
-
       {/* Viewing single post !! */}
-      {!isRedirecting ?
-        renderPost() :
-        <h2 className="text-center m-3">Post deleted, redirecting to your profile.</h2>
-      }
+      {!isRedirecting ? (
+        renderPost()
+      ) : (
+        <h2 className="text-center m-3">
+          Post deleted, redirecting to your profile.
+        </h2>
+      )}
     </div>
   );
 };

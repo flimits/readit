@@ -160,18 +160,15 @@ const Comments = (props) => {
         <div className="card-body text-left">
           <div className="card-text row">
             <div className="col-10">{commentInstance.author.userName}</div>
-            <div className="col-2 comment-icons">
+            <div className="col-2 fs-4 comment-icons d-flex justify-content-end">
               {editDeleteEnabled ? (
                 <>
                   {isEditing ? (
-                    <a
-                      style={{ cursor: "pointer" }}
-                      onClick={handleCancelClick}
-                    >
+                    <a className="link" onClick={handleCancelClick}>
                       <i className="fa-regular fa-rectangle-xmark"></i>
                     </a>
                   ) : (
-                    <a style={{ cursor: "pointer" }} onClick={handleEditClick}>
+                    <a className="link" onClick={handleEditClick}>
                       <i className="fa-solid fa-pen"></i>
                     </a>
                   )}
