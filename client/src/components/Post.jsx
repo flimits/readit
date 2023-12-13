@@ -259,7 +259,7 @@ const Post = (props) => {
                     </a>
                   ) : (
                     <a onClick={handleEditClick} className="link edit-icon">
-                      <i className="fa-regular fa-pen-to-square"></i>
+                      <i className="fa-solid fa-pen"></i>
                     </a>
                   )}
                   {isDeleting ? (
@@ -346,7 +346,7 @@ const Post = (props) => {
           </div>
           <p className="card-text d-flex justify-content-end">
             <small className="text-muted">
-              <b>{postInstance?.author?.userName}</b> on:{" "}
+              {postInstance?.author?.userName} posted on:{" "}
               {moment(`${postInstance?.createdAt}`).format("MMMM Do YYYY")}
             </small>
           </p>

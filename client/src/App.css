@@ -66,7 +66,7 @@ textarea {
   background-color: var(--comment-background);
 }
 
-.navbar-nav .separator123 {
+.navbar-nav .separator {
   height: 40px; /* Adjust the height of the separator as needed */
   width: 2px; /* Width of the vertical line */
   background-color: black; /* Color of the vertical line */
@@ -96,10 +96,10 @@ textarea {
   padding: 10px;
 }
 
-.comment-icons i {
+/* .comment-icons i {
   color: #000;
   margin-right: 5px;
-}
+} */
 /* Jorge Ended Here */
 /** edit/delete/cancel links **/
 .link {
