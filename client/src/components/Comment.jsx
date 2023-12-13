@@ -11,10 +11,10 @@ import {
 import moment from "moment";
 import Alert from "./Alert";
 
+import "./Post.css";
+
 const Comments = (props) => {
   const ALERT_TEXT = "You must be logged in to react to this comment";
-  const emojiCodePoint = "\u{1F4DD}";
-  const deleteIcon = "\u{1F5D1}";
 
   const commentInstance = props.comment;
   const postInstance = props.post;
@@ -151,44 +151,15 @@ const Comments = (props) => {
   };
 
   return (
-    <div className="post-container container">
+    <div className="comment-container">
       <div className="alert-modal-comment">
         <Alert alert={ALERT_TEXT} centered={true} />
       </div>
 
-      <div className="card mb-3 custom-comment-card">
+      <div className="card mb-1 custom-comment-card">
         <div className="card-body text-left">
           <div className="card-text row">
-            <div className="col-10">{commentInstance.author.userName}</div>
-            <div className="col-2 fs-4 comment-icons d-flex justify-content-end">
-              {editDeleteEnabled ? (
-                <>
-                  {isEditing ? (
-                    <a className="link" onClick={handleCancelClick}>
-                      <i className="fa-regular fa-rectangle-xmark"></i>
-                    </a>
-                  ) : (
-                    <a className="link" onClick={handleEditClick}>
-                      <i className="fa-solid fa-pen"></i>
-                    </a>
-                  )}
-                  {isDeleting ? (
-                    <a className="link " onClick={handleCancelClick}>
-                      {"\u{2716}"}
-                    </a>
-                  ) : (
-                    <a className="link " onClick={handleDeleteClick}>
-                      <i className="fa-solid fa-trash-can"></i>
-                    </a>
-                  )}
-                </>
-              ) : (
-                " "
-              )}
-            </div>
-          </div>
-          <div className="card-text">
-            <div className="col-8">
+            <div className="col-10">
               {" "}
               {isEditing ? (
                 <>
@@ -210,9 +181,35 @@ const Comments = (props) => {
                 <>{commentInstance.text}</>
               )}
             </div>
+            <div className="col-2 fs-4 comment-icons d-flex justify-content-end">
+              {editDeleteEnabled ? (
+                <>
+                  {isEditing ? (
+                    <a className="link" onClick={handleCancelClick}>
+                      <i className="fa-regular fa-rectangle-xmark"></i>
+                    </a>
+                  ) : (
+                    <a className="link" onClick={handleEditClick}>
+                      <i className="fa-solid fa-pen"></i>
+                    </a>
+                  )}
+                  {isDeleting ? (
+                    <a className="link " onClick={handleCancelClick}>
+                      <i className="fa-regular fa-rectangle-xmark"></i>
+                    </a>
+                  ) : (
+                    <a className="link " onClick={handleDeleteClick}>
+                      <i className="fa-solid fa-trash-can"></i>
+                    </a>
+                  )}
+                </>
+              ) : (
+                " "
+              )}
+            </div>
           </div>
           <div className="card-text row">
-            <div className="d-inline-flex fs-5 col-1">
+            <div className="d-inline-flex fs-5 col-2">
               <div className="handclap-full me-2">
                 <button
                   id="button-comment-reaction"
@@ -224,13 +221,20 @@ const Comments = (props) => {
               </div>
               {commentInstance?.reactions.length}
             </div>
+            <div className="d-inline-flex col-10 justify-content-end align-items-center">
+              <p className="card-text d-flex ">
+                <small className="text-muted">
+                  {commentInstance?.author?.userName}
+                  {"  "}
+                  commented on:{" "}
+                  {moment(`${commentInstance.createdAt}`).format(
+                    "MMMM Do YYYY"
+                  )}
+                </small>
+              </p>
+            </div>
           </div>
-          <p className="card-text d-flex justify-content-end">
-            <small className="text-muted">
-              Created on:{" "}
-              {moment(`${commentInstance.createdAt}`).format("MMMM Do YYYY")}
-            </small>
-          </p>
+
           {isDeleting ? (
             <>
               <div className="delete-post-mask">
