@@ -2,6 +2,7 @@
   --comment-background: #d8f3dc;
   --text-color: #081c15;
   --post-background: #52b788;
+  --alert-background: #464646;
 }
 
 #root {
@@ -95,4 +96,8 @@ textarea {
 .link {
   cursor: pointer;
   text-decoration: none;
+}
+
+#alertModal .modal-content {
+  background-color: var(--alert-background);
 }

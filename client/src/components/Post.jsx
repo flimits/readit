@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { Modal } from 'bootstrap'
 import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
@@ -7,9 +8,11 @@ import Tag from "./Tag";
 import { DELETE_POST, EDIT_POST, ADD_REACTION } from "../utils/mutations";
 import { GET_POSTS, GET_ME, SEARCH_POSTS, SINGLE_POST } from "../utils/queries";
 import moment from "moment";
+import Alert from "./Alert";
 import "./Post.css"
 
 const Post = (props) => {
+  const ALERT_TEXT = "You must be logged in to react to this post";
   const postInstance = props.post;
 
   const currentPage = useLocation().pathname;
@@ -51,9 +54,9 @@ const Post = (props) => {
     DELETE_POST,
     {
       refetchQueries: [
-        GET_POSTS, "getPosts", 
-        GET_ME, "getMe", 
-        SEARCH_POSTS, "SearchPosts", 
+        GET_POSTS, "getPosts",
+        GET_ME, "getMe",
+        SEARCH_POSTS, "SearchPosts",
         SINGLE_POST, "getSinglePost"
       ],
     }
@@ -92,7 +95,7 @@ const Post = (props) => {
     console.log("Authorization error !!", error);
   }
 
-  
+
   /**
    * Takes the user's input and separates it by whitespace to create an array
    * @returns An array of the split up tags or empty
@@ -132,7 +135,11 @@ const Post = (props) => {
     e.preventDefault();
 
     if (!Auth.loggedIn()) {
-      alert("You must be logged in to react to this post");
+      const modalDiv = document.querySelector(".alert-modal-post");
+      // console.log("modal:", modalDiv);
+      const alertModal = modalDiv.querySelector("#alertModal")
+      const bootstrapModal = new Modal(alertModal);
+      bootstrapModal.show();
       return;
     }
 
@@ -210,6 +217,8 @@ const Post = (props) => {
 
   return (
     <div className="post-container container">
+      <div className="alert-modal-post"><Alert alert={ALERT_TEXT} centered={true} /></div>
+
       <div className="card my-3 custom-post-card">
         <div className="card-body text-left">
           <div className="card-text row">

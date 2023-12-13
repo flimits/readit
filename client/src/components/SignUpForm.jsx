@@ -1,10 +1,14 @@
+import { Modal } from "bootstrap";
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { ADD_USER } from "../utils/mutations";
 
 import Auth from "../utils/auth";
+import Alert from "./Alert";
 
 const SignUpForm = () => {
+  const ALERT_TEXT = "Make sure all feilds are filled out properly";
+
   const [formState, setFormState] = useState({
     userName: "",
     email: "",
@@ -37,7 +41,11 @@ const SignUpForm = () => {
           email: "",
           password: "",
         });
-        alert("Make sure all feilds are filled out properly");
+
+        const modalDiv = document.querySelector(".alert-modal-signup");
+        const alertModal = modalDiv.querySelector("#alertModal")
+        const bootstrapModal = new Modal(alertModal);
+        bootstrapModal.show();
         return;
       }
 
@@ -57,6 +65,7 @@ const SignUpForm = () => {
   return (
     <>
       <form className="signUpForm" onSubmit={handleFormSubmit}>
+        <div className="alert-modal-signup" ><Alert alert={ALERT_TEXT} centered={true} /></div>
         <div className="mb-3">
           <label htmlFor="sUsername" className="form-label mb-3">
             Username
