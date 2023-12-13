@@ -5,6 +5,7 @@
   --alert-background: #464646;
   --bootstrap-bg-light: #f8f9fa;
   --dark-theme-background: #212121;
+  --color-4: #1B4332;
 
 }
 
@@ -128,7 +129,9 @@ header {
 }
 
 .readit-logo {
-  font-size: 30px
+  font-size: 40px;
+  font-family: 'Kdam Thmor Pro', sans-serif;
+  color: var(--post-background);
 }
 
 @media screen and (max-width: 992px) {
