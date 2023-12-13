@@ -229,6 +229,7 @@ const Post = (props) => {
             <div className="col-10 fs-5 main-title">
               {isEditing ? (
                 <>
+                <span className="edit-label">Title</span>
                   <input
                     type="text"
                     name="title"
@@ -281,6 +282,7 @@ const Post = (props) => {
             <div className="col-12 main-text">
               {isEditing ? (
                 <>
+                <span className="edit-label">Text</span>
                   <textarea
                     name="postText"
                     className="form-control my-1 mb-10"
@@ -297,6 +299,7 @@ const Post = (props) => {
           <div className="col-12 fs-5">
             {isEditing ? (
               <>
+              <span className="edit-label">Tags</span>
                 <input
                   type="text"
                   name="title"
