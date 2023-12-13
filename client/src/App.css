@@ -80,6 +80,16 @@ textarea {
 .custom-comment-card {
   background-color: var(--comment-background);
 }
+
+.custom-comment-collapse {
+  display: flex;
+  justify-content: center;
+}
+
+.custom-comment-card-body {
+  background-color: var(--comment-background);
+  padding: 10px;
+}
 /* Jorge Ended Here */
 /** edit/delete/cancel links **/
 .link {
