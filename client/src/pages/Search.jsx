@@ -150,62 +150,63 @@ export default function Search() {
         </div>
         <form className="container-fluid" role="search" onSubmit={handleOnSubmit}>
           <div className="row justify-content-center">
-            <div className="col-lg-10 p-0 mt-2">
-              <input
-                id="searchInput"
-                className="form-control"
-                value={searchQuery}
-                onChange={handleOnChangeSearch}
-                type="search"
-                placeholder="e.g. baking golf programming"
-                aria-label="Search"
-              />
+            <div className="col-lg-8 p-1">
+              <div className="col-lg-12 p-0 mt-2">
+                <input
+                  id="searchInput"
+                  className="form-control"
+                  value={searchQuery}
+                  onChange={handleOnChangeSearch}
+                  type="search"
+                  placeholder="e.g. baking golf programming"
+                  aria-label="Search"
+                />
+              </div>
             </div>
-            <div className="col-lg-1 p-0 m-0">
-              <button type="button" className="btn btn-primary dropdown-toggle col-12 me-2 mt-2" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-                Filters
-              </button>
-              <div className="dropdown-menu dropdown-menu-end p-2">
-                <div className="form-check">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    id={`${CHECKBOX_IDS.TITLE}`}
-                    onChange={(e) => handleOnChangeFilter(e)}
-                  />
-                  <label className="form-check-label fs-lg-3" htmlFor={`${CHECKBOX_IDS.TITLE}`}>
-                    Titles
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    id={`${CHECKBOX_IDS.CONTENT}`}
-                    onChange={(e) => handleOnChangeFilter(e)}
-                  />
-                  <label className="form-check-label" htmlFor={`${CHECKBOX_IDS.CONTENT}`}>
-                    Content
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    id={`${CHECKBOX_IDS.TAGS}`}
-                    onChange={(e) => handleOnChangeFilter(e)}
-                  />
-                  <label className="form-check-label" htmlFor={`${CHECKBOX_IDS.TAGS}`}>
-                    Tags
-                  </label>
+            <div className="col-lg-2 p-1">
+              <div className="col-lg-12 p-0 m-0">
+                <button id="button-search-filter" type="button" className="btn btn-primary dropdown-toggle col-12 me-2 mt-2" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                  Filters
+                </button>
+                <div className="dropdown-menu dropdown-menu-end p-2">
+                  <div className="form-check">
+                    <input
+                      type="checkbox"
+                      className="form-check-input"
+                      id={`${CHECKBOX_IDS.TITLE}`}
+                      onChange={(e) => handleOnChangeFilter(e)}
+                    />
+                    <label className="form-check-label fs-lg-3" htmlFor={`${CHECKBOX_IDS.TITLE}`}>
+                      Titles
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input
+                      type="checkbox"
+                      className="form-check-input"
+                      id={`${CHECKBOX_IDS.CONTENT}`}
+                      onChange={(e) => handleOnChangeFilter(e)}
+                    />
+                    <label className="form-check-label" htmlFor={`${CHECKBOX_IDS.CONTENT}`}>
+                      Content
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input
+                      type="checkbox"
+                      className="form-check-input"
+                      id={`${CHECKBOX_IDS.TAGS}`}
+                      onChange={(e) => handleOnChangeFilter(e)}
+                    />
+                    <label className="form-check-label" htmlFor={`${CHECKBOX_IDS.TAGS}`}>
+                      Tags
+                    </label>
+                  </div>
                 </div>
               </div>
             </div>
-
-
-            <div className=" col-lg-1 p-0">
+            <div className="col-lg-2 p-1">
               <button className="btn btn-success col-12 mt-2" type="submit">Search</button>
-
             </div>
           </div>
         </form>
