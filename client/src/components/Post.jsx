@@ -309,13 +309,22 @@ const Post = (props) => {
             ) : null}
           </div>
           {isEditing ? (
-            <button
-              type="button"
-              onClick={handleSave}
-              className="btn btn-secondary w-100 my-1"
-            >
-              Save <i className="fa-solid fa-floppy-disk"></i>
-            </button>
+            <>
+              {/* Validate post title and text cant be empty */}
+              {(editedTitle.trim() === "" || editedText.trim() === "") && (
+                <div className="post-edit-error">
+                  Post Title or Text can not be empty !
+                </div>
+              )}
+              <button
+                type="button"
+                onClick={handleSave}
+                disabled={editedTitle.trim() === "" || editedText.trim() === ""}
+                className="btn btn-secondary w-100 my-1"
+              >
+                Save <i className="fa-solid fa-floppy-disk"></i>
+              </button>
+            </>
           ) : null}
           <div className="card-text row">
             <div className="d-inline-flex fs-5 col-sm-2 nowrap p-0">
