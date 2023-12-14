@@ -312,9 +312,7 @@ const Post = (props) => {
             <>
               {/* Validate post title and text cant be empty */}
               {(editedTitle.trim() === "" || editedText.trim() === "") && (
-                <div className="post-edit-error">
-                  Post Title or Text can not be empty !
-                </div>
+                <div className="post-edit-error">{` Post Title or Text can not be empty !`}</div>
               )}
               <button
                 type="button"
