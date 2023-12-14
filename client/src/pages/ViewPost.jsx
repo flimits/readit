@@ -15,16 +15,18 @@ const ViewPost = () => {
   const { postId } = useParams();
 
   const [formState, setFormState] = useState({
-    // author: loggedUser,
     postId: postId,
     text: "",
   });
 
   const [addedComment, setAddedComment] = useState({});
   const [toggleCommentBtn, setToggleCommentBtn] = useState(false);
-  const [addComment, { error, data: commentData }] = useMutation(ADD_COMMENT);
   const [isRedirecting, setIsRedirecting] = useState(false);
 
+  //mutation to add a comment
+  const [addComment, { error, data: commentData }] = useMutation(ADD_COMMENT);
+
+  //query to get post details
   const { loading, data: postData } = useQuery(SINGLE_POST, {
     //pass url params
     variables: { postId: postId },
@@ -32,8 +34,7 @@ const ViewPost = () => {
 
   useEffect(() => {}, [addedComment]);
 
-  useEffect(() => {
-  }, [commentData]);
+  useEffect(() => {}, [commentData]);
 
   useEffect(() => {
     if (postData && postData.getPost === null) setIsRedirecting(true);
