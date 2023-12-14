@@ -39,12 +39,6 @@ const Post = (props) => {
       },
     });
 
-  //update state when we update reactions
-  // useEffect(() => {
-  //   //if (reactionError) console.log("reactionError:", reactionError);
-  //   //if (reactionData) console.log("reactionData:", reactionData);
-  // }, [reactionError, reactionData]);
-
   useEffect(() => {
     if (isEditing) {
       // Convert the array of tags to a string
@@ -126,8 +120,6 @@ const Post = (props) => {
     const reaction = postInstance?.reactions?.filter(
       (reaction) => reaction.author === Auth.getProfile()?.data?._id
     );
-    // console.log("postInstance.reactions:", reaction);
-
     // If user has reacted, don't apply the class, otherwise apply the class
     if (reaction && reaction[0]) return "";
     return "handclap-unclicked";
@@ -144,7 +136,6 @@ const Post = (props) => {
 
     if (!Auth.loggedIn()) {
       const modalDiv = document.querySelector(".alert-modal-post");
-      // console.log("modal:", modalDiv);
       const alertModal = modalDiv.querySelector("#alertModal");
       const bootstrapModal = new Modal(alertModal);
       bootstrapModal.show();
@@ -202,8 +193,6 @@ const Post = (props) => {
           newTags: tagsArray,
         },
       });
-      // set the current post to the received edited post
-      // setPostInstance(editedPost?.data?.editPost);
     } catch (error) {
       console.log("Error Editing: ", error);
     }
