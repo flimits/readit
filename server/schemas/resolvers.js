@@ -272,8 +272,6 @@ const resolvers = {
             select: "userName",
           });
 
-        console.log("deletedComment ", deletedComment);
-
         return deletedComment;
       } catch (error) {
         console.log("Couldn't delete Comment");
