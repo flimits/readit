@@ -1,4 +1,3 @@
-// Import the `useParams()` hook
 import { useEffect, useState } from "react";
 import { useMutation } from "@apollo/client";
 import { Link, useParams } from "react-router-dom";

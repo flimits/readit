@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { useMutation } from "@apollo/client";
-
 import { ADD_POST } from "../utils/mutations";
 import Auth from "../utils/auth";
-
 import "../App.css";
 
 export default function CreatePost() {
