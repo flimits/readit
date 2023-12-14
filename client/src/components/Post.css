@@ -102,3 +102,8 @@
     font-size: 15px;
     padding: 10px 0;
 }
+
+/* Add a min width to prevent edit/delete icons overalpping input fields when editing */
+.post-action-container {
+    min-width: 100px;
+}

@@ -248,7 +248,7 @@ const Post = (props) => {
                 </>
               )}
             </div>
-            <div className="col-2 fs-4 d-flex justify-content-end">
+            <div className="col-2 fs-4 d-flex justify-content-end align-items-center post-action-container" >
               {editDeleteEnabled ? (
                 <>
                   {isEditing ? (
