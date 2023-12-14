@@ -28,17 +28,16 @@ const resolvers = {
     getMe: async (parent, args, context) => {
       // If we know the logged in user is wanting to look at their account, use context
       try {
-
         if (context.user) {
-          const user = await User
-            .findById(new ObjectId(context.user._id))
-            .populate({
-              path: "posts",
-              populate: {
-                path: "author",
-                select: "userName",
-              },
-            });
+          const user = await User.findById(
+            new ObjectId(context.user._id)
+          ).populate({
+            path: "posts",
+            populate: {
+              path: "author",
+              select: "userName",
+            },
+          });
 
           return user;
         }
@@ -48,13 +47,15 @@ const resolvers = {
         console.error("Error in getMe resolver:", error);
       }
     },
-// get all posts and return author and username as well.
+    // get all posts and return author and username as well.
     posts: async () => {
       try {
-        const posts = await Post.find().populate({
-          path: "author",
-          select: "userName",
-        });
+        const posts = await Post.find()
+          .populate({
+            path: "author",
+            select: "userName",
+          })
+          .sort({ createdAt: -1 });
         // console.log("posts:", posts)
         return posts;
       } catch (error) {
@@ -161,7 +162,7 @@ const resolvers = {
       try {
         // Check if user is logged in
         if (!context.user) {
-          throw ErrorMustBeLoggedIn
+          throw ErrorMustBeLoggedIn;
         }
         args.author = context.user._id;
         const newPost = await Post.create(args);
@@ -178,7 +179,11 @@ const resolvers = {
       }
     },
     // Update users post with "title, posttext, and/or options tags if included"
-    editPost: async (parent, { postId, newTitle, newText, newTags }, context) => {
+    editPost: async (
+      parent,
+      { postId, newTitle, newText, newTags },
+      context
+    ) => {
       try {
         //Check if user is logged in
         if (!context.user) {
@@ -191,7 +196,7 @@ const resolvers = {
             $set: {
               title: newTitle,
               postText: newText,
-              tags: newTags
+              tags: newTags,
             },
           },
           { new: true } // Return the updated post
@@ -206,17 +211,16 @@ const resolvers = {
       try {
         // Check if user is logged in
         if (!context.user) {
-          throw ErrorMustBeLoggedIn
+          throw ErrorMustBeLoggedIn;
         }
 
         const deletedData = await Post.findByIdAndDelete(new ObjectId(postId), {
           new: true,
         });
 
-
         const updatedUser = await User.findByIdAndUpdate(
           new ObjectId(context.user._id),
-          { $pull: { posts: new ObjectId(postId) }, },
+          { $pull: { posts: new ObjectId(postId) } },
           { new: true }
         );
 
@@ -266,8 +270,9 @@ const resolvers = {
           },
           { new: true }
         )
-          .populate('author') // get the post author
-          .populate({ // Get the author of the comment
+          .populate("author") // get the post author
+          .populate({
+            // Get the author of the comment
             path: "comments.author",
             select: "userName",
           });
@@ -314,7 +319,7 @@ const resolvers = {
         const post = await Post.findById(new ObjectId(postId));
         // console.log("found post:", post);
         const reactions = post.reactions;
-        const userId = context.user._id
+        const userId = context.user._id;
 
         // Add the userId to the newReaction object
         newReaction.author = userId;
@@ -358,12 +363,16 @@ const resolvers = {
         console.error(error);
       }
     },
-    addReactionToComment: async (parent, { postId, commentId, ...newReaction }, context) => {
+    addReactionToComment: async (
+      parent,
+      { postId, commentId, ...newReaction },
+      context
+    ) => {
       try {
         // console.log("context.user:", context.user);
         // Check if user is logged in
         if (!context.user) {
-          throw ErrorMustBeLoggedIn
+          throw ErrorMustBeLoggedIn;
         }
 
         // set variables to use the postId AND commentId in the query in one go.
@@ -380,7 +389,9 @@ const resolvers = {
 
         if (reactions.length > 0) {
           // Find if the user has already reacted or not
-          const didUserReact = reactions.filter((reaction) => new ObjectId(context.user._id).equals(reaction.author));
+          const didUserReact = reactions.filter((reaction) =>
+            new ObjectId(context.user._id).equals(reaction.author)
+          );
 
           // console.log("didUserReact:", didUserReact);
 
@@ -397,10 +408,11 @@ const resolvers = {
               },
               { new: true }
             )
-              .populate('author') // get the post author
-              .populate({ // Get the author of the comment
+              .populate("author") // get the post author
+              .populate({
+                // Get the author of the comment
                 path: "comments.author",
-                select: "userName"
+                select: "userName",
               });
           }
         }
@@ -414,10 +426,11 @@ const resolvers = {
           },
           { new: true }
         )
-          .populate('author') // get the post author
-          .populate({ // Get the author of the comment
+          .populate("author") // get the post author
+          .populate({
+            // Get the author of the comment
             path: "comments.author",
-            select: "userName"
+            select: "userName",
           });
 
         return updatedPost;
