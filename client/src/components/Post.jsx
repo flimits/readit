@@ -68,9 +68,9 @@ const Post = (props) => {
 
   //update state when we react, edit or delete posts
   useEffect(() => {
-    if (reactionError) console.log("reactionError:", reactionError);
-    if (reactionData) console.log("reactionData:", reactionData);
-    if (reactionData) console.log("deleteData:", deleteData);
+    // if (reactionError) console.log("reactionError:", reactionError);
+    // if (reactionData) console.log("reactionData:", reactionData);
+    // if (reactionData) console.log("deleteData:", deleteData);
   }, [
     reactionError,
     reactionData,
