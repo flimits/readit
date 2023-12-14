@@ -1,7 +1,6 @@
 # ReadIt
 
-The only blog that you'll need to post and comments.
-(A microblogging site.)
+ReadIt is a microblog site where users can talk about topics, news, and more while interacting with other users by applauding and commenting on other posts.
 
 ## Table of Contents
 
@@ -24,6 +23,12 @@ Other cools features are editing abilities for the user that is logged in, they 
 ## How to use it
 
 When you as a user get to the landing page, you are presented with all of the posts within the application that all of the users have created. You are also able to read them and use the search bar to find a post you are looking for. However, you cannot add a reaction or create a post/comment unless you have a login.
+<details>
+  <summary><span style="color: green; font-weight: bold;">THIS IS NOT LOGGED IN</span></summary>
+  
+  ![Image Alt Text](./public/readme_images/readit_notloggedin_noicons.png)
+</details>
+
 
 ### So, what do you have to do to fully use this app??
 
@@ -53,18 +58,22 @@ So, this is your landing page. You can see all posts, but you are not allowed to
 Now you are able to log in here, or even sign-up if you want to post or comment. It is easy!
 <br> 
 
-*Signin:*
-
-![img](./public/readme_images/readit_signin.png) <br>
-
-*Signup:*
-
-![img](./public/readme_images/readit_signup.png)
+<details>
+  <summary><span style="color: green; font-weight: bold;">Click here to see what the SignIn page looks like</span></summary>
+  
+  ![img](./public/readme_images/readit_signin.png) <br>
+</details>
+---
+<details>
+  <summary><span style="color: green; font-weight: bold;">Click here to see what the SignUp page looks like</span></summary>
+  
+  ![img](./public/readme_images/readit_signup.png) <br>
+</details>
 ---
 
 So, get moving and start posting! [Click Here](https://project-readit-ae03b3828bf5.herokuapp.com/) for the deployed link for ReadIt.
 
-## Image
+## Images Of the Site (Sign up yourself to get a better view of it)
 
 Screenshot of our website's homepage
 
