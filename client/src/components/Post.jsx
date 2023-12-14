@@ -15,6 +15,7 @@ const Post = (props) => {
   const ALERT_TEXT = "You must be logged in to react to this post";
   const postInstance = props.post;
 
+  //use current page to determine the current page the user is on.
   const currentPage = useLocation().pathname;
   //Dont make title clickable, if they are already on view post page.
   const disableTitleLink = currentPage.includes("/view-post/");
@@ -29,6 +30,7 @@ const Post = (props) => {
   const [editPost, { error: editError, data: editData }] =
     useMutation(EDIT_POST);
 
+  //mutation to handle reactions to a post
   const [toggleReaction, { error: reactionError, data: reactionData }] =
     useMutation(ADD_REACTION, {
       variables: {
@@ -38,18 +40,13 @@ const Post = (props) => {
     });
 
   useEffect(() => {
-    if (reactionError) console.log("reactionError:", reactionError);
-    if (reactionData) console.log("reactionData:", reactionData);
-  }, [reactionError, reactionData]);
-
-  useEffect(() => {
     if (isEditing) {
       // Convert the array of tags to a string
       setEditedTags(postInstance?.tags.join(" "));
     }
   }, [isEditing]);
 
-  // mutation to Delete a post
+  // mutation to Delete a post and refetch queries
   const [deletePost, { error: deleteError, data: deleteData }] = useMutation(
     DELETE_POST,
     {
@@ -69,10 +66,11 @@ const Post = (props) => {
   //Tracks if user is deleting a post
   const [isDeleting, setIsDeleting] = useState(false);
 
+  //update state when we react, edit or delete posts
   useEffect(() => {
-    if (reactionError) console.log("reactionError:", reactionError);
-    if (reactionData) console.log("reactionData:", reactionData);
-    if (reactionData) console.log("deleteData:", deleteData);
+    // if (reactionError) console.log("reactionError:", reactionError);
+    // if (reactionData) console.log("reactionData:", reactionData);
+    // if (reactionData) console.log("deleteData:", deleteData);
   }, [
     reactionError,
     reactionData,
@@ -85,6 +83,7 @@ const Post = (props) => {
   //if no post instance do nothing
   if (!postInstance) return <></>;
 
+  //handles displaying edit and delete actions
   let editDeleteEnabled = false;
 
   try {
@@ -121,8 +120,6 @@ const Post = (props) => {
     const reaction = postInstance?.reactions?.filter(
       (reaction) => reaction.author === Auth.getProfile()?.data?._id
     );
-    // console.log("postInstance.reactions:", reaction);
-
     // If user has reacted, don't apply the class, otherwise apply the class
     if (reaction && reaction[0]) return "";
     return "handclap-unclicked";
@@ -139,7 +136,6 @@ const Post = (props) => {
 
     if (!Auth.loggedIn()) {
       const modalDiv = document.querySelector(".alert-modal-post");
-      // console.log("modal:", modalDiv);
       const alertModal = modalDiv.querySelector("#alertModal");
       const bootstrapModal = new Modal(alertModal);
       bootstrapModal.show();
@@ -165,9 +161,11 @@ const Post = (props) => {
   };
 
   const handleTagChange = (e) => {
+    //update tags
     setEditedTags(e.target.value);
   };
 
+  // change states when user cancels it
   const handleCancelClick = () => {
     setEditedTitle(postInstance?.title);
     setEditedText(postInstance?.postText);
@@ -177,6 +175,7 @@ const Post = (props) => {
   };
 
   const handleEditClick = () => {
+    // tracks when the user clicks on the edit action icon
     setIsEditing(true);
   };
 
@@ -194,8 +193,6 @@ const Post = (props) => {
           newTags: tagsArray,
         },
       });
-      // set the current post to the received edited post
-      // setPostInstance(editedPost?.data?.editPost);
     } catch (error) {
       console.log("Error Editing: ", error);
     }
@@ -229,7 +226,7 @@ const Post = (props) => {
             <div className="col-10 fs-5 main-title">
               {isEditing ? (
                 <>
-                <span className="edit-label">Title</span>
+                  <span className="edit-label">Title</span>
                   <input
                     type="text"
                     name="title"
@@ -282,7 +279,7 @@ const Post = (props) => {
             <div className="col-12 main-text">
               {isEditing ? (
                 <>
-                <span className="edit-label">Text</span>
+                  <span className="edit-label">Text</span>
                   <textarea
                     name="postText"
                     className="form-control my-1 mb-10"
@@ -299,7 +296,7 @@ const Post = (props) => {
           <div className="col-12 fs-5">
             {isEditing ? (
               <>
-              <span className="edit-label">Tags</span>
+                <span className="edit-label">Tags</span>
                 <input
                   type="text"
                   name="title"
