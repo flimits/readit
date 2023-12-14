@@ -8,7 +8,7 @@ import Auth from "../utils/auth";
 const LoginForm = () => {
   const [formState, setFormState] = useState({ userName: "", password: "" });
   const [login, { error, data }] = useMutation(LOGIN_USER);
-
+// usestate to handing updates in the login form below
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -17,17 +17,16 @@ const LoginForm = () => {
       [name]: value,
     });
   };
-
+// This section is to handing submitting the form and authenticating the user
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log(formState);
     try {
+      // Using a mutation for login and assigning the data to data.
       const { data } = await login({
         variables: { ...formState },
       });
 
-      console.log(data);
-
+// Checking if data is falsey on login and will reset the username and password if so
       if (!data.login) {
         setFormState({
           userName: "",
@@ -35,19 +34,18 @@ const LoginForm = () => {
         });
 
         const modalDiv = document.querySelector(".alert-modal-login");
-        // console.log("modal:", modalDiv);
         const alertModal = modalDiv.querySelector("#alertModal")
         const bootstrapModal = new Modal(alertModal);
         bootstrapModal.show();
         return;
       }
-
+// Attempt to verify login with token
       Auth.login(data.login.token);
       window.location.reload();
     } catch (e) {
       console.error(e);
     }
-
+// reset form
     setFormState({
       userName: "",
       password: "",
@@ -56,6 +54,7 @@ const LoginForm = () => {
 
   return (
     <>
+    {/* useState for handleChange to update username and password when typing it in */}
       <form className="loginForm" onSubmit={handleFormSubmit}>
         <div className="mb-5">
           <label htmlFor="lUsername" className="form-label mb-3">
