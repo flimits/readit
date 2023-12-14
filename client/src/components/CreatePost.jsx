@@ -186,7 +186,7 @@ export default function CreatePost() {
                     <button
                       id="button-create-post"
                       type="submit"
-                      className="btn btn-primary"
+                      className="btn btn-primary button-submit"
                       disabled
                     >
                       Create Post
