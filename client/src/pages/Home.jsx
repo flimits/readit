@@ -8,11 +8,7 @@ const Home = () => {
   if (loading) return "Loading ...";
   if (error) return `Error ! ${error.message}`;
 
-  // sort the posts by total comments and reactions 
-  const sortedPosts = data?.posts?.sort((a, b) => {
-    return (b?.reactions?.length + b?.comments?.length) - (a?.reactions?.length + a?.comments?.length);
-  });
-
+  const sortedPosts = data?.posts;
 
   return (
     <main className="container">
