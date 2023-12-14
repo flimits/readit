@@ -14,27 +14,19 @@ import { SINGLE_POST } from "../utils/queries";
 const ViewPost = () => {
   const { postId } = useParams();
 
-  try {
-    if (Auth.loggedIn()) {
-      // Only try this if the user is logged in
-      const loggedUser = Auth.getProfile();
-      // console.log(loggedUser);
-    }
-  } catch (error) {
-    console.log("Authorization error !!", error);
-  }
-
   const [formState, setFormState] = useState({
-    // author: loggedUser,
     postId: postId,
     text: "",
   });
 
   const [addedComment, setAddedComment] = useState({});
   const [toggleCommentBtn, setToggleCommentBtn] = useState(false);
-  const [addComment, { error, data: commentData }] = useMutation(ADD_COMMENT);
   const [isRedirecting, setIsRedirecting] = useState(false);
 
+  //mutation to add a comment
+  const [addComment, { error, data: commentData }] = useMutation(ADD_COMMENT);
+
+  //query to get post details
   const { loading, data: postData } = useQuery(SINGLE_POST, {
     //pass url params
     variables: { postId: postId },
@@ -42,18 +34,14 @@ const ViewPost = () => {
 
   useEffect(() => {}, [addedComment]);
 
-  useEffect(() => {
-    // console.log("commentData:", commentData);
-  }, [commentData]);
+  useEffect(() => {}, [commentData]);
 
   useEffect(() => {
-    // console.log("postData:", postData);
     if (postData && postData.getPost === null) setIsRedirecting(true);
   }, [postData]);
 
   useEffect(() => {
     if (isRedirecting) {
-      // console.log("going to redirect")
       // Redirect to the /my-profile page to force a refresh of the user's posts
       setInterval(() => {
         window.location.href = "/my-profile";
@@ -90,8 +78,6 @@ const ViewPost = () => {
       await addComment({
         variables: { ...formState },
       });
-      // console.log(data);
-      // window.location.reload();
       setAddedComment(commentData);
       setFormState({
         postId: postId,
