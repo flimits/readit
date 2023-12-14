@@ -8,10 +8,13 @@ const Home = () => {
   if (loading) return "Loading ...";
   if (error) return `Error ! ${error.message}`;
 
-  // Lets sort the posts by createdAt in descending order
-  const sortedPosts = data?.posts.slice().sort((a, b) => {
-    // you can change the sort direction with '>' to '<' for ascending order
-    return new Date(b.createdAt) - new Date(a.createdAt);
+  // sort the posts by total comments and reactions
+  const sortedPosts = data?.posts?.sort((a, b) => {
+    return (
+      b?.reactions?.length +
+      b?.comments?.length -
+      (a?.reactions?.length + a?.comments?.length)
+    );
   });
 
   return (
