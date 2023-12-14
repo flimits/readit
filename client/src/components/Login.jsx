@@ -10,6 +10,7 @@ export default function Login() {
     <div className="alert-modal-login" style={{zIndex: 9999}}><Alert alert={ALERT_TEXT_LOGIN} centered={true} /></div>
     <div className="alert-modal-signup" style={{zIndex: 9999}}><Alert alert={ALERT_TEXT_SIGNUP} centered={true} /></div>
       <div
+      // Use bootstrap modal to present the login and log out
         className="modal fade"
         id="staticBackdrop"
         data-bs-backdrop="static"
@@ -18,6 +19,7 @@ export default function Login() {
         aria-labelledby="staticBackdropLabel"
         aria-hidden="true"
       >
+        {/* Create two sections to the login and signup in bootstrap modal mode */}
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
@@ -59,6 +61,7 @@ export default function Login() {
                 <SignUpForm />
               </div>
             </div>
+            {/* You bootstrap to close if you don't want to do anything */}
             <div className="modal-footer">
               <button
                 type="button"
