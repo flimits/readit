@@ -6,7 +6,7 @@ ReadIt is a microblog site where users can talk about topics, news, and more whi
 
 * [Description](#description)
 * [How to use ReadIt](#how-to-use-it-and-what-it-looks-like)
-* [Screenshots of Application](screenshots-of-application)
+* [Mockups](#here-are-the-mockups-that-we-created)
 * [Defining our Working MVP](#mvp)
 * [Learning Points](#learning-points)
 * [Code Snippets](#code-snippets)
