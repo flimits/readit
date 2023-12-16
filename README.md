@@ -5,8 +5,8 @@ ReadIt is a microblog site where users can talk about topics, news, and more whi
 ## Table of Contents
 
 * [Description](#description)
-* [How to use ReadIt](#how-to-use-it)
-* [Screenshots of Application](screenshots-of-application)
+* [How to use ReadIt](#how-to-use-it-and-what-it-looks-like)
+* [Mockups](#here-are-the-mockups-that-we-created)
 * [Defining our Working MVP](#mvp)
 * [Learning Points](#learning-points)
 * [Code Snippets](#code-snippets)
@@ -19,16 +19,6 @@ The ReadIt Application is a great way for users to Create posts on their favorit
 We've made it so that users can also give an 'applause' (or like) to someone's post.
 
 Other cools features are editing abilities for the user that is logged in, they can edit their own posts (but not others), edit their own comments (to their own comments), and Delete their own posts or comments.
-
-## How to use it
-
-When you as a user get to the landing page, you are presented with all of the posts within the application that all of the users have created. You are also able to read them and use the search bar to find a post you are looking for. However, you cannot add a reaction or create a post/comment unless you have a login.
-<details>
-  <summary><span style="color: green; font-weight: bold;">THIS IS NOT LOGGED IN</span></summary>
-  
-  ![Image Alt Text](./public/readme_images/readit_notloggedin_noicons.png)
-</details>
-
 
 ### So, what do you have to do to fully use this app??
 
@@ -43,41 +33,118 @@ Further features you will find here are after logging in:
   * all of your own posts, in ascending order so you can see the latest things you've created.
 * Edit abilities and creating comments
 
-So, get moving and start posting! [Click Here](https://project-readit-ae03b3828bf5.herokuapp.com/) for the deployed link for ReadIt
+<span style="color: yellow;font-weight: bold;">So, get moving and start posting! [Click Here](https://project-readit-ae03b3828bf5.herokuapp.com/) ...for the deployed link for ReadIt</span>
 
 ---
-## Here's what it looks like
-Below is a description of what it a few parts are and what they look like
+
+## How to use it, and what it looks like
+
+When you first come to the landing page (logged in or not) you are presented with all of the posts within the application that all of the users have created. You are able to read and search through all posts. Just not able to comment, update, or react to the posts. 
 
 ### This is the landing page
-So, this is your landing page. You can see all posts, but you are not allowed to add comments or edit anything. Notice you are not logged in! you only see home, search and login. <br>
-
-![img](./public/readme_images/readit_theread_landing_page.png)
----
-### You should log in
-Now you are able to log in here, or even sign-up if you want to post or comment. It is easy!
-<br> 
 
 <details>
-  <summary><span style="color: green; font-weight: bold;">Click here to see what the SignIn page looks like</span></summary>
-  
-  ![img](./public/readme_images/readit_signin.png) <br>
+  <summary><span style="color: green; font-weight: bold;">Here is the Landing Page</span></summary>
+ 
+  ![Image Alt Text](./public/readme_images/readit_theread_landing_page.png)
 </details>
+
+### However, you cannot add a reaction or create a post/comment unless you have a login. Here are some examples of login, and sign up that you should do next.
+If not Logged in, you will see the opening page like this: 
+<details>
+  <summary><span style="color: green; font-weight: bold;">THIS IS NOT LOGGED IN</span></summary>
+  
+  ![Image Alt Text](./public/readme_images/readit_notloggedin_noicons.png)
+</details>
+<br>
+If not, 
+<details>
+  <summary><span style="color: green; font-weight: bold;">then login like this</span></summary>
+  
+  ![Image Alt Text](./public/readme_images/readit_signin.png)
+</details>
+and get going on reading/posting/commenting.
+<br>
+<br>
+Or you can 
+<details>
+  <summary><span style="color: green; font-weight: bold;">sign-up, like the following</span></summary>
+  
+  ![Image Alt Text](./public/readme_images/readit_signup.png)
+</details> and enjoy the application a big more.
+<br>
+<br>
+
+### Once you are logged in. You will see the landing page and be able to create-posts, see what is in your profile (if an) and update/comment on all of your posts. Below is what it will look like after you sign in.
+<details>
+  <summary><span style="color: green; font-weight: bold;">After you sign in</span></summary>
+  
+  ![Image Alt Text](./public/readme_images/readit_opening_page.png)
+</details> now go and start posting
+
+### Here is what it will be like when you go to create a post.
+<details>
+  <summary><span style="color: green; font-weight: bold;">Click Create Post Link</span></summary>
+  
+  ![Image Alt Text](./public/readme_images/readit_create_post_highlight.png)
+</details> You click on the "Create Post" link and fill in Title and Message Text. Tags are optional. Then click <span style="color: blue; font-weight: bold;">"Create Post"</span> button.
+
+### Lastly, besides exploring on your own, you can search. Search by tag or text. You have options.
+<details>
+  <summary><span style="color: green; font-weight: bold;">See What Search Can Do</span></summary>
+  
+  ![Image Alt Text](./public/readme_images/readit_search_bar.png)
+</details> Search is fun and extensive. <span style="color: green; font-weight: bold;">"Search"</span> button.
+<br>
+There is loads more. Go and explore.
+
+
+## Here are the mockups that we created.
+### The site actually came out quite a bit like the mockups. You will see that when you go to it (link is at the top of this page) and start exploring.
+
 ---
 <details>
-  <summary><span style="color: green; font-weight: bold;">Click here to see what the SignUp page looks like</span></summary>
+  <summary><span style="color: green; font-weight: bold;">Landing Page and Portal Layout ... see all posts</span></summary>
   
-  ![img](./public/readme_images/readit_signup.png) <br>
+  ![Image Alt Text](./public/mockup_images/view_all_posts.png)
 </details>
+
 ---
+<details>
+  <summary><span style="color: green; font-weight: bold;">Login and Signup page</span></summary>
+  
+  ![Image Alt Text](./public/mockup_images/login_signup.png)
+</details>
 
-So, get moving and start posting! [Click Here](https://project-readit-ae03b3828bf5.herokuapp.com/) for the deployed link for ReadIt.
+---
+<details>
+  <summary><span style="color: green; font-weight: bold;">Creating a Post after login and what you will see</span></summary>
+  
+  ![Image Alt Text](./public/mockup_images/create_post.png)
+</details>
 
-## Images Of the Site (Sign up yourself to get a better view of it)
+---
+<details>
+  <summary><span style="color: green; font-weight: bold;">The Post and PostId along with comments and after login</span></summary>
+  
+  ![Image Alt Text](./public/mockup_images/post_and_postid.png)
+</details>
 
-Screenshot of our website's homepage
+---
+<details>
+  <summary><span style="color: green; font-weight: bold;">What we see when editing a Post</span></summary>
+  
+  ![Image Alt Text](./public/mockup_images/edit_post.png)
+</details>
 
-<img src="client/src/assets/readit_home_page.PNG" width="500" alt="screenshot of our website's homepage"/>
+---
+<details>
+  <summary><span style="color: green; font-weight: bold;">And lastly, adding comments to a post</span></summary>
+  
+  ![Image Alt Text](./public/mockup_images/add_comment_to_post.png)
+</details>
+
+---
 
 ## Learning Points
 
